@@ -16,14 +16,34 @@ export const sharedPageComponents: SharedLayout = {
 
 // components for pages that display a single page (e.g. a single note)
 export const defaultContentPageLayout: PageLayout = {
+  // beforeBody: [
+  //   Component.ConditionalRender({
+  //     component: Component.Breadcrumbs(),
+  //     condition: (page) => page.fileData.slug !== "index",
+  //   }),
+  //   Component.ArticleTitle(),
+  //   Component.ContentMeta(),
+  //   Component.TagList(),
+  // ],
   beforeBody: [
-    Component.ConditionalRender({
-      component: Component.Breadcrumbs(),
-      condition: (page) => page.fileData.slug !== "index",
-    }),
+    Component.Breadcrumbs(),
     Component.ArticleTitle(),
     Component.ContentMeta(),
     Component.TagList(),
+  ],
+  pageBody: Component.Content(),
+  afterBody: [
+    Component.ConditionalRender({
+      component: Component.RecentNotes({
+        title: "최근 기록",
+        limit: 10,
+        showTags: true,
+        filter: (f) =>
+          f.slug !== "index" &&
+          f.frontmatter?.draft !== true,
+      }),
+      condition: (page) => page.fileData.slug === "index",
+    }),
   ],
   left: [
     Component.PageTitle(),
