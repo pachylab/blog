@@ -6,7 +6,7 @@ tags:
 draft: false
 ---
 
-# Security Knowledge Garden
+# Pachylab Blog
 
 리버싱, 포렌식, 포너블, 악성코드 분석을 정리하는 저장소
 
