@@ -1,7 +1,8 @@
 ---
-title: "weekly-plan"
 draft: true
 ---
+
+# Weekly Plan Title
 
 ## 목표
 

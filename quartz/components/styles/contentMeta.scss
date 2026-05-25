@@ -4,7 +4,14 @@
   flex-wrap: wrap;
   margin: 0 0 1rem;
   line-height: 1.6rem;
-  color: var(--darkgray);
+  color: color-mix(in srgb, var(--gray) 72%, var(--darkgray));
+  font-size: 0.9rem;
+  font-weight: 400;
+
+  > time,
+  > span:not(.content-meta-tags) {
+    color: inherit;
+  }
 
   &[show-comma="true"] {
     > *:not(:last-child) {

@@ -13,11 +13,10 @@
   },
   "scripts": {
     "quartz": "./quartz/bootstrap-cli.mjs",
-    "drafts:study": "node scripts/generate-study-drafts.mjs",
     "serve": "npx quartz build --serve",
     "check": "tsc --noEmit && npx prettier . --check",
     "format": "npx prettier . --write",
-    "test": "tsx --test",
+    "test": "node --import tsx --test",
     "profile": "0x -D prof ./quartz/bootstrap-cli.mjs build --concurrency=1"
   },
   "engines": {

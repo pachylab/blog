@@ -13,4 +13,4 @@ listing: true
 - [[maps/malware|Malware Analysis]]
 - [[maps/dfir|Digital Forensics]]
 - [[maps/crypto|Cryptography]]
-- [[maps/cs|CS]]
+- [[maps/cs|Computer Science]]

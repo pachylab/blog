@@ -54,7 +54,7 @@ draft: true
 
 - 실습: 함수 인자 전달, syscall number와 인자 register를 GDB로 추적한다.
 - 개념: [[_drafts/study-elements/cs/computer-architecture/flags|flags]]
-- 노트: 재현 절차를 lab 또는 concept 초안으로 분리
+- 노트: 재현 절차를 lab 또는 wiki 초안으로 분리
 
 ### 금요일
 
@@ -64,7 +64,7 @@ draft: true
 
 ## 완료 기준
 
-- [ ] daily note 2개 이상
-- [ ] concept seed 2개 이상
+- [ ] study log 2개 이상
+- [ ] wiki seed 2개 이상
 - [ ] 실습 또는 분석 산출물 1개
 - [ ] 막힌 지점과 해결 과정을 한 문단으로 정리

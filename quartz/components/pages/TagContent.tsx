@@ -9,12 +9,9 @@ import { ComponentChildren } from "preact"
 
 interface TagContentOptions {
   sort?: SortFn
-  numPages: number
 }
 
-const defaultOptions: TagContentOptions = {
-  numPages: 10,
-}
+const defaultOptions: TagContentOptions = {}
 
 export default ((opts?: Partial<TagContentOptions>) => {
   const options: TagContentOptions = { ...defaultOptions, ...opts }

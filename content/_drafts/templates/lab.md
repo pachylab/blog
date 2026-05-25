@@ -1,7 +1,8 @@
 ---
-title: "lab"
 draft: true
 ---
+
+# Lab Title
 
 ## 환경
 

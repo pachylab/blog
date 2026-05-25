@@ -1,7 +1,8 @@
 ---
-title: "concept"
 draft: true
 ---
+
+# Wiki Note Title
 
 ## 한 줄 요약
 

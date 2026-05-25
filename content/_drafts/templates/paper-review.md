@@ -1,7 +1,14 @@
 ---
-title: "paper-review"
 draft: true
+paper_title: ""
+authors: []
+venue: ""
+year:
+url: ""
+tags: []
 ---
+
+# Paper Review Title
 
 ## 3줄 요약
 

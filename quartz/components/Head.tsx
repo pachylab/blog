@@ -42,15 +42,24 @@ export default (() => {
         <meta charSet="utf-8" />
         {cfg.theme.cdnCaching && cfg.theme.fontOrigin === "googleFonts" && (
           <>
-            <link rel="preconnect" href="https://fonts.googleapis.com" />
-            <link rel="preconnect" href="https://fonts.gstatic.com" />
-            <link rel="stylesheet" href={googleFontHref(cfg.theme)} />
+            <link rel="preconnect" href="https://fonts.googleapis.com" data-persist />
+            <link rel="preconnect" href="https://fonts.gstatic.com" data-persist />
+            <link rel="stylesheet" href={googleFontHref(cfg.theme)} data-persist />
             {cfg.theme.typography.title && (
-              <link rel="stylesheet" href={googleFontSubsetHref(cfg.theme, cfg.pageTitle)} />
+              <link
+                rel="stylesheet"
+                href={googleFontSubsetHref(cfg.theme, cfg.pageTitle)}
+                data-persist
+              />
             )}
           </>
         )}
-        <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossOrigin="anonymous" />
+        <link
+          rel="preconnect"
+          href="https://cdnjs.cloudflare.com"
+          crossOrigin="anonymous"
+          data-persist
+        />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
         <meta name="og:site_name" content={cfg.pageTitle}></meta>

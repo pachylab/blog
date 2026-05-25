@@ -50,7 +50,7 @@ draft: true
 
 - 실습: file/readelf/objdump/nm/strings/checksec로 ELF triage를 반복한다.
 - 개념: [[_drafts/study-elements/cs/binary-formats/plt|PLT]]
-- 노트: 재현 절차를 lab 또는 concept 초안으로 분리
+- 노트: 재현 절차를 lab 또는 wiki 초안으로 분리
 
 ### 금요일
 
@@ -60,7 +60,7 @@ draft: true
 
 ## 완료 기준
 
-- [ ] daily note 2개 이상
-- [ ] concept seed 2개 이상
+- [ ] study log 2개 이상
+- [ ] wiki seed 2개 이상
 - [ ] 실습 또는 분석 산출물 1개
 - [ ] 막힌 지점과 해결 과정을 한 문단으로 정리

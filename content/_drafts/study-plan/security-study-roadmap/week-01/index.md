@@ -51,17 +51,17 @@ draft: true
 
 - 실습: SSH key, workspace, cd/ls/cat/grep/find, pipe/redirection을 pwn.college 환경에서 반복한다.
 - 개념: [[_drafts/study-elements/platforms/linux/path|PATH]]
-- 노트: 재현 절차를 lab 또는 concept 초안으로 분리
+- 노트: 재현 절차를 lab 또는 wiki 초안으로 분리
 
 ### 금요일
 
-- 산출물: Linux CLI cheat sheet와 daily note 2개
+- 산출물: Linux CLI cheat sheet와 study log 2개
 - 복습: 이번 주 개념 링크가 public wiki로 옮길 수준인지 표시
 - 정리: 다음 주에 이어갈 질문 3개 작성
 
 ## 완료 기준
 
-- [ ] daily note 2개 이상
-- [ ] concept seed 2개 이상
+- [ ] study log 2개 이상
+- [ ] wiki seed 2개 이상
 - [ ] 실습 또는 분석 산출물 1개
 - [ ] 막힌 지점과 해결 과정을 한 문단으로 정리
