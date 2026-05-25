@@ -111,6 +111,10 @@ button.desktop-explorer {
   }
 }
 
+button.title-button:has(> h2:empty) {
+  display: none;
+}
+
 .explorer-content {
   list-style: none;
   overflow: hidden;

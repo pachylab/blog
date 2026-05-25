@@ -63,6 +63,7 @@ export default ((userOpts?: Partial<Options>) => {
   const Explorer: QuartzComponent = ({ cfg, displayClass }: QuartzComponentProps) => {
     const id = `explorer-${numExplorers++}`
     const title = opts.title ?? i18n(cfg.locale).components.explorer.title
+    const shouldShowTitle = title.trim().length > 0
 
     return (
       <div
@@ -98,7 +99,7 @@ export default ((userOpts?: Partial<Options>) => {
             <line x1="4" x2="20" y1="18" y2="18" />
           </svg>
         </button>
-        {title && (
+        {shouldShowTitle ? (
           <button
             type="button"
             class="title-button explorer-toggle desktop-explorer"
@@ -121,7 +122,7 @@ export default ((userOpts?: Partial<Options>) => {
               <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
           </button>
-        )}
+        ) : null}
         <div id={id} class="explorer-content" aria-expanded={false} role="group">
           <OverflowList class="explorer-ul" />
         </div>
