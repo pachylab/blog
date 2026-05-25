@@ -1,4 +1,8 @@
+@use "../../styles/variables.scss" as *;
+
 .breadcrumb-container {
+  --breadcrumb-line-height: 1.35rem;
+
   margin: 0;
   margin-top: 0.75rem;
   padding: 0;
@@ -6,15 +10,37 @@
   flex-direction: row;
   flex-wrap: wrap;
   gap: 0.5rem;
+  align-items: center;
+  font-size: 0.94rem;
+  line-height: var(--breadcrumb-line-height);
+
+  @media all and ($mobile) {
+    --breadcrumb-line-height: 1.25rem;
+
+    gap: 0.35rem;
+    font-size: 0.86rem;
+  }
 }
 
 .breadcrumb-element {
+  min-height: var(--breadcrumb-line-height);
+  line-height: inherit;
+
+  a {
+    line-height: inherit;
+  }
+
   p {
     margin: 0;
     margin-left: 0.5rem;
     padding: 0;
-    line-height: normal;
+    line-height: inherit;
+
+    @media all and ($mobile) {
+      margin-left: 0.35rem;
+    }
   }
+
   display: flex;
   flex-direction: row;
   align-items: center;

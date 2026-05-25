@@ -281,6 +281,13 @@ a {
       }
     }
 
+    body[data-slug="index"] & .page-header .popover-hint::after {
+      content: "";
+      display: block;
+      height: 1.6rem;
+      margin-bottom: 1rem;
+    }
+
     & .center > article {
       grid-area: grid-center;
     }

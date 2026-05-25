@@ -24,12 +24,12 @@ export const sharedPageComponents: SharedLayout = {
 // components for pages that display a single page (e.g. a single note)
 export const defaultContentPageLayout: PageLayout = {
   beforeBody: [
+    Component.Breadcrumbs(),
+    Component.ArticleTitle(),
     Component.ConditionalRender({
-      component: Component.Breadcrumbs(),
+      component: Component.ContentMeta(),
       condition: (page) => page.fileData.slug !== "index",
     }),
-    Component.ArticleTitle(),
-    Component.ContentMeta(),
   ],
 
   left: [
@@ -46,7 +46,7 @@ export const defaultContentPageLayout: PageLayout = {
       ],
     }),
     Component.Explorer({
-      title: "목록",
+      title: "",
       folderClickBehavior: "link",
       folderDefaultState: "open",
       useSavedState: true,
@@ -78,7 +78,7 @@ export const defaultListPageLayout: PageLayout = {
       ],
     }),
     Component.Explorer({
-      title: "목록",
+      title: "",
       folderClickBehavior: "link",
       folderDefaultState: "open",
       useSavedState: true,

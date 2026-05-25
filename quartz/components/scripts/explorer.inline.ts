@@ -410,16 +410,20 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
   const currentSlug = e.detail.url
   await setupExplorer(currentSlug)
 
-  // if mobile hamburger is visible, collapse by default
   for (const explorer of document.getElementsByClassName("explorer")) {
-    const mobileExplorer = explorer.querySelector(".mobile-explorer")
-    if (!mobileExplorer) return
+    const explorerElement = explorer as HTMLElement
+    const mobileExplorer = explorerElement.querySelector(".mobile-explorer")
+    if (!mobileExplorer) continue
 
     if (mobileExplorer.checkVisibility()) {
-      explorer.classList.add("collapsed")
-      explorer.setAttribute("aria-expanded", "false")
+      explorerElement.classList.add("collapsed")
+      explorerElement.setAttribute("aria-expanded", "false")
 
       // Allow <html> to be scrollable when mobile explorer is collapsed
+      document.documentElement.classList.remove("mobile-no-scroll")
+    } else {
+      explorerElement.classList.remove("collapsed")
+      explorerElement.setAttribute("aria-expanded", "true")
       document.documentElement.classList.remove("mobile-no-scroll")
     }
 
@@ -430,10 +434,18 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
 window.addEventListener("resize", function () {
   // Desktop explorer opens by default, and it stays open when the window is resized
   // to mobile screen size. Applies `no-scroll` to <html> in this edge case.
-  const explorer = document.querySelector(".explorer")
-  if (explorer && !explorer.classList.contains("collapsed")) {
-    document.documentElement.classList.add("mobile-no-scroll")
-    return
+  for (const explorer of document.getElementsByClassName("explorer")) {
+    const explorerElement = explorer as HTMLElement
+    const mobileExplorer = explorerElement.querySelector(".mobile-explorer")
+    if (!mobileExplorer) continue
+
+    if (!mobileExplorer.checkVisibility()) {
+      explorerElement.classList.remove("collapsed")
+      explorerElement.setAttribute("aria-expanded", "true")
+      document.documentElement.classList.remove("mobile-no-scroll")
+    } else if (!explorerElement.classList.contains("collapsed")) {
+      document.documentElement.classList.add("mobile-no-scroll")
+    }
   }
 })
 
