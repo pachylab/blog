@@ -42,25 +42,39 @@ ul.toc-content.overflow {
   list-style: none;
   position: relative;
   margin: 0.5rem 0;
-  padding: 0;
+  padding: 0 0 0 0.85rem;
   max-height: calc(100% - 2rem);
+  overflow-y: visible;
+  box-sizing: border-box;
   overscroll-behavior: contain;
   list-style: none;
 
+  & > li {
+    line-height: 1.45rem;
+  }
+
   & > li > a {
-    color: var(--dark);
-    opacity: 0.35;
+    color: var(--darkgray);
+    font-size: 0.88rem;
+    opacity: 0.78;
     transition:
       0.5s ease opacity,
       0.3s ease color;
     &.in-view {
-      opacity: 0.75;
+      opacity: 0.9;
     }
   }
 
   @for $i from 0 through 6 {
     & .depth-#{$i} {
-      padding-left: calc(1rem * #{$i});
+      padding-left: calc(1.15rem * #{$i});
+    }
+  }
+
+  @for $i from 1 through 6 {
+    & .depth-#{$i} > a {
+      font-size: 0.82rem;
+      color: var(--gray);
     }
   }
 }

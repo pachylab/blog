@@ -5,6 +5,7 @@ import { classNames } from "../util/lang"
 import { i18n } from "../i18n"
 import { JSX } from "preact"
 import style from "./styles/contentMeta.scss"
+import { FullSlug, resolveRelative } from "../util/path"
 
 interface ContentMetaOptions {
   /**
@@ -25,6 +26,7 @@ export default ((opts?: Partial<ContentMetaOptions>) => {
 
   function ContentMetadata({ cfg, fileData, displayClass }: QuartzComponentProps) {
     const text = fileData.text
+    const tags = fileData.frontmatter?.tags ?? []
 
     if (text) {
       const segments: (string | JSX.Element)[] = []
@@ -40,6 +42,21 @@ export default ((opts?: Partial<ContentMetaOptions>) => {
           minutes: Math.ceil(minutes),
         })
         segments.push(<span>{displayedTime}</span>)
+      }
+
+      if (tags.length > 0) {
+        segments.push(
+          <span class="content-meta-tags">
+            {tags.map((tag) => {
+              const linkDest = resolveRelative(fileData.slug!, `tags/${tag}` as FullSlug)
+              return (
+                <a href={linkDest} class="internal tag-link">
+                  {tag}
+                </a>
+              )
+            })}
+          </span>,
+        )
       }
 
       return (

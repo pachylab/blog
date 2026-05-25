@@ -127,7 +127,9 @@ button.desktop-explorer {
     }
 
     & li > a {
-      color: var(--dark);
+      color: var(--darkgray);
+      font-size: 1rem;
+      line-height: 1.6rem;
       opacity: 0.75;
       pointer-events: all;
 
@@ -169,9 +171,9 @@ button.desktop-explorer {
   & div > a {
     color: var(--secondary);
     font-family: var(--headerFont);
-    font-size: 0.95rem;
+    font-size: 1.2rem;
     font-weight: $semiBoldWeight;
-    line-height: 1.5rem;
+    line-height: 1.7rem;
     display: inline-block;
   }
 
@@ -192,15 +194,33 @@ button.desktop-explorer {
     font-family: var(--headerFont);
 
     & span {
-      font-size: 0.95rem;
+      font-size: 1.2rem;
       display: inline-block;
       color: var(--secondary);
       font-weight: $semiBoldWeight;
       margin: 0;
-      line-height: 1.5rem;
+      line-height: 1.7rem;
       pointer-events: none;
     }
   }
+}
+
+.explorer-content .folder-outer .folder-container div > a,
+.explorer-content .folder-outer .folder-container div > button span {
+  font-size: 1.1rem;
+  line-height: 1.58rem;
+}
+
+.explorer-content .folder-outer .folder-outer .folder-container div > a,
+.explorer-content .folder-outer .folder-outer .folder-container div > button span {
+  font-size: 1.04rem;
+  line-height: 1.52rem;
+}
+
+.explorer-content .folder-outer .folder-outer .folder-outer .folder-container div > a,
+.explorer-content .folder-outer .folder-outer .folder-outer .folder-container div > button span {
+  font-size: 1.02rem;
+  line-height: 1.48rem;
 }
 
 .folder-icon {

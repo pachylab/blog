@@ -5,46 +5,33 @@ import * as Component from "./quartz/components"
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
   header: [],
-  afterBody: [],
-  footer: Component.Footer({
-    links: {
-      GitHub: "https://github.com/jackyzha0/quartz",
-      "Discord Community": "https://discord.gg/cRFFHYye7t",
-    },
-  }),
-}
-
-// components for pages that display a single page (e.g. a single note)
-export const defaultContentPageLayout: PageLayout = {
-  // beforeBody: [
-  //   Component.ConditionalRender({
-  //     component: Component.Breadcrumbs(),
-  //     condition: (page) => page.fileData.slug !== "index",
-  //   }),
-  //   Component.ArticleTitle(),
-  //   Component.ContentMeta(),
-  //   Component.TagList(),
-  // ],
-  beforeBody: [
-    Component.Breadcrumbs(),
-    Component.ArticleTitle(),
-    Component.ContentMeta(),
-    Component.TagList(),
-  ],
-  pageBody: Component.Content(),
   afterBody: [
     Component.ConditionalRender({
       component: Component.RecentNotes({
         title: "최근 기록",
         limit: 10,
-        showTags: true,
         filter: (f) =>
-          f.slug !== "index" &&
-          f.frontmatter?.draft !== true,
+          f.slug !== "index" && !f.slug?.endsWith("/index") && f.frontmatter?.draft !== true,
       }),
       condition: (page) => page.fileData.slug === "index",
     }),
   ],
+  footer: Component.Footer({
+    links: {},
+  }),
+}
+
+// components for pages that display a single page (e.g. a single note)
+export const defaultContentPageLayout: PageLayout = {
+  beforeBody: [
+    Component.ConditionalRender({
+      component: Component.Breadcrumbs(),
+      condition: (page) => page.fileData.slug !== "index",
+    }),
+    Component.ArticleTitle(),
+    Component.ContentMeta(),
+  ],
+
   left: [
     Component.PageTitle(),
     Component.MobileOnly(Component.Spacer()),
@@ -58,8 +45,14 @@ export const defaultContentPageLayout: PageLayout = {
         { Component: Component.ReaderMode() },
       ],
     }),
-    Component.Explorer(),
+    Component.Explorer({
+      title: "목록",
+      folderClickBehavior: "link",
+      folderDefaultState: "open",
+      useSavedState: true,
+    }),
   ],
+
   right: [
     Component.Graph(),
     Component.DesktopOnly(Component.TableOfContents()),
@@ -67,9 +60,10 @@ export const defaultContentPageLayout: PageLayout = {
   ],
 }
 
-// components for pages that display lists of pages  (e.g. tags or folders)
+// components for pages that display lists of pages (e.g. tags or folders)
 export const defaultListPageLayout: PageLayout = {
-  beforeBody: [Component.Breadcrumbs(), Component.ArticleTitle(), Component.ContentMeta()],
+  beforeBody: [Component.Breadcrumbs(), Component.ArticleTitle()],
+
   left: [
     Component.PageTitle(),
     Component.MobileOnly(Component.Spacer()),
@@ -80,9 +74,16 @@ export const defaultListPageLayout: PageLayout = {
           grow: true,
         },
         { Component: Component.Darkmode() },
+        { Component: Component.ReaderMode() },
       ],
     }),
-    Component.Explorer(),
+    Component.Explorer({
+      title: "목록",
+      folderClickBehavior: "link",
+      folderDefaultState: "open",
+      useSavedState: true,
+    }),
   ],
+
   right: [],
 }

@@ -2,16 +2,19 @@
 
 ul.section-ul {
   list-style: none;
-  margin-top: 2em;
-  padding-left: 0;
+  margin: 1.6rem 0 0;
+  padding-left: 2rem;
 }
 
 li.section-li {
-  margin-bottom: 1em;
+  margin: 0.18rem 0;
 
   & > .section {
-    display: grid;
-    grid-template-columns: fit-content(8em) 3fr 1fr;
+    display: flex;
+    gap: 0.65rem;
+    align-items: baseline;
+    min-width: 0;
+    line-height: 1.4rem;
 
     @media all and ($mobile) {
       & > .tags {
@@ -19,22 +22,114 @@ li.section-li {
       }
     }
 
+    & > .desc > h3 {
+      line-height: 1.4rem;
+    }
+
     & > .desc > h3 > a {
-      background-color: transparent;
+      color: var(--darkgray);
+      background-color: var(--highlight);
+      border-radius: 5px;
+      padding: 0 0.1rem;
+      font-size: 0.92rem;
+      font-weight: 400;
+      line-height: 1.4rem;
     }
 
     & .meta {
-      margin: 0 1em 0 0;
-      opacity: 0.6;
+      color: var(--gray);
+      font-size: 0.82rem;
+      margin: 0;
+      opacity: 1;
+      white-space: nowrap;
+    }
+
+    & > .tags {
+      display: none;
     }
   }
 }
 
 // modifications in popover context
 .popover .section {
-  grid-template-columns: fit-content(8em) 1fr !important;
+  display: flex;
 
   & > .tags {
     display: none;
+  }
+}
+
+.folder-tree {
+  list-style: none;
+  margin: 1.6rem 0 0;
+  padding-left: 2rem;
+}
+
+.folder-tree-item {
+  margin: 0.35rem 0;
+}
+
+.folder-entry {
+  margin: 0.45rem 0;
+}
+
+.note-entry {
+  margin: 0.18rem 0;
+}
+
+.folder-entry + .note-entry {
+  margin-top: 0.85rem;
+}
+
+.folder-tree-row {
+  display: grid;
+  grid-template-columns: minmax(7rem, 0.45fr) minmax(0, 1fr);
+  column-gap: 1rem;
+  row-gap: 0.2rem;
+  align-items: baseline;
+}
+
+.folder-tree-title {
+  display: flex;
+  gap: 0.65rem;
+  align-items: baseline;
+  min-width: 0;
+  line-height: 1.4rem;
+}
+
+.folder-entry > .folder-tree-row > .folder-tree-title a {
+  color: var(--secondary);
+  font-size: 1.08rem;
+  font-weight: 700;
+}
+
+.note-entry > .folder-tree-row {
+  grid-template-columns: minmax(10rem, 1fr);
+}
+
+.note-entry > .folder-tree-row > .folder-tree-title a {
+  color: var(--darkgray);
+  font-size: 0.92rem;
+  font-weight: 400;
+  line-height: 1.4rem;
+}
+
+.folder-tree-title time {
+  color: var(--gray);
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+
+.folder-tree-description {
+  color: var(--gray);
+  font-size: 0.9rem;
+  line-height: 1.35;
+  margin: 0;
+}
+
+@media all and (max-width: 800px) {
+  .folder-tree-row {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
   }
 }

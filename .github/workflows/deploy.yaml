@@ -3,6 +3,8 @@ name: Deploy Quartz site to GitHub Pages
 on:
   push:
     branches:
+      - main
+      - master
       - v4
 
 permissions:

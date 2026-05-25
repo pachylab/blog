@@ -20,6 +20,134 @@ type FolderState = {
 }
 
 let currentExplorerState: Array<FolderState>
+
+function directChildWithClass(parent: HTMLElement, className: string): HTMLElement | undefined {
+  return Array.from(parent.children).find(
+    (child): child is HTMLElement =>
+      child instanceof HTMLElement && child.classList.contains(className),
+  )
+}
+
+function directChildTag(parent: HTMLElement, tagName: string): HTMLElement | undefined {
+  return Array.from(parent.children).find(
+    (child): child is HTMLElement =>
+      child instanceof HTMLElement && child.tagName.toLowerCase() === tagName,
+  )
+}
+
+function folderContainsSlug(folderPath: string | undefined, slug: FullSlug): boolean {
+  if (!folderPath) return false
+
+  const folderSlug = simplifySlug(folderPath as FullSlug)
+  const currentSlug = simplifySlug(slug)
+  return (
+    folderSlug !== "/" && (currentSlug === folderSlug || currentSlug.startsWith(`${folderSlug}/`))
+  )
+}
+
+function isHomeSlug(slug: FullSlug): boolean {
+  return simplifySlug(slug) === "/"
+}
+
+function updateExplorerState(folderPath: string | undefined, collapsed: boolean) {
+  if (!folderPath) return
+
+  const currentFolderState = currentExplorerState.find((item) => item.path === folderPath)
+  if (currentFolderState) {
+    currentFolderState.collapsed = collapsed
+  } else {
+    currentExplorerState.push({
+      path: folderPath,
+      collapsed,
+    })
+  }
+}
+
+function persistExplorerState() {
+  localStorage.setItem("fileTree", JSON.stringify(currentExplorerState))
+}
+
+type DirectFolderItem = {
+  folderContainer: HTMLElement
+  folderOuter: HTMLElement
+}
+
+function directFolderItems(parentList: Element): DirectFolderItem[] {
+  return Array.from(parentList.children)
+    .filter((child): child is HTMLElement => child instanceof HTMLElement)
+    .map((child) => ({
+      folderContainer: directChildWithClass(child, "folder-container"),
+      folderOuter: directChildWithClass(child, "folder-outer"),
+    }))
+    .filter((item): item is DirectFolderItem => Boolean(item.folderContainer && item.folderOuter))
+}
+
+function closeFolderTree(folderContainer: HTMLElement, folderOuter: HTMLElement) {
+  setFolderState(folderOuter, true)
+  updateExplorerState(folderContainer.dataset.folderpath, true)
+
+  const childList = directChildTag(folderOuter, "ul")
+  if (!childList) return
+
+  for (const child of directFolderItems(childList)) {
+    closeFolderTree(child.folderContainer, child.folderOuter)
+  }
+}
+
+function closeAllFolders(parentList: Element) {
+  for (const item of directFolderItems(parentList)) {
+    closeFolderTree(item.folderContainer, item.folderOuter)
+  }
+}
+
+function closeSiblingFolders(folderContainer: HTMLElement) {
+  const parentList = folderContainer.parentElement?.parentElement
+  if (!parentList) return
+
+  for (const sibling of directFolderItems(parentList)) {
+    if (sibling.folderContainer === folderContainer) continue
+
+    closeFolderTree(sibling.folderContainer, sibling.folderOuter)
+  }
+}
+
+function enforceCurrentFolderPath(parentList: Element, currentSlug: FullSlug) {
+  const folderItems = directFolderItems(parentList)
+  const currentFolder = folderItems.find(({ folderContainer }) =>
+    folderContainsSlug(folderContainer.dataset.folderpath, currentSlug),
+  )
+
+  if (!currentFolder) return
+
+  for (const item of folderItems) {
+    const shouldCollapse = item !== currentFolder
+    if (shouldCollapse) {
+      closeFolderTree(item.folderContainer, item.folderOuter)
+    } else {
+      setFolderState(item.folderOuter, false)
+      updateExplorerState(item.folderContainer.dataset.folderpath, false)
+    }
+  }
+
+  const childList = directChildTag(currentFolder.folderOuter, "ul")
+  if (childList) {
+    enforceCurrentFolderPath(childList, currentSlug)
+  }
+}
+
+function openFolderOnly(this: HTMLElement) {
+  const folderContainer = this.closest(".folder-container") as MaybeHTMLElement
+  if (!folderContainer) return
+
+  const childFolderContainer = folderContainer.nextElementSibling as MaybeHTMLElement
+  if (!childFolderContainer) return
+
+  setFolderState(childFolderContainer, false)
+  updateExplorerState(folderContainer.dataset.folderpath, false)
+  closeSiblingFolders(folderContainer)
+  persistExplorerState()
+}
+
 function toggleExplorer(this: HTMLElement) {
   const nearestExplorer = this.closest(".explorer") as HTMLElement
   if (!nearestExplorer) return
@@ -61,22 +189,15 @@ function toggleFolder(evt: MouseEvent) {
 
   // Collapse folder container
   const isCollapsed = !childFolderContainer.classList.contains("open")
-  setFolderState(childFolderContainer, isCollapsed)
-
-  const currentFolderState = currentExplorerState.find(
-    (item) => item.path === folderContainer.dataset.folderpath,
-  )
-  if (currentFolderState) {
-    currentFolderState.collapsed = isCollapsed
+  if (isCollapsed) {
+    closeFolderTree(folderContainer, childFolderContainer)
   } else {
-    currentExplorerState.push({
-      path: folderContainer.dataset.folderpath as FullSlug,
-      collapsed: isCollapsed,
-    })
+    setFolderState(childFolderContainer, false)
+    updateExplorerState(folderContainer.dataset.folderpath, false)
+    closeSiblingFolders(folderContainer)
   }
 
-  const stringifiedFileTree = JSON.stringify(currentExplorerState)
-  localStorage.setItem("fileTree", stringifiedFileTree)
+  persistExplorerState()
 }
 
 function createFileNode(currentSlug: FullSlug, node: FileTrieNode): HTMLLIElement {
@@ -139,8 +260,9 @@ function createFolderNode(
   const simpleFolderPath = simplifySlug(folderPath)
   const folderIsPrefixOfCurrentSlug =
     simpleFolderPath === currentSlug.slice(0, simpleFolderPath.length)
+  const shouldOpen = !isCollapsed || folderIsPrefixOfCurrentSlug
 
-  if (!isCollapsed || folderIsPrefixOfCurrentSlug) {
+  if (shouldOpen) {
     folderOuter.classList.add("open")
   }
 
@@ -220,6 +342,13 @@ async function setupExplorer(currentSlug: FullSlug) {
     }
     explorerUl.insertBefore(fragment, explorerUl.firstChild)
 
+    if (isHomeSlug(currentSlug)) {
+      closeAllFolders(explorerUl)
+    } else {
+      enforceCurrentFolderPath(explorerUl, currentSlug)
+    }
+    persistExplorerState()
+
     // restore explorer scrollTop position if it exists
     const scrollTop = sessionStorage.getItem("explorerScrollTop")
     if (scrollTop) {
@@ -249,6 +378,14 @@ async function setupExplorer(currentSlug: FullSlug) {
       for (const button of folderButtons) {
         button.addEventListener("click", toggleFolder)
         window.addCleanup(() => button.removeEventListener("click", toggleFolder))
+      }
+    } else {
+      const folderLinks = explorer.querySelectorAll(
+        ".folder-container > div > a.folder-title",
+      ) as NodeListOf<HTMLElement>
+      for (const link of folderLinks) {
+        link.addEventListener("click", openFolderOnly)
+        window.addCleanup(() => link.removeEventListener("click", openFolderOnly))
       }
     }
 

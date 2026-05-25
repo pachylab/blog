@@ -1,5 +1,8 @@
 .content-meta {
-  margin-top: 0;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 0 0 1rem;
   color: var(--darkgray);
 
   &[show-comma="true"] {
@@ -10,5 +13,21 @@
         content: ",";
       }
     }
+  }
+
+  & .content-meta-tags {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    align-items: center;
+  }
+
+  & a.internal.tag-link {
+    margin: 0;
+    padding: 0.05rem 0.3rem;
+    border-radius: 6px;
+    background-color: var(--highlight);
+    font-size: 0.72rem;
+    line-height: 1.2rem;
   }
 }
