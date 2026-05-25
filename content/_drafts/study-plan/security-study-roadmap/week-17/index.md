@@ -15,6 +15,7 @@ draft: true
 
 - pwn.college: Program Security shellcode
 - OST2 Architecture 1001
+- Dreamhack/HTB: shellcode and syscall practice
 
 ## 연결 노트
 

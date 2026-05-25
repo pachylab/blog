@@ -15,6 +15,7 @@ draft: true
 
 - OST2: Vulnerabilities 1002
 - pwn.college: Dynamic Allocator Misuse preview
+- Dreamhack/HTB: heap, UAF, race practice
 
 ## 연결 노트
 

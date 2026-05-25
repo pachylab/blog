@@ -16,6 +16,7 @@ draft: true
 - 작성한 notes, labs, papers
 - Quartz docs
 - 개인 블로그 운영 정책
+- [[_drafts/study-plan/security-study-roadmap/curriculum-benchmark/index|직무 기준 보안 커리큘럼 벤치마크]]
 
 ## 연결 노트
 

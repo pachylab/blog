@@ -15,6 +15,9 @@ draft: true
 
 - Practical Malware Analysis
 - Windows Internals Part 1
+- Sysinternals Procmon/Process Explorer
+- REMnux docs
+- SANS FOR610 syllabus checklist
 
 ## 연결 노트
 

@@ -15,6 +15,7 @@ draft: true
 
 - pwn.college: Program Security
 - OST2 Vulns1001
+- Dreamhack/HTB: stack BOF, ret2win, cyclic offset practice
 
 ## 연결 노트
 

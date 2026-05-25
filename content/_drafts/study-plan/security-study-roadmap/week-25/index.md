@@ -15,6 +15,8 @@ draft: true
 
 - Windows Internals Part 1
 - Practical Malware Analysis
+- Microsoft Sysinternals and WinDbg docs
+- HTB/Dreamhack: Windows artifact and reversing labs
 
 ## 연결 노트
 

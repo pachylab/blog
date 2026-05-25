@@ -7,6 +7,31 @@ draft: true
 
 흐름은 Linux/C/Assembly/GDB/Pwn을 먼저 깊게 잡고, 이후 리버싱, 악성코드 분석, 디지털 포렌식, 암호학, 통합 산출물로 확장합니다.
 
+이 로드맵의 외부 기준은 [[_drafts/study-plan/security-study-roadmap/curriculum-benchmark/index|직무 기준 보안 커리큘럼 벤치마크]]에 둡니다. 상위권 미국 CS 커리큘럼, NIST NICE/DoD DCWF, IEEE/ACM CS2023, SANS syllabus, pwn.college, OST2, HTB, Dreamhack, 대형 IT/보안 기업군의 공고 요구를 한 번에 비교하기 위한 기준 문서입니다.
+
+## 검토 메모
+
+현재 40주 순서는 유지합니다. 초반 24주가 Linux, C, Assembly, GDB, ELF, Pwn으로 이어져 있어 이후 리버싱/악성코드/포렌식의 기반이 됩니다. 이 순서를 당겨 바꾸면 뒤쪽 분석 과목이 도구 사용법 암기처럼 흐를 가능성이 큽니다.
+
+보강한 부분은 도구 축입니다. GDB, Ghidra, IDA, Volatility, Wireshark 같은 도구는 특정 분야 하나에만 묶기 어렵기 때문에 [[_drafts/study-elements/tools/index|Tools]]로 별도 관리합니다.
+
+직무 기준으로 보면 1-12주차는 상위권 CS core, 13-25주차는 pwn/RE/OS internals, 26-34주차는 malware/DFIR, 35-40주차는 crypto/case study/portfolio 역할을 맡습니다. Linux kernel hacking, fuzzing, cloud IR, detection engineering은 40주 뒤 후속 12주 심화로 분리합니다.
+
+추후 공개 wiki로 옮길 때는 `_drafts/study-elements/cs/data-structures-and-algorithms/` 안에 섞여 있는 pwn/RE/OS 성격의 generated note를 그대로 옮기지 말고, 실제 성격에 맞춰 `wiki/security/`, `wiki/cs/`, `wiki/platforms/`, `wiki/tools/`로 다시 분류합니다.
+
+## 보강 후보
+
+40주 뒤에 여유가 있으면 아래 주제를 별도 확장 주차로 둡니다. 자세한 순서는 [[_drafts/study-plan/security-study-roadmap/curriculum-benchmark/index#후속-12주-심화-순서|후속 12주 심화 순서]]를 따릅니다.
+
+- Linux kernel internals: syscall, VFS, mm, module, driver, eBPF
+- Kernel vulnerability research: syzkaller, crash triage, KASLR/SMEP/SMAP/KPTI
+- Android internals: Binder, permission, APK/DEX, ART, app sandbox
+- iOS internals: IPA, Mach-O, code signing, sandbox, Keychain
+- Windows telemetry: Sysmon, ETW, Event Log, Registry timeline
+- Cloud/SaaS IR: AWS/Azure/GCP audit logs, identity, KQL/Splunk timeline
+- Applied cryptography: TLS 실습, certificate validation, crypto misuse case study
+- Paper-to-lab loop: 논문 1편을 읽고 toy implementation 또는 재현 실험으로 연결
+
 ## Weeks
 
 - [[_drafts/study-plan/security-study-roadmap/week-01/index|1주차: Linux CLI와 학습 환경]]

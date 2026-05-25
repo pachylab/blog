@@ -118,6 +118,7 @@ function inferDraftDefaults(parts: string[]): FolderDefaults {
     if (scope === "cs" && areaPath.length > 0) tags.push(scopedPathTag("cs", areaPath))
     if (scope === "security" && areaPath.length > 0) tags.push(scopedPathTag("security", areaPath))
     if (scope === "platforms" && areaPath.length > 0) tags.push(scopedPathTag("platform", areaPath))
+    if (scope === "tools" && areaPath.length > 0) tags.push("tool")
 
     return {
       draft: true,

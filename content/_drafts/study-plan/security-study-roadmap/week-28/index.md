@@ -15,6 +15,8 @@ draft: true
 
 - Practical Malware Analysis
 - Malware Analysis and Reverse Engineering
+- SANS FOR610 syllabus checklist
+- HTB/Dreamhack: unpacking and anti-analysis practice
 
 ## 연결 노트
 

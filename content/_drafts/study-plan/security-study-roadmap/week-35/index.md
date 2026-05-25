@@ -16,6 +16,7 @@ draft: true
 - Serious Cryptography
 - Cryptography Engineering
 - Computer Networking: A Top-Down Approach
+- CryptoHack and TLS hands-on labs
 
 ## 연결 노트
 

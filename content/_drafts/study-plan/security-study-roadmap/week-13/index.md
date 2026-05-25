@@ -16,6 +16,7 @@ draft: true
 - Practical Binary Analysis
 - Malware Analysis and Reverse Engineering
 - Ghidra/IDA docs
+- pwn.college/Dreamhack/HTB: reverse engineering challenge set
 
 ## 연결 노트
 

@@ -15,6 +15,7 @@ draft: true
 
 - pwn.college: Return Oriented Programming
 - Practical Binary Analysis
+- Dreamhack/HTB: ROP chain practice
 
 ## 연결 노트
 

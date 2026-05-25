@@ -15,6 +15,8 @@ draft: true
 
 - File System Forensic Analysis
 - The Art of Memory Forensics
+- SANS FOR500 syllabus checklist
+- Autopsy/Sleuth Kit docs
 
 ## 연결 노트
 

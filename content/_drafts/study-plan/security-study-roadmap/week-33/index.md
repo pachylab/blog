@@ -15,6 +15,8 @@ draft: true
 
 - The Art of Memory Forensics
 - Volatility docs
+- SANS FOR508 syllabus checklist
+- HTB/Dreamhack: memory forensics labs
 
 ## 연결 노트
 

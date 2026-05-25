@@ -16,6 +16,7 @@ draft: true
 - Practical Malware Analysis
 - Practical Binary Analysis
 - Windows Internals Part 1
+- Dreamhack/HTB: PE, Windows reversing, beginner malware labs
 
 ## 연결 노트
 

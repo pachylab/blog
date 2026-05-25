@@ -15,6 +15,8 @@ draft: true
 
 - pwn.college: Program Security
 - pwntools docs
+- Dreamhack: System Hacking beginner problems
+- HTB: pwn/reversing warm-up challenges
 
 ## 연결 노트
 

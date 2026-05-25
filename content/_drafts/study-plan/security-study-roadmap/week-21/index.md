@@ -15,6 +15,7 @@ draft: true
 
 - pwn.college: Program Exploitation
 - pwntools docs
+- Dreamhack/HTB: ret2libc and leak practice
 
 ## 연결 노트
 

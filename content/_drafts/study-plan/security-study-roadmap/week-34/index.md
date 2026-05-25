@@ -16,6 +16,8 @@ draft: true
 - Wireshark docs
 - Android Security Internals
 - iOS Application Security
+- SANS FOR508 syllabus checklist
+- HTB/Dreamhack: network/browser/mobile forensics labs
 
 ## 연결 노트
 

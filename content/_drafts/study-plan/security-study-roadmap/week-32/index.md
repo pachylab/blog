@@ -16,6 +16,8 @@ draft: true
 - Windows Internals Part 1
 - Windows Forensics 자료
 - The Art of Memory Forensics
+- SANS FOR500/FOR508 syllabus checklist
+- Velociraptor and Sysmon docs
 
 ## 연결 노트
 

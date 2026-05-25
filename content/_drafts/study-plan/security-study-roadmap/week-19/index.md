@@ -15,6 +15,7 @@ draft: true
 
 - pwn.college: Program Security
 - Practical Binary Analysis
+- Dreamhack/HTB: ASLR, canary, PIE, NX practice
 
 ## 연결 노트
 

@@ -15,6 +15,7 @@ draft: true
 
 - pwn.college: Format String Exploits
 - Practical Binary Analysis
+- Dreamhack/HTB: format string and arbitrary read/write practice
 
 ## 연결 노트
 

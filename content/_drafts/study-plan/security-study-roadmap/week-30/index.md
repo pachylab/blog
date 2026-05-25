@@ -16,6 +16,8 @@ draft: true
 - Practical Malware Analysis
 - Wireshark docs
 - Sigma/YARA examples
+- MITRE ATT&CK: command and control
+- HTB/Dreamhack: PCAP and malware-network challenges
 
 ## 연결 노트
 

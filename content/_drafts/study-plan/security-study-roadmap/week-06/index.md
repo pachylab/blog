@@ -16,6 +16,7 @@ draft: true
 - Computer Organization and Design
 - Computer Systems: A Programmer's Perspective
 - pwn.college: Computing 101
+- OST2: Architecture 1001 x86-64
 
 ## 연결 노트
 

@@ -15,6 +15,7 @@ draft: true
 
 - OST2: Architecture 2001 x86-64 OS Internals
 - pwn.college: System Security
+- Linux kernel docs: syscall, memory management, userspace API
 
 ## 연결 노트
 

@@ -15,6 +15,7 @@ draft: true
 
 - OST2: Vulnerabilities 1001
 - pwn.college: Program Security preview
+- Dreamhack/HTB: basic memory corruption practice
 
 ## 연결 노트
 

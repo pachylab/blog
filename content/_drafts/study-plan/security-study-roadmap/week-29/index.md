@@ -15,6 +15,8 @@ draft: true
 
 - Practical Malware Analysis
 - Windows Internals Part 1
+- MITRE ATT&CK: persistence, privilege escalation, defense evasion
+- Sysinternals Autoruns/Procmon
 
 ## 연결 노트
 

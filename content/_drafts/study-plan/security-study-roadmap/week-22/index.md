@@ -15,6 +15,7 @@ draft: true
 
 - pwn.college: Dynamic Allocator Misuse
 - glibc malloc 관련 자료
+- Dreamhack/HTB: tcache and heap exploitation practice
 
 ## 연결 노트
 
