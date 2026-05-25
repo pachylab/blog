@@ -1,10 +1,8 @@
 ---
-title: "Journal"
-description: "하루 공부 기록과 정리 전 메모를 보관합니다."
-type: index
-draft: false
-tags:
-  - type/index
+title: "Study Log"
+description: "하루 공부 기록을 날짜 기준으로 보관합니다."
 ---
 
-하루 공부 기록과 정리 전 메모를 보관합니다.
+하루 공부 기록을 날짜 기준으로 보관합니다.
+
+- [[journal/2026/index|2026]]

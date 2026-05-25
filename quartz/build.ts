@@ -42,6 +42,30 @@ type BuildData = {
   lastBuildMs: number
 }
 
+async function removeUnpublishedOutputs(
+  ctx: BuildCtx,
+  sourceContent: ProcessedContent[],
+  publishedContent: ProcessedContent[],
+) {
+  const publishedSlugs = new Set(publishedContent.map(([_tree, file]) => file.data.slug))
+  const stalePaths = sourceContent.flatMap(([_tree, file]) => {
+    const slug = file.data.slug
+    if (!slug || publishedSlugs.has(slug)) {
+      return []
+    }
+
+    const aliases = file.data.aliases ?? []
+
+    return [
+      joinSegments(ctx.argv.output, `${slug}.html`),
+      joinSegments(ctx.argv.output, `${slug}-og-image.webp`),
+      ...aliases.map((alias) => joinSegments(ctx.argv.output, `${alias}.html`)),
+    ]
+  })
+
+  await Promise.all(stalePaths.map((filePath) => rm(filePath, { force: true })))
+}
+
 async function buildQuartz(argv: Argv, mut: Mutex, clientRefresh: () => void) {
   const ctx: BuildCtx = {
     buildId: randomIdNonSecure(),
@@ -83,6 +107,7 @@ async function buildQuartz(argv: Argv, mut: Mutex, clientRefresh: () => void) {
 
   const parsedFiles = await parseMarkdown(ctx, filePaths)
   const filteredContent = filterContent(ctx, parsedFiles)
+  await removeUnpublishedOutputs(ctx, parsedFiles, filteredContent)
 
   await emitContent(ctx, filteredContent)
   console.log(
@@ -201,37 +226,28 @@ async function rebuild(changes: ChangeEvent[], clientRefresh: () => void, buildD
   }
 
   const staticResources = getStaticResourcesFromPlugins(ctx)
-  const pathsToParse: FilePath[] = []
-  for (const [fp, type] of Object.entries(changesSinceLastBuild)) {
-    if (type === "delete" || path.extname(fp) !== ".md") continue
-    const fullPath = joinSegments(argv.directory, toPosixPath(fp)) as FilePath
-    pathsToParse.push(fullPath)
+  const pendingChanges = Object.entries(changesSinceLastBuild)
+  const hasMarkdownChange = pendingChanges.some(([fp]) => path.extname(fp) === ".md")
+  const pathsToParse: Set<FilePath> = new Set()
+
+  if (hasMarkdownChange) {
+    for (const fp of contentMap.keys()) {
+      if (changesSinceLastBuild[fp] === "delete" || path.extname(fp) !== ".md") continue
+      pathsToParse.add(joinSegments(argv.directory, toPosixPath(fp)) as FilePath)
+    }
   }
 
-  const parsed = await parseMarkdown(ctx, pathsToParse)
+  for (const [fp, type] of pendingChanges) {
+    if (type === "delete" || path.extname(fp) !== ".md") continue
+    pathsToParse.add(joinSegments(argv.directory, toPosixPath(fp)) as FilePath)
+  }
+
+  const parsed = await parseMarkdown(ctx, [...pathsToParse])
   for (const content of parsed) {
     contentMap.set(content[1].data.relativePath!, {
       type: "markdown",
       content,
     })
-  }
-
-  // update state using changesSinceLastBuild
-  // we do this weird play of add => compute change events => remove
-  // so that partialEmitters can do appropriate cleanup based on the content of deleted files
-  for (const [file, change] of Object.entries(changesSinceLastBuild)) {
-    if (change === "delete") {
-      // universal delete case
-      contentMap.delete(file as FilePath)
-    }
-
-    // manually track non-markdown files as processed files only
-    // contains markdown files
-    if (change === "add" && path.extname(file) !== ".md") {
-      contentMap.set(file as FilePath, {
-        type: "other",
-      })
-    }
   }
 
   const changeEvents: ChangeEvent[] = Object.entries(changesSinceLastBuild).map(([fp, type]) => {
@@ -252,21 +268,40 @@ async function rebuild(changes: ChangeEvent[], clientRefresh: () => void, buildD
     }
   })
 
+  // update state using changesSinceLastBuild
+  // we do this weird play of add => compute change events => remove
+  // so that partialEmitters can do appropriate cleanup based on the content of deleted files
+  for (const [file, change] of Object.entries(changesSinceLastBuild)) {
+    if (change === "delete") {
+      // universal delete case
+      contentMap.delete(file as FilePath)
+    }
+
+    // manually track non-markdown files as processed files only
+    // contains markdown files
+    if (change === "add" && path.extname(file) !== ".md") {
+      contentMap.set(file as FilePath, {
+        type: "other",
+      })
+    }
+  }
+
   // update allFiles and then allSlugs with the consistent view of content map
   ctx.allFiles = Array.from(contentMap.keys())
   ctx.allSlugs = ctx.allFiles.map((fp) => slugifyFilePath(fp as FilePath))
-  let processedFiles = filterContent(
-    ctx,
-    Array.from(contentMap.values())
-      .filter((file) => file.type === "markdown")
-      .map((file) => file.content),
-  )
+  const markdownContent = Array.from(contentMap.values())
+    .filter((file) => file.type === "markdown")
+    .map((file) => file.content)
+  let processedFiles = filterContent(ctx, markdownContent)
+  await removeUnpublishedOutputs(ctx, markdownContent, processedFiles)
+  ctx.trie = undefined
 
   let emittedFiles = 0
   for (const emitter of cfg.plugins.emitters) {
-    // Try to use partialEmit if available, otherwise assume the output is static
-    const emitFn = emitter.partialEmit ?? emitter.emit
-    const emitted = await emitFn(ctx, processedFiles, staticResources, changeEvents)
+    const emitted =
+      hasMarkdownChange || !emitter.partialEmit
+        ? await emitter.emit(ctx, processedFiles, staticResources)
+        : await emitter.partialEmit(ctx, processedFiles, staticResources, changeEvents)
     if (emitted === null) {
       continue
     }

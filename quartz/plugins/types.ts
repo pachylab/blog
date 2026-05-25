@@ -31,6 +31,7 @@ export type QuartzFilterPlugin<Options extends OptionType = undefined> = (
 export type QuartzFilterPluginInstance = {
   name: string
   shouldPublish(ctx: BuildCtx, content: ProcessedContent): boolean
+  filterContent?: (ctx: BuildCtx, content: ProcessedContent[]) => ProcessedContent[]
 }
 
 export type ChangeEvent = {

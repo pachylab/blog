@@ -23,7 +23,7 @@ export default ((opts?: Partial<FolderContentOptions>) => {
   const FolderContent: QuartzComponent = (props: QuartzComponentProps) => {
     const { fileData, allFiles, cfg } = props
 
-    const trie = (props.ctx.trie ??= trieFromAllFiles(allFiles))
+    const trie = trieFromAllFiles(allFiles)
     const folder = trie.findNode(fileData.slug!.split("/"))
     if (!folder) {
       return null
@@ -71,13 +71,16 @@ export default ((opts?: Partial<FolderContentOptions>) => {
 
     const renderNode = (node: FileTrieNode<BuildTimeTrieData>) => {
       const isFolder = node.isFolder
-      const title = node.displayName
-      const description = isFolder ? folderDescription(node) : undefined
       const page = node.data
-      const showDate = !isFolder && page?.dates
+      const isListingPage =
+        page?.frontmatter?.listing === true || page?.frontmatter?.listEntry === true
+      const title = node.displayName
+      const description = isFolder || isListingPage ? folderDescription(node) : undefined
+      const showDate = !isFolder && !isListingPage && page?.dates
+      const entryClass = isFolder || isListingPage ? "folder-entry" : "note-entry"
 
       return (
-        <li class={isFolder ? "folder-tree-item folder-entry" : "folder-tree-item note-entry"}>
+        <li class={`folder-tree-item ${entryClass}`}>
           <div class="folder-tree-row">
             <div class="folder-tree-title">
               {showDate && <Date date={getDate(cfg, page)!} locale={cfg.locale} />}

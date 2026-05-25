@@ -7,7 +7,9 @@ export function filterContent(ctx: BuildCtx, content: ProcessedContent[]): Proce
   const perf = new PerfTimer()
   const initialLength = content.length
   for (const plugin of cfg.plugins.filters) {
-    const updatedContent = content.filter((item) => plugin.shouldPublish(ctx, item))
+    const updatedContent = plugin.filterContent
+      ? plugin.filterContent(ctx, content)
+      : content.filter((item) => plugin.shouldPublish(ctx, item))
 
     if (argv.verbose) {
       const diff = content.filter((x) => !updatedContent.includes(x))

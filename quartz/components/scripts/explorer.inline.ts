@@ -38,8 +38,8 @@ function directChildTag(parent: HTMLElement, tagName: string): HTMLElement | und
 function folderContainsSlug(folderPath: string | undefined, slug: FullSlug): boolean {
   if (!folderPath) return false
 
-  const folderSlug = simplifySlug(folderPath as FullSlug)
-  const currentSlug = simplifySlug(slug)
+  const folderSlug = simplifySlug(folderPath as FullSlug).replace(/\/$/, "")
+  const currentSlug = simplifySlug(slug).replace(/\/$/, "")
   return (
     folderSlug !== "/" && (currentSlug === folderSlug || currentSlug.startsWith(`${folderSlug}/`))
   )
@@ -257,10 +257,8 @@ function createFolderNode(
 
   // if this folder is a prefix of the current path we
   // want to open it anyways
-  const simpleFolderPath = simplifySlug(folderPath)
-  const folderIsPrefixOfCurrentSlug =
-    simpleFolderPath === currentSlug.slice(0, simpleFolderPath.length)
-  const shouldOpen = !isCollapsed || folderIsPrefixOfCurrentSlug
+  const folderIsPrefixOfCurrentSlug = folderContainsSlug(folderPath, currentSlug)
+  const shouldOpen = folderIsPrefixOfCurrentSlug || (isHomeSlug(currentSlug) && !isCollapsed)
 
   if (shouldOpen) {
     folderOuter.classList.add("open")

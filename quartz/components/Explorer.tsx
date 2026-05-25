@@ -11,7 +11,6 @@ import { concatenateResources } from "../util/resources"
 type OrderEntries = "sort" | "filter" | "map"
 
 export interface Options {
-  title?: string
   folderDefaultState: "collapsed" | "open"
   folderClickBehavior: "collapse" | "link"
   useSavedState: boolean
@@ -59,7 +58,7 @@ export default ((userOpts?: Partial<Options>) => {
   const opts: Options = { ...defaultOptions, ...userOpts }
   const { OverflowList, overflowListAfterDOMLoaded } = OverflowListFactory()
 
-  const Explorer: QuartzComponent = ({ cfg, displayClass }: QuartzComponentProps) => {
+  const Explorer: QuartzComponent = ({ displayClass }: QuartzComponentProps) => {
     const id = `explorer-${numExplorers++}`
 
     return (

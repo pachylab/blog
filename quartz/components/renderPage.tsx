@@ -3,10 +3,16 @@ import { QuartzComponent, QuartzComponentProps } from "./types"
 import HeaderConstructor from "./Header"
 import BodyConstructor from "./Body"
 import { JSResourceToScriptElement, StaticResources } from "../util/resources"
-import { FullSlug, RelativeURL, joinSegments, normalizeHastElement } from "../util/path"
+import {
+  FullSlug,
+  RelativeURL,
+  joinSegments,
+  normalizeHastElement,
+  simplifySlug,
+} from "../util/path"
 import { clone } from "../util/clone"
 import { visit } from "unist-util-visit"
-import { Root, Element, ElementContent } from "hast"
+import { Root, Element, ElementContent, RootContent } from "hast"
 import { GlobalConfiguration } from "../cfg"
 import { i18n } from "../i18n"
 import { styleText } from "util"
@@ -212,6 +218,88 @@ function renderTranscludes(
   })
 }
 
+function hasVisibleContent(node: Element): boolean {
+  return node.children.some((child) => {
+    if (child.type === "text") {
+      return child.value.trim() !== ""
+    }
+
+    if (child.type === "element") {
+      return child.tagName === "img" || child.tagName === "iframe" || hasVisibleContent(child)
+    }
+
+    return true
+  })
+}
+
+function removeUnpublishedInternalLinks(root: Root, componentData: QuartzComponentProps) {
+  const publishedSlugs = new Set<string>()
+  for (const file of componentData.allFiles) {
+    if (!file.slug) continue
+    publishedSlugs.add(file.slug)
+    publishedSlugs.add(simplifySlug(file.slug))
+  }
+
+  const classList = (node: Element) => {
+    const className = node.properties?.className ?? node.properties?.class
+    if (Array.isArray(className)) {
+      return className.map(String)
+    }
+
+    if (typeof className === "string") {
+      return className.split(/\s+/)
+    }
+
+    return []
+  }
+
+  const shouldUnlink = (node: Element) => {
+    if (node.tagName !== "a") {
+      return false
+    }
+
+    const classes = classList(node)
+    if (classes.includes("internal") && classes.includes("broken")) {
+      return true
+    }
+
+    const linkedSlug = node.properties?.["data-slug"] ?? node.properties?.dataSlug
+    return (
+      typeof linkedSlug === "string" &&
+      !publishedSlugs.has(linkedSlug) &&
+      !publishedSlugs.has(simplifySlug(linkedSlug as FullSlug))
+    )
+  }
+
+  const sanitizeChildren = (node: Root | Element) => {
+    const sanitized: RootContent[] = []
+
+    for (const child of node.children as RootContent[]) {
+      if (child.type !== "element") {
+        sanitized.push(child)
+        continue
+      }
+
+      sanitizeChildren(child)
+
+      if (shouldUnlink(child)) {
+        sanitized.push(...(child.children as RootContent[]))
+        continue
+      }
+
+      if (["blockquote", "li", "p"].includes(child.tagName) && !hasVisibleContent(child)) {
+        continue
+      }
+
+      sanitized.push(child)
+    }
+
+    node.children = sanitized as never
+  }
+
+  sanitizeChildren(root)
+}
+
 export function renderPage(
   cfg: GlobalConfiguration,
   slug: FullSlug,
@@ -224,6 +312,7 @@ export function renderPage(
   const root = clone(componentData.tree) as Root
   const visited = new Set<FullSlug>([slug])
   renderTranscludes(root, cfg, slug, componentData, visited)
+  removeUnpublishedInternalLinks(root, componentData)
 
   // set componentData.tree to the edited html that has transclusions rendered
   componentData.tree = root

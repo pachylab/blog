@@ -48,11 +48,11 @@ function computeTagInfo(
   // Update with actual content if available
   for (const [tree, file] of content) {
     const slug = file.data.slug!
-    if (slug.startsWith("tags/")) {
-      const tag = slug.slice("tags/".length)
+    if (slug === "tags" || slug.startsWith("tags/")) {
+      const tag = slug === "tags" ? "index" : slug.slice("tags/".length)
       if (tags.has(tag)) {
         tagDescriptions[tag] = [tree, file]
-        if (file.data.frontmatter?.title === tag) {
+        if (file.data.frontmatter?.title === tag || file.data.frontmatter?.title === `#${tag}`) {
           file.data.frontmatter.title = `${i18n(locale).pages.tagContent.tag}: ${tag}`
         }
       }
@@ -74,9 +74,13 @@ async function processTagPage(
   const [tree, file] = tagContent
   const cfg = ctx.cfg.configuration
   const externalResources = pageResources(pathToRoot(slug), resources)
+  const fileData = {
+    ...file.data,
+    slug,
+  }
   const componentData: QuartzComponentProps = {
     ctx,
-    fileData: file.data,
+    fileData,
     externalResources,
     cfg,
     children: [],
@@ -88,7 +92,7 @@ async function processTagPage(
   return write({
     ctx,
     content,
-    slug: file.data.slug!,
+    slug,
     ext: ".html",
   })
 }

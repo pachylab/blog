@@ -281,11 +281,19 @@ a {
       }
     }
 
-    body[data-slug="index"] & .page-header .popover-hint::after {
+    body[data-slug="index"] & .page-header .popover-hint::after,
+    body[data-slug="about"] & .page-header .popover-hint::after,
+    body[data-slug="tags"] & .page-header .popover-hint::after,
+    body[data-slug^="tags/"] & .page-header .popover-hint::after,
+    body[data-slug^="maps/"]:not([data-slug="maps/index"]) & .page-header .popover-hint::after {
       content: "";
       display: block;
       height: 1.6rem;
       margin-bottom: 1rem;
+    }
+
+    body[data-slug^="maps/"]:not([data-slug="maps/index"]) & .center > article > :first-child {
+      margin-top: 1rem;
     }
 
     & .center > article {

@@ -1,10 +1,7 @@
 ---
 title: "Articles"
-description: "주제 단위로 정리한 완성형 글입니다."
-type: index
-draft: false
-tags:
-  - type/index
+description: "방문자가 읽기 좋은 완성형 글을 보관합니다."
+draft: true
 ---
 
-주제 단위로 정리한 완성형 글입니다.
+방문자가 읽기 좋은 완성형 글을 보관합니다. 주제 분류는 폴더가 아니라 태그와 map 페이지로 관리합니다.

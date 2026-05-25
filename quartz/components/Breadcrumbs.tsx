@@ -53,10 +53,48 @@ export default ((opts?: Partial<BreadcrumbOptions>) => {
     fileData,
     allFiles,
     displayClass,
-    ctx,
   }: QuartzComponentProps) => {
-    const trie = (ctx.trie ??= trieFromAllFiles(allFiles))
-    const slugParts = fileData.slug!.split("/")
+    const slug = fileData.slug!
+
+    if (slug.startsWith("tags/") && slug !== "tags/index") {
+      const crumbs: CrumbData[] = [
+        {
+          displayName: options.rootName,
+          path: resolveRelative(slug, "index" as SimpleSlug),
+        },
+        {
+          displayName: "Tags",
+          path: resolveRelative(slug, "tags" as SimpleSlug),
+        },
+        {
+          displayName: fileData.frontmatter?.title ?? slug.replace(/^tags\//, "태그: "),
+          path: "",
+        },
+      ]
+
+      return (
+        <nav class={classNames(displayClass, "breadcrumb-container")} aria-label="breadcrumbs">
+          {crumbs.map((crumb, index) => {
+            const isCurrentPage = index === crumbs.length - 1
+            const classes = ["breadcrumb-element"]
+
+            if (isCurrentPage) {
+              classes.push("breadcrumb-note")
+            }
+
+            return (
+              <div class={classes.join(" ")}>
+                <a href={crumb.path}>{crumb.displayName}</a>
+                {!isCurrentPage && <p>{` ${options.spacerSymbol} `}</p>}
+              </div>
+            )
+          })}
+        </nav>
+      )
+    }
+
+    const trie = trieFromAllFiles(allFiles)
+    const slugParts = slug.split("/")
     const pathNodes = trie.ancestryChain(slugParts)
 
     if (!pathNodes) {
@@ -67,12 +105,7 @@ export default ((opts?: Partial<BreadcrumbOptions>) => {
       const hasFrontmatterTitle =
         options.resolveFrontmatterTitle && Boolean(node.data?.title && node.data.title !== "index")
       const displayName = hasFrontmatterTitle ? node.data!.title : node.displayName
-      const crumb = formatCrumb(
-        displayName,
-        fileData.slug!,
-        simplifySlug(node.slug),
-        hasFrontmatterTitle,
-      )
+      const crumb = formatCrumb(displayName, slug, simplifySlug(node.slug), hasFrontmatterTitle)
       if (idx === 0) {
         crumb.displayName = options.rootName
       }
@@ -91,9 +124,9 @@ export default ((opts?: Partial<BreadcrumbOptions>) => {
 
     const isCurrentPageNote =
       Boolean(fileData.filePath) &&
-      fileData.slug !== "index" &&
-      !fileData.slug?.endsWith("/index") &&
-      !fileData.slug?.startsWith("tags/")
+      slug !== "index" &&
+      !slug.endsWith("/index") &&
+      !slug.startsWith("tags/")
 
     return (
       <nav class={classNames(displayClass, "breadcrumb-container")} aria-label="breadcrumbs">

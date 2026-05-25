@@ -120,14 +120,24 @@ function clearActivePopover() {
   allPopoverElements.forEach((popoverElement) => popoverElement.classList.remove("active-popover"))
 }
 
+function removePopovers() {
+  activeAnchor = null
+  const allPopoverElements = document.querySelectorAll(".popover")
+  allPopoverElements.forEach((popoverElement) => popoverElement.remove())
+}
+
+document.addEventListener("prenav", removePopovers)
+
 document.addEventListener("nav", () => {
   const links = [...document.querySelectorAll("a.internal")] as HTMLAnchorElement[]
   for (const link of links) {
     link.addEventListener("mouseenter", mouseEnterHandler)
     link.addEventListener("mouseleave", clearActivePopover)
+    link.addEventListener("click", removePopovers)
     window.addCleanup(() => {
       link.removeEventListener("mouseenter", mouseEnterHandler)
       link.removeEventListener("mouseleave", clearActivePopover)
+      link.removeEventListener("click", removePopovers)
     })
   }
 })

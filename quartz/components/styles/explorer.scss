@@ -111,15 +111,12 @@ button.desktop-explorer {
   }
 }
 
-button.title-button {
-  display: none;
-}
-
 .explorer-content {
   list-style: none;
   overflow: hidden;
   overflow-y: auto;
-  margin-top: 0.5rem;
+  margin-top: 0.65rem;
+  padding-right: 0.25rem;
 
   & ul {
     list-style: none;
@@ -131,15 +128,27 @@ button.title-button {
     }
 
     & li > a {
+      display: block;
       color: var(--darkgray);
-      font-size: 1rem;
-      line-height: 1.6rem;
-      opacity: 0.75;
+      font-size: 0.95rem;
+      line-height: 1.35;
+      opacity: 0.82;
       pointer-events: all;
+      padding: 0.22rem 0.4rem 0.22rem 1.45rem;
+      border-left: 2px solid transparent;
+      overflow-wrap: anywhere;
 
       &.active {
         opacity: 1;
         color: var(--tertiary);
+        background-color: var(--highlight);
+        border-left-color: var(--tertiary);
+      }
+
+      &:hover {
+        opacity: 1;
+        color: var(--secondary);
+        background-color: var(--highlight);
       }
     }
   }
@@ -160,25 +169,39 @@ button.title-button {
 
   .folder-outer > ul {
     overflow: hidden;
-    margin-left: 6px;
-    padding-left: 0.8rem;
+    margin-left: 0.55rem;
+    padding-left: 0.85rem;
     border-left: 1px solid var(--lightgray);
   }
 }
 
 .folder-container {
-  flex-direction: row;
-  display: flex;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 1rem minmax(0, 1fr);
+  align-items: start;
+  gap: 0.22rem;
+  margin: 0.05rem 0;
+  padding: 0.18rem 0.25rem;
+  border-left: 2px solid transparent;
   user-select: none;
+
+  &:hover {
+    background-color: var(--highlight);
+  }
+
+  &.active {
+    background-color: var(--highlight);
+    border-left-color: var(--tertiary);
+  }
 
   & div > a {
     color: var(--secondary);
     font-family: var(--headerFont);
-    font-size: 1.2rem;
+    font-size: 1.02rem;
     font-weight: $semiBoldWeight;
-    line-height: 1.7rem;
-    display: inline-block;
+    line-height: 1.35;
+    display: block;
+    overflow-wrap: anywhere;
   }
 
   & div > a:hover {
@@ -191,44 +214,45 @@ button.title-button {
     border: none;
     text-align: left;
     cursor: pointer;
-    padding-left: 0;
-    padding-right: 0;
+    padding: 0;
     display: flex;
     align-items: center;
     font-family: var(--headerFont);
+    width: 100%;
 
     & span {
-      font-size: 1.2rem;
-      display: inline-block;
+      font-size: 1.02rem;
+      display: block;
       color: var(--secondary);
       font-weight: $semiBoldWeight;
       margin: 0;
-      line-height: 1.7rem;
+      line-height: 1.35;
       pointer-events: none;
+      overflow-wrap: anywhere;
     }
   }
 }
 
 .explorer-content .folder-outer .folder-container div > a,
 .explorer-content .folder-outer .folder-container div > button span {
-  font-size: 1.1rem;
-  line-height: 1.58rem;
+  font-size: 0.98rem;
+  line-height: 1.35;
 }
 
 .explorer-content .folder-outer .folder-outer .folder-container div > a,
 .explorer-content .folder-outer .folder-outer .folder-container div > button span {
-  font-size: 1.04rem;
-  line-height: 1.52rem;
+  font-size: 0.96rem;
+  line-height: 1.34;
 }
 
 .explorer-content .folder-outer .folder-outer .folder-outer .folder-container div > a,
 .explorer-content .folder-outer .folder-outer .folder-outer .folder-container div > button span {
-  font-size: 1.02rem;
-  line-height: 1.48rem;
+  font-size: 0.94rem;
+  line-height: 1.33;
 }
 
 .folder-icon {
-  margin-right: 5px;
+  margin: 0.22rem 0 0;
   color: var(--secondary);
   cursor: pointer;
   transition: transform 0.3s ease;
