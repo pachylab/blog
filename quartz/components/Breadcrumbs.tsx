@@ -35,9 +35,14 @@ const defaultOptions: BreadcrumbOptions = {
   showCurrentPage: true,
 }
 
-function formatCrumb(displayName: string, baseSlug: FullSlug, currentSlug: SimpleSlug): CrumbData {
+function formatCrumb(
+  displayName: string,
+  baseSlug: FullSlug,
+  currentSlug: SimpleSlug,
+  preserveHyphen: boolean,
+): CrumbData {
   return {
-    displayName: displayName.replaceAll("-", " "),
+    displayName: preserveHyphen ? displayName : displayName.replaceAll("-", " "),
     path: resolveRelative(baseSlug, currentSlug),
   }
 }
@@ -59,7 +64,15 @@ export default ((opts?: Partial<BreadcrumbOptions>) => {
     }
 
     const crumbs: CrumbData[] = pathNodes.map((node, idx) => {
-      const crumb = formatCrumb(node.displayName, fileData.slug!, simplifySlug(node.slug))
+      const hasFrontmatterTitle =
+        options.resolveFrontmatterTitle && Boolean(node.data?.title && node.data.title !== "index")
+      const displayName = hasFrontmatterTitle ? node.data!.title : node.displayName
+      const crumb = formatCrumb(
+        displayName,
+        fileData.slug!,
+        simplifySlug(node.slug),
+        hasFrontmatterTitle,
+      )
       if (idx === 0) {
         crumb.displayName = options.rootName
       }
@@ -76,14 +89,29 @@ export default ((opts?: Partial<BreadcrumbOptions>) => {
       crumbs.pop()
     }
 
+    const isCurrentPageNote =
+      Boolean(fileData.filePath) &&
+      fileData.slug !== "index" &&
+      !fileData.slug?.endsWith("/index") &&
+      !fileData.slug?.startsWith("tags/")
+
     return (
       <nav class={classNames(displayClass, "breadcrumb-container")} aria-label="breadcrumbs">
-        {crumbs.map((crumb, index) => (
-          <div class="breadcrumb-element">
-            <a href={crumb.path}>{crumb.displayName}</a>
-            {index !== crumbs.length - 1 && <p>{` ${options.spacerSymbol} `}</p>}
-          </div>
-        ))}
+        {crumbs.map((crumb, index) => {
+          const isCurrentPage = index === crumbs.length - 1
+          const classes = ["breadcrumb-element"]
+
+          if (isCurrentPage && isCurrentPageNote) {
+            classes.push("breadcrumb-note")
+          }
+
+          return (
+            <div class={classes.join(" ")}>
+              <a href={crumb.path}>{crumb.displayName}</a>
+              {!isCurrentPage && <p>{` ${options.spacerSymbol} `}</p>}
+            </div>
+          )
+        })}
       </nav>
     )
   }

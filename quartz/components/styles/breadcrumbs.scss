@@ -30,6 +30,10 @@
     line-height: inherit;
   }
 
+  &.breadcrumb-note > a {
+    color: var(--darkgray);
+  }
+
   p {
     margin: 0;
     margin-left: 0.5rem;
