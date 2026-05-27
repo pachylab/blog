@@ -15,6 +15,19 @@ draft: true
 - 암호학 수학은 Week 31 전에 중학교-고등학교 수학 gate를 통과하는 방식으로 운영한다.
 - 사용자가 보유한 책은 아래 "보유 서적 매핑"을 기준으로 필요한 주차에만 참고한다.
 
+## 최신 연구 읽기 원칙
+
+최신 논문은 매일 새로 추가하는 학습 자료가 아니라, 현재 산출물 기준이 낡지 않았는지 확인하는 장치로 쓴다. Week 12 이후 매주 30분만 사용하고, 논문 전체 요약 대신 `technique`, `prerequisite`, `evidence`, `curriculum action` 네 칸을 채운다.
+
+| 자료군 | 볼 이유 | 연결되는 산출물 |
+|---|---|---|
+| USENIX Security, NDSS, IEEE S&P, ACM CCS | 퍼징, 바이너리 분석, 시스템 보안, 악성코드, AI 보안의 최신 방법 확인 | research note, variant hypothesis, patch/detection idea |
+| DFRWS, FSI: Digital Investigation | memory, mobile, cloud, IoT/SCADA, artifact provenance 등 DFIR 연구 확인 | timeline, artifact confidence, telemetry gap |
+| vendor advisory, CVE, patch note | 실제 취약점의 root cause, affected version, patch boundary 확인 | N-day reproduction note, advisory-grade report |
+| 공식 도구 문서 | 논문 기법을 실습 가능한 명령어와 옵션으로 변환 | lab log, tool note |
+
+성인 ADHD 학습자 기준에서는 "논문을 다 읽기"보다 "오늘 커리큘럼과 연결되는 질문 1개를 뽑기"가 더 중요하다. 읽다가 막히면 관련 기초를 `unknown`에 남기고, 그 주차의 기존 자료로 돌아간다.
+
 ## 보유 서적 매핑
 
 | 서적 | 참고할 파트 | 공부 계획 반영 위치 |
@@ -143,7 +156,7 @@ draft: true
 |---|---|---|---|
 | [MITRE ATT&CK](https://attack.mitre.org/) | 프레임워크 | IOC/TTP, technique, data source, detection mapping | Week 14-18, 37 |
 | [NIST NICE Framework](https://www.nist.gov/itl/applied-cybersecurity/nice/nice-framework-resource-center) | 직무 기준 | 직무별 knowledge/skill/task를 산출물과 연결 | Week 40 |
-| [FIRST CVSS](https://www.first.org/cvss/) | 표준 | 취약점 영향도와 CVSS 산정 | Week 39 |
+| [FIRST CVSS](https://www.first.org/cvss/) | 표준 | CVSS v4.0 기준으로 취약점 영향도, Base/Threat/Environmental/Supplemental metric을 연습 | Week 39 |
 | [MITRE CVE Program](https://www.cve.org/) | 표준/절차 | CVE request, CNA, affected version, public reference 확인 | Week 39 |
 | [BoB 공식 트랙 안내](https://www.kitribob.kr/learn/curriculum) | 교육 기준 | 취약점 분석/디지털 포렌식 트랙 대조 기준 | curriculum review |
 | [헌팅마스터 2026](https://hunma.kr/index.html) | 교육 기준 | Reversing & Fuzzing 심화 항목 대조 기준 | curriculum benchmark |

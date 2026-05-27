@@ -30,5 +30,16 @@ draft: true
 ## 실제 실습
 
 - 샘플/랩 이름:
+- 환경/tool version/timezone:
+- 입력 파일 path/hash:
+- exact command:
+- stdout/stderr/exit status:
 - 관찰한 증거:
 - 결론:
+
+## 글쓰기 점검
+
+- 도구가 실제로 출력한 사실:
+- 내가 해석한 내용:
+- 아직 확신할 수 없는 내용:
+- 다음에 확인할 명령:

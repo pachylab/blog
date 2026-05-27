@@ -10,7 +10,7 @@ draft: true
 
 ## Scope
 
-- 분석 대상, hash, 환경, 시간, 제한사항
+- 분석 대상, hash, 환경, tool version, timezone, 시간, 제한사항
 
 ## Key Findings
 
@@ -33,6 +33,14 @@ draft: true
 ## Confidence and Caveats
 
 - 확실한 것과 추정인 것 구분
+
+## Writing Check
+
+- 핵심 주장:
+- 근거:
+- 한계:
+- 공개 가능 여부:
+- redaction 필요 여부:
 
 ## Remediation
 

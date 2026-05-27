@@ -31,23 +31,36 @@ draft: true
 
 ## 핵심 키워드
 
-compiler, assembler, linker, loader, preprocessor, object file, runtime library, symbol, symbol table, relocation, debug information, PDB, DWARF, line table, AST, IR, CFG, data flow, SSA, basic block, control-flow graph, optimization, inlining, dead code elimination, constant folding, loop optimization, decompiler output, bytecode, VM, JIT, interpreter loop, garbage collection, managed runtime, Python scripting, pwntools, parser automation, binary parsing, struct module, subprocess, automation
+compiler, assembler, linker, loader, preprocessor, object file, runtime library, symbol, symbol table, relocation, debug information, PDB, DWARF, line table, AST, IR, CFG, data flow, SSA, basic block, control-flow graph, optimization, inlining, dead code elimination, constant folding, loop optimization, decompiler output, bytecode, VM, JIT, interpreter loop, garbage collection, managed runtime
 
 ## 일별 계획
 
-| Day | 주제 | 핵심 키워드 | 산출물 |
+| 회차 | 주제 | 핵심 키워드 | 산출물 |
 |---|---|---|---|
 | Day 01 | compiler, assembler, linker, loader | compiler, assembler, linker, loader, preprocessor, object file, runtime library | source-to-execution 파이프라인 그림 |
 | Day 02 | symbol, relocation, debug information | symbol, symbol table, relocation, debug information, PDB, DWARF, line table | nm/readelf/objdump로 본 symbol과 relocation 표 |
 | Day 03 | AST, IR, CFG, data flow, SSA | AST, IR, CFG, data flow, SSA, basic block, control-flow graph | 간단한 함수의 CFG와 data-flow 노트 |
 | Day 04 | optimization과 decompiler 차이 | optimization, inlining, dead code elimination, constant folding, loop optimization, decompiler output | -O0/-O2 비교와 decompiler 차이 메모 |
 | Day 05 | bytecode, VM, JIT, interpreter loop | bytecode, VM, JIT, interpreter loop, runtime library, garbage collection, managed runtime | native code와 bytecode 실행 모델 비교표 |
-| Day 06 | Python scripting, pwntools, parser automation | Python scripting, pwntools, parser automation, binary parsing, struct module, subprocess, automation | 반복 분석을 자동화하는 Python 스크립트 초안 |
-| Day 07 | 주간 복습과 자동 분석 연결 | compiler, linker, symbol, relocation, CFG, bytecode, Python scripting | Week 07 빌드/분석 자동화 체크리스트 |
+| Review | 주간 복습과 산출물 정리 | retrieval practice, concept map, best artifact, fact/inference/unknown, backlog pruning, next question | Week 07 주간 개념 지도와 다음 주 질문 5개 |
+
+## Week 07 글쓰기 훈련 흐름
+
+Week 07의 글쓰기는 Day 01-05에서 작은 산출물을 만들고, Review에서 하나를 골라 고치는 방식으로 운영한다.
+
+| 회차 | 쓰기 훈련 | 목적 |
+|---|---|---|
+| Day 01 | 관찰 로그 쓰기 | 오늘 산출물의 사실, 출력, 해석을 분리한다. |
+| Day 02 | 비교해서 설명하기 | 비슷한 개념의 차이를 표나 작은 예제로 설명한다. |
+| Day 03 | 근거와 조건 쓰기 | 어떤 관찰이 어떤 결론을 지지하는지 조건을 붙여 적는다. |
+| Day 04 | 한계와 반례 쓰기 | 단정하지 말고 깨지는 조건이나 예외를 같이 남긴다. |
+| Day 05 | 보안 분석 연결 쓰기 | 이번 주 개념이 실제 분석, 탐지, exploit, forensic 판단에 쓰이는 지점을 쓴다. |
+| Review | 주간 회고와 자기 편집 | best artifact 1개를 골라 근거, 한계, 다음 질문을 정리한다. |
+
 
 ## 주간 산출물
 
-- 빌드 파이프라인 artifact와 symbol/relocation 분석 노트
-- daily-study 문서 7개
-- 개념 노트 또는 실습 로그 3개 이상
-- 다음 주로 넘길 질문 5개
+- Day 01-05 worksheet 5개와 `week-07-review` worksheet 1개
+- 대표 산출물 후보: source-to-execution 파이프라인 그림, nm/readelf/objdump로 본 symbol과 relocation 표, 간단한 함수의 CFG와 data-flow 노트
+- 주간 개념 지도 또는 실습 로그 3개 이상
+- 다음 주로 넘길 검증 가능한 질문 5개

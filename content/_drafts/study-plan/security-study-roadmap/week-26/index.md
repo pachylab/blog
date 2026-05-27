@@ -10,6 +10,7 @@ draft: true
 - CS 기초, 보안 분석, 도구 실습, 산출물을 매일 연결한다.
 - 매일 문서 하나만 보고도 읽을 자료, 정리할 개념, 실습, 복습 질문을 확인할 수 있게 기록한다.
 - 주말까지 Windows artifact timeline과 실행 흔적 분석 보고서을 완성한다.
+- 주간 연구 루프: advisory/CVE/paper/vendor patch note 중 1개를 30분 읽고 root cause, affected version, patch, primitive, detection idea를 5줄로 남긴다.
 
 ## 공부 자료
 - 보유 서적: 사이버 사고 대응 실무, 디지털 포렌식과 사고 대응 2/e, Windows Internals 7/e Vol.1/Vol.2, 시스인터널스 도구로 윈도우 문제 해결하기, 윈도우 레지스트리 포렌식 - IR triage, Windows artifact, registry forensics, Sysinternals workflow
@@ -31,23 +32,36 @@ draft: true
 
 ## 핵심 키워드
 
-registry hives, SYSTEM hive, SOFTWARE hive, NTUSER.DAT, Windows Event Log, Event ID, timestamp, Prefetch, ShimCache, AmCache, program execution, file path, last run time, execution evidence, SRUM, network usage, application usage, ESE database, energy usage, timeline, user activity, LNK, JumpList, Recycle Bin, shell item, file access, deleted file, browser history, cookies, browser cache, download history, SQLite, session restore, web artifact, timeline analysis, MACB, timezone, event correlation, artifact reliability, anti-forensics, registry, event log
+registry hives, SYSTEM hive, SOFTWARE hive, NTUSER.DAT, Windows Event Log, Event ID, timestamp, Prefetch, ShimCache, AmCache, program execution, file path, last run time, execution evidence, SRUM, network usage, application usage, ESE database, energy usage, timeline, user activity, LNK, JumpList, Recycle Bin, shell item, file access, deleted file, browser history, cookies, browser cache, download history, SQLite, session restore, web artifact
 
 ## 일별 계획
 
-| Day | 주제 | 핵심 키워드 | 산출물 |
+| 회차 | 주제 | 핵심 키워드 | 산출물 |
 |---|---|---|---|
 | Day 01 | registry hives와 event log | registry hives, SYSTEM hive, SOFTWARE hive, NTUSER.DAT, Windows Event Log, Event ID, timestamp | registry/event log evidence map |
 | Day 02 | Prefetch, ShimCache, AmCache | Prefetch, ShimCache, AmCache, program execution, file path, last run time, execution evidence | 실행 흔적 artifact 비교표 |
 | Day 03 | SRUM과 network/application usage | SRUM, network usage, application usage, ESE database, energy usage, timeline, user activity | SRUM으로 볼 수 있는 질문 목록 |
 | Day 04 | LNK, JumpList, Recycle Bin | LNK, JumpList, Recycle Bin, shell item, file access, deleted file, user activity | 사용자 행위 artifact 정리 |
 | Day 05 | browser history, cookies, cache | browser history, cookies, browser cache, download history, SQLite, session restore, web artifact | browser artifact timeline |
-| Day 06 | Windows timeline 통합 | timeline analysis, MACB, timezone, event correlation, artifact reliability, anti-forensics | Windows 실행/파일/웹 artifact 통합 timeline |
-| Day 07 | 주간 복습과 incident scoping | registry, event log, Prefetch, AmCache, SRUM, JumpList, browser history | Week 26 Windows DFIR mini report |
+| Review | 주간 복습과 forensic evidence 정리 | retrieval practice, concept map, best artifact, fact/inference/unknown, backlog pruning, next question | Week 26 주간 개념 지도와 다음 주 질문 5개 |
+
+## Week 26 글쓰기 훈련 흐름
+
+Week 26의 글쓰기는 Day 01-05에서 작은 산출물을 만들고, Review에서 하나를 골라 고치는 방식으로 운영한다.
+
+| 회차 | 쓰기 훈련 | 목적 |
+|---|---|---|
+| Day 01 | 관찰 로그 쓰기 | 오늘 산출물의 사실, 출력, 해석을 분리한다. |
+| Day 02 | 비교해서 설명하기 | 비슷한 개념의 차이를 표나 작은 예제로 설명한다. |
+| Day 03 | 근거와 조건 쓰기 | 어떤 관찰이 어떤 결론을 지지하는지 조건을 붙여 적는다. |
+| Day 04 | 한계와 반례 쓰기 | 단정하지 말고 깨지는 조건이나 예외를 같이 남긴다. |
+| Day 05 | 보안 분석 연결 쓰기 | 이번 주 개념이 실제 분석, 탐지, exploit, forensic 판단에 쓰이는 지점을 쓴다. |
+| Review | 주간 회고와 자기 편집 | best artifact 1개를 골라 근거, 한계, 다음 질문을 정리한다. |
+
 
 ## 주간 산출물
 
-- Windows artifact timeline과 실행 흔적 분석 보고서
-- daily-study 문서 7개
-- 개념 노트 또는 실습 로그 3개 이상
-- 다음 주로 넘길 질문 5개
+- Day 01-05 worksheet 5개와 `week-26-review` worksheet 1개
+- 대표 산출물 후보: registry/event log evidence map, 실행 흔적 artifact 비교표, SRUM으로 볼 수 있는 질문 목록
+- 주간 개념 지도 또는 실습 로그 3개 이상
+- 다음 주로 넘길 검증 가능한 질문 5개

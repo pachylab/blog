@@ -31,23 +31,36 @@ draft: true
 
 ## 핵심 키워드
 
-packet, frame, stream, PCAP, session reconstruction, tcp.stream, packet bytes, ARP, DHCP, routing table, firewall, NAT, default gateway, network segmentation, IDS, IPS, Zeek, Suricata, alert, eve.json, conn.log, dns.log, network IOC, JA3, JA4, TLS fingerprint, SNI, certificate, user-agent, C2, beaconing, DGA, domain fronting, payload staging, callback interval, jitter, network forensics, traffic timeline, exfiltration pattern, large upload, DNS tunneling intro, exfiltration
+packet, frame, stream, PCAP, session reconstruction, tcp.stream, packet bytes, ARP, DHCP, routing table, firewall, NAT, default gateway, network segmentation, IDS, IPS, Zeek, Suricata, alert, eve.json, conn.log, network IOC, JA3, JA4, TLS fingerprint, SNI, certificate, user-agent, C2, beaconing, DGA, domain fronting, payload staging, callback interval, jitter
 
 ## 일별 계획
 
-| Day | 주제 | 핵심 키워드 | 산출물 |
+| 회차 | 주제 | 핵심 키워드 | 산출물 |
 |---|---|---|---|
 | Day 01 | packet, frame, stream, PCAP 심화 | packet, frame, stream, PCAP, session reconstruction, tcp.stream, packet bytes | stream reconstruction 절차 노트 |
 | Day 02 | ARP, DHCP, routing table, firewall | ARP, DHCP, routing table, firewall, NAT, default gateway, network segmentation | 네트워크 환경 artifact 정리표 |
 | Day 03 | IDS/IPS와 Zeek/Suricata | IDS, IPS, Zeek, Suricata, alert, eve.json, conn.log | Zeek/Suricata 로그 필드 비교표 |
 | Day 04 | network IOC, JA3/JA4, TLS fingerprint | network IOC, JA3, JA4, TLS fingerprint, SNI, certificate, user-agent | network IOC 유형과 한계 정리 |
 | Day 05 | C2, beaconing, DGA, domain fronting | C2, beaconing, DGA, domain fronting, payload staging, callback interval, jitter | beaconing 시간 패턴 분석표 |
-| Day 06 | network forensics와 exfiltration pattern | network forensics, traffic timeline, exfiltration pattern, large upload, DNS tunneling intro, session reconstruction | PCAP 기반 traffic timeline |
-| Day 07 | 주간 복습과 탐지 룰 연결 | PCAP, IDS, network IOC, JA3, C2, beaconing, exfiltration | Week 10 network detection backlog |
+| Review | 주간 복습과 forensic evidence 정리 | retrieval practice, concept map, best artifact, fact/inference/unknown, backlog pruning, next question | Week 10 주간 개념 지도와 다음 주 질문 5개 |
+
+## Week 10 글쓰기 훈련 흐름
+
+Week 10의 글쓰기는 Day 01-05에서 작은 산출물을 만들고, Review에서 하나를 골라 고치는 방식으로 운영한다.
+
+| 회차 | 쓰기 훈련 | 목적 |
+|---|---|---|
+| Day 01 | 관찰 로그 쓰기 | 오늘 산출물의 사실, 출력, 해석을 분리한다. |
+| Day 02 | 비교해서 설명하기 | 비슷한 개념의 차이를 표나 작은 예제로 설명한다. |
+| Day 03 | 근거와 조건 쓰기 | 어떤 관찰이 어떤 결론을 지지하는지 조건을 붙여 적는다. |
+| Day 04 | 한계와 반례 쓰기 | 단정하지 말고 깨지는 조건이나 예외를 같이 남긴다. |
+| Day 05 | 보안 분석 연결 쓰기 | 이번 주 개념이 실제 분석, 탐지, exploit, forensic 판단에 쓰이는 지점을 쓴다. |
+| Review | 주간 회고와 자기 편집 | best artifact 1개를 골라 근거, 한계, 다음 질문을 정리한다. |
+
 
 ## 주간 산출물
 
-- PCAP timeline, network IOC, IDS rule 초안
-- daily-study 문서 7개
-- 개념 노트 또는 실습 로그 3개 이상
-- 다음 주로 넘길 질문 5개
+- Day 01-05 worksheet 5개와 `week-10-review` worksheet 1개
+- 대표 산출물 후보: stream reconstruction 절차 노트, 네트워크 환경 artifact 정리표, Zeek/Suricata 로그 필드 비교표
+- 주간 개념 지도 또는 실습 로그 3개 이상
+- 다음 주로 넘길 검증 가능한 질문 5개
