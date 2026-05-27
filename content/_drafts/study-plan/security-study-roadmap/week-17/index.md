@@ -1,73 +1,53 @@
 ---
-title: "17주차: Shellcode와 syscall 기반 exploit"
+title: "Week 17: anti-analysis, obfuscation, packing"
 draft: true
 ---
 
-# 17주차: Shellcode와 syscall 기반 exploit
+# Week 17: anti-analysis, obfuscation, packing
 
-## 기준
+## 주간 목표
 
-- 주 5일
-- 하루 2시간
-- 실습 70분, 개념 35분, 노트 15분을 기본 단위로 사용
+- CS 기초, 보안 분석, 도구 실습, 산출물을 매일 연결한다.
+- 매일 문서 하나만 보고도 읽을 자료, 정리할 개념, 실습, 복습 질문을 확인할 수 있게 기록한다.
+- 주말까지 anti-analysis 체크리스트와 unpacking 노트을 완성한다.
 
-## 참고 자료
+## 공부 자료
+- 보유 서적: 리버싱 핵심 원리, Learning Malware Analysis, 실전 리눅스 악성코드 분석 - packing, anti-debugging, anti-VM, unpacking workflow
 
-- pwn.college: Program Security shellcode
-- OST2 Architecture 1001
-- Dreamhack/HTB: shellcode and syscall practice
+- GDB manual: breakpoints, watchpoints, examining memory/registers, disassemble, backtrace
+- x64dbg documentation: breakpoints, memory map, modules, patching workflow
+- Microsoft Learn: WinDbg getting started, symbols, commands, user-mode debugging
+- Frida docs: JavaScript API, Interceptor.attach, Stalker 개요
+- Practical Malware Analysis: anti-debugging, packers, unpacking, shellcode analysis 관련 장
+- Malware Unicorn: unpacking, anti-analysis, deobfuscation workshops
+- Ghidra docs: patch instruction, define bytes/code, function recovery, references
+- x64dbg docs: Scylla/IAT reconstruction workflow와 OEP 찾기 개요
+- YARA documentation: rule syntax, strings, conditions, modules, performance considerations
+- CS:APP 3e: 7장 Linking 전체
+- CS:APP 7장 Linking, LLD docs: ELF/COFF/Wasm linkers, Ian Lance Taylor Linkers series: object files, symbols, relocation, dynamic linking 관련 부분
+- Crafting Interpreters: scanning/parsing, bytecode VM, compiler, garbage collection 관련 장
+- LLVM docs: IR, basic block, control-flow graph, SSA form 개요
+- Python docs: struct, subprocess, pathlib; pwntools docs: tubes, ELF helper
 
-## 연결 노트
+## 핵심 키워드
 
-### Security
+anti-debugging, IsDebuggerPresent, timing check, ptrace, breakpoint detection, debug register, exception trick, anti-VM, anti-sandbox, anti-tampering, VM artifact, sleep delay, environment check, checksum, obfuscation, deobfuscation, string encryption, API hashing, dead code, junk instruction, constant folding, control-flow flattening, opaque predicate, dispatcher loop, state variable, CFG recovery, data flow, packing, unpacking, OEP, entry point, memory dump, section entropy, import reconstruction, custom packer, IAT, Scylla, loader stub, relocation, anti-dump
 
-- [[_drafts/study-elements/security/system-hacking/shellcode|shellcode]]
-- [[_drafts/study-elements/security/system-hacking/nx|NX]]
-- [[_drafts/study-elements/security/system-hacking/pwntools|pwntools]]
+## 일별 계획
 
-### CS
+| Day | 주제 | 핵심 키워드 | 산출물 |
+|---|---|---|---|
+| Day 01 | anti-debugging | anti-debugging, IsDebuggerPresent, timing check, ptrace, breakpoint detection, debug register, exception trick | anti-debug signal과 우회/탐지 표 |
+| Day 02 | anti-VM, anti-sandbox, anti-tampering | anti-VM, anti-sandbox, anti-tampering, VM artifact, sleep delay, environment check, checksum | 환경 검사 항목과 오탐 가능성 표 |
+| Day 03 | obfuscation과 deobfuscation | obfuscation, deobfuscation, string encryption, API hashing, dead code, junk instruction, constant folding | 난독화 전후 evidence 비교 |
+| Day 04 | control-flow flattening과 opaque predicate | control-flow flattening, opaque predicate, dispatcher loop, state variable, CFG recovery, data flow | flattened CFG를 복원하는 메모 |
+| Day 05 | packing, OEP, dump | packing, unpacking, OEP, entry point, memory dump, section entropy, import reconstruction | packing 전후 section/import 비교표 |
+| Day 06 | custom packer와 import reconstruction | custom packer, import reconstruction, IAT, Scylla, loader stub, relocation, anti-dump | import reconstruction 절차와 실패 조건 |
+| Day 07 | 주간 복습과 분석 우선순위 | anti-debugging, anti-VM, obfuscation, control-flow flattening, packing, OEP, import reconstruction | Week 17 anti-analysis 대응 체크리스트 |
 
-- [[_drafts/study-elements/cs/operating-systems/memory-permission|memory permission]]
+## 주간 산출물
 
-### Platforms
-
-- [[_drafts/study-elements/platforms/linux/linux-syscall-convention|Linux syscall convention]]
-
-## 요일별 계획
-
-### 월요일
-
-- 개념: [[_drafts/study-elements/security/system-hacking/shellcode|shellcode]], [[_drafts/study-elements/cs/operating-systems/memory-permission|memory permission]]
-- 자료: pwn.college: Program Security shellcode
-- 노트: 이번 주 목표와 모르는 용어를 `_drafts`에 정리
-
-### 화요일
-
-- 실습: shellcode 문제를 풀고 syscall 인자와 메모리 권한 변화를 표로 정리한다.
-- 개념: [[_drafts/study-elements/security/system-hacking/nx|NX]], [[_drafts/study-elements/platforms/linux/linux-syscall-convention|Linux syscall convention]]
-- 노트: 실습 중 확인한 명령어, 주소, artifact를 짧게 기록
-
-### 수요일
-
-- 자료: OST2 Architecture 1001
-- 실습: 월/화에 막힌 부분을 debugger, disassembler, packet viewer 중 해당 도구로 재확인
-- 노트: 왜 막혔는지와 다음 확인 지점을 적기
-
-### 목요일
-
-- 실습: shellcode 문제를 풀고 syscall 인자와 메모리 권한 변화를 표로 정리한다.
-- 개념: [[_drafts/study-elements/security/system-hacking/pwntools|pwntools]]
-- 노트: 재현 절차를 lab 또는 wiki 초안으로 분리
-
-### 금요일
-
-- 산출물: shellcode lab writeup
-- 복습: 이번 주 개념 링크가 public wiki로 옮길 수준인지 표시
-- 정리: 다음 주에 이어갈 질문 3개 작성
-
-## 완료 기준
-
-- [ ] study log 2개 이상
-- [ ] wiki seed 2개 이상
-- [ ] 실습 또는 분석 산출물 1개
-- [ ] 막힌 지점과 해결 과정을 한 문단으로 정리
+- anti-analysis 체크리스트와 unpacking 노트
+- daily-study 문서 7개
+- 개념 노트 또는 실습 로그 3개 이상
+- 다음 주로 넘길 질문 5개

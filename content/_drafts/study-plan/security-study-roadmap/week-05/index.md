@@ -1,69 +1,53 @@
 ---
-title: "5주차: Stack, heap, malloc/free"
+title: "Week 05: virtual memory와 exploit mitigation"
 draft: true
 ---
 
-# 5주차: Stack, heap, malloc/free
+# Week 05: virtual memory와 exploit mitigation
 
-## 기준
+## 주간 목표
 
-- 주 5일
-- 하루 2시간
-- 실습 70분, 개념 35분, 노트 15분을 기본 단위로 사용
+- CS 기초, 보안 분석, 도구 실습, 산출물을 매일 연결한다.
+- 매일 문서 하나만 보고도 읽을 자료, 정리할 개념, 실습, 복습 질문을 확인할 수 있게 기록한다.
+- 주말까지 memory map 해석 노트, page fault 정리, mitigation 매트릭스을 완성한다.
 
-## 참고 자료
+## 공부 자료
+- 보유 서적: Computer Systems: A Programmer's Perspective, 컴퓨터시스템 딥다이브, 운영체제 - Stallings, 운영체제 - Silberschatz - virtual memory, page table, page fault, syscall, protection, user/kernel mode
 
-- Computer Systems: A Programmer's Perspective
-- OST2 Vulns1001 preview
+- OSTEP: Address Spaces, Memory API, Paging Introduction, Page Tables, TLBs, Swapping
+- CS:APP 3e: 9.1 Physical and Virtual Addressing, 9.4 VM as a Tool for Memory Management, 9.7 Memory Mapping
+- Linux man pages: mmap, mprotect, proc_pid_maps, pmap, readelf, checksec
+- Windows Internals Part 1: Memory Management 개요와 virtual address space 파트
+- CS:APP 3e: 6.1 Storage Technologies, 6.2 Locality, 6.4 Cache Memories
+- OSTEP: Paging: Faster Translations (TLBs), Paging: Smaller Tables
+- Computer Organization and Design: pipelining, branch prediction, cache organization 개요
+- pwn.college Program Security: Memory Errors, Program Misuse, Shellcode, ROP 관련 모듈
+- ROP Emporium: ret2win, split, callme, write4, fluff, pivot 단계별 문제
+- CS:APP 3e: 3.10 Combining Control and Data 중 exploit 관련 부분
+- how2heap: tcache, fastbin, unsorted bin, use-after-free, double-free 예제
+- glibc malloc source/wiki: chunk layout, bins, tcache 동작 개요
+- CS:APP 3e: 7장 Linking, executable object files, shared libraries, relocation
+- Microsoft Learn: PE format, import table, export table, base relocation table
 
-## 연결 노트
+## 핵심 키워드
 
-### CS
+virtual address space, virtual address, physical memory, MMU, address translation, page table, page, page fault, demand paging, TLB, minor fault, major fault, stack, heap, mmap, shared memory, copy-on-write, COW, memory permission, ASLR, DEP, NX, stack canary, information leak, memory corruption, mitigation bypass, PIE, RELRO, GOT, PLT, relocation, dynamic linking, checksec, proc_pid_maps, pmap, GDB, segmentation fault, core dump, virtual memory
 
-- [[_drafts/study-elements/cs/operating-systems/stack|stack]]
-- [[_drafts/study-elements/cs/operating-systems/heap|heap]]
-- [[_drafts/study-elements/cs/compilers-and-languages/malloc|malloc]]
-- [[_drafts/study-elements/cs/compilers-and-languages/free|free]]
+## 일별 계획
 
-### Security
+| Day | 주제 | 핵심 키워드 | 산출물 |
+|---|---|---|---|
+| Day 01 | virtual address space와 physical memory | virtual address space, virtual address, physical memory, MMU, address translation, page table | virtual-to-physical translation 흐름도 |
+| Day 02 | page, page table, page fault | page, page table, page fault, demand paging, TLB, minor fault, major fault | page fault 유형과 원인 정리표 |
+| Day 03 | stack, heap, mmap, shared memory | stack, heap, mmap, shared memory, copy-on-write, COW, memory permission | memory region별 생성/권한/lifetime 표 |
+| Day 04 | ASLR, DEP/NX, stack canary | ASLR, DEP, NX, stack canary, information leak, memory corruption, mitigation bypass | mitigation별 막는 공격과 우회 조건 표 |
+| Day 05 | PIE, RELRO, dynamic relocation | PIE, RELRO, GOT, PLT, relocation, dynamic linking, checksec | checksec 결과 해석과 GOT/PLT 연결 노트 |
+| Day 06 | memory map과 crash 원인 분석 실습 | proc_pid_maps, pmap, GDB, segmentation fault, page fault, memory permission, core dump | crash 주소를 memory map으로 해석한 실습 로그 |
+| Day 07 | 주간 복습과 exploit/forensics 연결 | virtual memory, page table, stack, heap, ASLR, NX, RELRO | Week 05 memory와 mitigation 개념 지도 |
 
-- [[_drafts/study-elements/security/system-hacking/use-after-free|Use After Free]]
+## 주간 산출물
 
-## 요일별 계획
-
-### 월요일
-
-- 개념: [[_drafts/study-elements/cs/operating-systems/stack|stack]], [[_drafts/study-elements/cs/operating-systems/heap|heap]]
-- 자료: Computer Systems: A Programmer's Perspective
-- 노트: 이번 주 목표와 모르는 용어를 `_drafts`에 정리
-
-### 화요일
-
-- 실습: stack/heap toy program, malloc/free, UAF/double free를 sanitizer와 GDB로 관찰한다.
-- 개념: [[_drafts/study-elements/cs/compilers-and-languages/malloc|malloc]], [[_drafts/study-elements/cs/compilers-and-languages/free|free]]
-- 노트: 실습 중 확인한 명령어, 주소, artifact를 짧게 기록
-
-### 수요일
-
-- 자료: OST2 Vulns1001 preview
-- 실습: 월/화에 막힌 부분을 debugger, disassembler, packet viewer 중 해당 도구로 재확인
-- 노트: 왜 막혔는지와 다음 확인 지점을 적기
-
-### 목요일
-
-- 실습: stack/heap toy program, malloc/free, UAF/double free를 sanitizer와 GDB로 관찰한다.
-- 개념: [[_drafts/study-elements/security/system-hacking/use-after-free|Use After Free]]
-- 노트: 재현 절차를 lab 또는 wiki 초안으로 분리
-
-### 금요일
-
-- 산출물: stack vs heap 노트와 UAF toy lab 초안
-- 복습: 이번 주 개념 링크가 public wiki로 옮길 수준인지 표시
-- 정리: 다음 주에 이어갈 질문 3개 작성
-
-## 완료 기준
-
-- [ ] study log 2개 이상
-- [ ] wiki seed 2개 이상
-- [ ] 실습 또는 분석 산출물 1개
-- [ ] 막힌 지점과 해결 과정을 한 문단으로 정리
+- memory map 해석 노트, page fault 정리, mitigation 매트릭스
+- daily-study 문서 7개
+- 개념 노트 또는 실습 로그 3개 이상
+- 다음 주로 넘길 질문 5개

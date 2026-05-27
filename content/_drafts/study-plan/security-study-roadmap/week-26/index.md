@@ -1,69 +1,53 @@
 ---
-title: "26주차: 악성코드 정적 분석"
+title: "Week 26: Windows DFIR artifacts"
 draft: true
 ---
 
-# 26주차: 악성코드 정적 분석
+# Week 26: Windows DFIR artifacts
 
-## 기준
+## 주간 목표
 
-- 주 5일
-- 하루 2시간
-- 실습 70분, 개념 35분, 노트 15분을 기본 단위로 사용
+- CS 기초, 보안 분석, 도구 실습, 산출물을 매일 연결한다.
+- 매일 문서 하나만 보고도 읽을 자료, 정리할 개념, 실습, 복습 질문을 확인할 수 있게 기록한다.
+- 주말까지 Windows artifact timeline과 실행 흔적 분석 보고서을 완성한다.
 
-## 참고 자료
+## 공부 자료
+- 보유 서적: 사이버 사고 대응 실무, 디지털 포렌식과 사고 대응 2/e, Windows Internals 7/e Vol.1/Vol.2, 시스인터널스 도구로 윈도우 문제 해결하기, 윈도우 레지스트리 포렌식 - IR triage, Windows artifact, registry forensics, Sysinternals workflow
 
-- Practical Malware Analysis
-- Malware Analysis and Reverse Engineering
-- SANS FOR610 syllabus checklist
-- YARA/capa docs
-- HTB/Dreamhack: malware and reversing labs
+- Windows Internals Part 1: Concepts and Tools, System Architecture, Processes/Threads/Jobs, Memory Management, Security
+- Windows Internals Part 2: I/O System, Storage Management, Registry, Services, WMI 관련 장
+- Microsoft Learn: Registry hives, Event Log, Prefetch, Task Scheduler, Services, ETW 개요
+- 13Cubed Windows Forensics: Registry, Prefetch, ShimCache, AmCache, SRUM, LNK/JumpList 강의 범위
+- YARA documentation: rule syntax, strings, conditions, modules, performance considerations
+- Sigma specification: logsource, detection, condition, fields, false positives
+- Sysinternals Sysmon docs: Event ID 1, 3, 7, 11, 12-14, 22 중심
+- MITRE ATT&CK: detection and data sources mapping
+- File System Forensic Analysis: file systems, metadata, timeline, deleted file recovery 관련 장
+- The Linux Command Line 2판: 1장 What Is the Shell?, 2장 Navigation, 3장 Exploring the System, 5장 Working with Commands, 6장 Redirection
+- pwn.college Start Here: Using the Terminal, SSH, file navigation 관련 챌린지
+- man pages: bash 또는 sh, pwd, cd, ls, file, stat, find, grep, xxd
+- Linux man pages: stat, inode, ln, mount, debugfs, fsck, find
+- CS:APP 3e: 6.1 Storage Technologies, 6.2 Locality, 6.4 Cache Memories
 
-## 연결 노트
+## 핵심 키워드
 
-### Security
+registry hives, SYSTEM hive, SOFTWARE hive, NTUSER.DAT, Windows Event Log, Event ID, timestamp, Prefetch, ShimCache, AmCache, program execution, file path, last run time, execution evidence, SRUM, network usage, application usage, ESE database, energy usage, timeline, user activity, LNK, JumpList, Recycle Bin, shell item, file access, deleted file, browser history, cookies, browser cache, download history, SQLite, session restore, web artifact, timeline analysis, MACB, timezone, event correlation, artifact reliability, anti-forensics, registry, event log
 
-- [[_drafts/study-elements/security/malware-analysis/malware-triage|malware triage]]
-- [[_drafts/study-elements/security/malware-analysis/ioc|IOC]]
-- [[_drafts/study-elements/security/malware-analysis/yara|YARA]]
-- [[_drafts/study-elements/security/malware-analysis/api-hashing|API Hashing]]
-- [[_drafts/study-elements/security/malware-analysis/string-encryption|string encryption]]
+## 일별 계획
 
-## 요일별 계획
+| Day | 주제 | 핵심 키워드 | 산출물 |
+|---|---|---|---|
+| Day 01 | registry hives와 event log | registry hives, SYSTEM hive, SOFTWARE hive, NTUSER.DAT, Windows Event Log, Event ID, timestamp | registry/event log evidence map |
+| Day 02 | Prefetch, ShimCache, AmCache | Prefetch, ShimCache, AmCache, program execution, file path, last run time, execution evidence | 실행 흔적 artifact 비교표 |
+| Day 03 | SRUM과 network/application usage | SRUM, network usage, application usage, ESE database, energy usage, timeline, user activity | SRUM으로 볼 수 있는 질문 목록 |
+| Day 04 | LNK, JumpList, Recycle Bin | LNK, JumpList, Recycle Bin, shell item, file access, deleted file, user activity | 사용자 행위 artifact 정리 |
+| Day 05 | browser history, cookies, cache | browser history, cookies, browser cache, download history, SQLite, session restore, web artifact | browser artifact timeline |
+| Day 06 | Windows timeline 통합 | timeline analysis, MACB, timezone, event correlation, artifact reliability, anti-forensics | Windows 실행/파일/웹 artifact 통합 timeline |
+| Day 07 | 주간 복습과 incident scoping | registry, event log, Prefetch, AmCache, SRUM, JumpList, browser history | Week 26 Windows DFIR mini report |
 
-### 월요일
+## 주간 산출물
 
-- 개념: [[_drafts/study-elements/security/malware-analysis/malware-triage|malware triage]], [[_drafts/study-elements/security/malware-analysis/ioc|IOC]]
-- 자료: Practical Malware Analysis
-- 노트: 이번 주 목표와 모르는 용어를 `_drafts`에 정리
-
-### 화요일
-
-- 실습: 샘플 대신 toy binary로 hash, strings, imports, section anomaly를 triage한다.
-- 개념: [[_drafts/study-elements/security/malware-analysis/yara|YARA]], [[_drafts/study-elements/security/malware-analysis/api-hashing|API Hashing]]
-- 노트: 실습 중 확인한 명령어, 주소, artifact를 짧게 기록
-
-### 수요일
-
-- 자료: Malware Analysis and Reverse Engineering
-- 실습: 월/화에 막힌 부분을 debugger, disassembler, packet viewer 중 해당 도구로 재확인
-- 노트: 왜 막혔는지와 다음 확인 지점을 적기
-
-### 목요일
-
-- 실습: 샘플 대신 toy binary로 hash, strings, imports, section anomaly를 triage한다.
-- 개념: [[_drafts/study-elements/security/malware-analysis/string-encryption|string encryption]]
-- 노트: 재현 절차를 lab 또는 wiki 초안으로 분리
-
-### 금요일
-
-- 산출물: static malware analysis checklist
-- 복습: 이번 주 개념 링크가 public wiki로 옮길 수준인지 표시
-- 정리: 다음 주에 이어갈 질문 3개 작성
-
-## 완료 기준
-
-- [ ] study log 2개 이상
-- [ ] wiki seed 2개 이상
-- [ ] 실습 또는 분석 산출물 1개
-- [ ] 막힌 지점과 해결 과정을 한 문단으로 정리
+- Windows artifact timeline과 실행 흔적 분석 보고서
+- daily-study 문서 7개
+- 개념 노트 또는 실습 로그 3개 이상
+- 다음 주로 넘길 질문 5개

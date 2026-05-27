@@ -1,70 +1,52 @@
 ---
-title: "21주차: ret2libc와 ASLR 우회"
+title: "Week 21: heap internals와 heap exploitation"
 draft: true
 ---
 
-# 21주차: ret2libc와 ASLR 우회
+# Week 21: heap internals와 heap exploitation
 
-## 기준
+## 주간 목표
 
-- 주 5일
-- 하루 2시간
-- 실습 70분, 개념 35분, 노트 15분을 기본 단위로 사용
+- CS 기초, 보안 분석, 도구 실습, 산출물을 매일 연결한다.
+- 매일 문서 하나만 보고도 읽을 자료, 정리할 개념, 실습, 복습 질문을 확인할 수 있게 기록한다.
+- 주말까지 heap allocator 구조와 UAF/double-free 실습 노트을 완성한다.
 
-## 참고 자료
+## 공부 자료
+- 보유 서적: 해킹: 공격의 예술, 전문가를 위한 C, The Shellcoder's Handbook - heap object lifetime, UAF, double free, allocator behavior
 
-- pwn.college: Program Exploitation
-- pwntools docs
-- Dreamhack/HTB: ret2libc and leak practice
+- OSTEP: Address Spaces, Memory API, Paging Introduction, Page Tables, TLBs, Swapping
+- CS:APP 3e: 9.1 Physical and Virtual Addressing, 9.4 VM as a Tool for Memory Management, 9.7 Memory Mapping
+- Linux man pages: mmap, mprotect, proc_pid_maps, pmap, readelf, checksec
+- Windows Internals Part 1: Memory Management 개요와 virtual address space 파트
+- pwn.college Program Security: Memory Errors, Program Misuse, Shellcode, ROP 관련 모듈
+- ROP Emporium: ret2win, split, callme, write4, fluff, pivot 단계별 문제
+- CS:APP 3e: 3.10 Combining Control and Data 중 exploit 관련 부분
+- how2heap: tcache, fastbin, unsorted bin, use-after-free, double-free 예제
+- glibc malloc source/wiki: chunk layout, bins, tcache 동작 개요
+- The C Programming Language: 5장 Pointers and Arrays, 6장 Structures
+- Modern C: objects, pointers, arrays, structs, integer types, undefined behavior 관련 장
+- CS:APP 3e: 3.8 Array Allocation and Access, 3.9 Heterogeneous Data Structures, 3.10 buffer overflow 관련 부분
+- cppreference 또는 Microsoft Learn: function pointer, struct padding, object lifetime
 
-## 연결 노트
+## 핵심 키워드
 
-### Security
+heap internals, malloc, free, chunk metadata, arena, top chunk, heap layout, fastbin, tcache, unsorted bin, bin list, freelist, safe-linking, allocator state, Use After Free, UAF, dangling pointer, object lifetime, type confusion intro, heap reuse, double free, tcache poisoning, freelist corruption, arbitrary allocation, write primitive, out-of-bounds write, type confusion, object layout, vtable, fake object, heap overflow, heap feng shui, heap grooming, allocation pattern, free order, determinism, exploit reliability
 
-- [[_drafts/study-elements/security/system-hacking/ret2libc|ret2libc]]
-- [[_drafts/study-elements/security/system-hacking/libc-base|libc base]]
-- [[_drafts/study-elements/security/system-hacking/address-leak|address leak]]
+## 일별 계획
 
-### CS
+| Day | 주제 | 핵심 키워드 | 산출물 |
+|---|---|---|---|
+| Day 01 | heap internals와 malloc/free | heap internals, malloc, free, chunk metadata, arena, top chunk, heap layout | heap chunk layout 그림 |
+| Day 02 | fastbin, tcache, unsorted bin | fastbin, tcache, unsorted bin, bin list, freelist, safe-linking, allocator state | glibc bin별 조건과 위험 표 |
+| Day 03 | Use After Free | Use After Free, UAF, dangling pointer, object lifetime, type confusion intro, heap reuse | UAF 발생과 재사용 흐름도 |
+| Day 04 | double free와 tcache poisoning | double free, tcache poisoning, freelist corruption, safe-linking, arbitrary allocation, write primitive | double free 제약과 우회 조건표 |
+| Day 05 | out-of-bounds와 type confusion | out-of-bounds write, type confusion, object layout, vtable, fake object, heap overflow | heap object corruption 예제 분석 |
+| Day 06 | heap feng shui와 exploit grooming | heap feng shui, heap grooming, allocation pattern, free order, determinism, exploit reliability | heap grooming 계획과 실패 원인 |
+| Day 07 | 주간 복습과 heap primitive 정리 | heap internals, fastbin, tcache, UAF, double free, type confusion, heap feng shui | Week 21 heap exploitation concept map |
 
-- [[_drafts/study-elements/cs/binary-formats/got|GOT]]
-- [[_drafts/study-elements/cs/binary-formats/plt|PLT]]
+## 주간 산출물
 
-## 요일별 계획
-
-### 월요일
-
-- 개념: [[_drafts/study-elements/security/system-hacking/ret2libc|ret2libc]], [[_drafts/study-elements/security/system-hacking/libc-base|libc base]]
-- 자료: pwn.college: Program Exploitation
-- 노트: 이번 주 목표와 모르는 용어를 `_drafts`에 정리
-
-### 화요일
-
-- 실습: leak → libc base 계산 → system('/bin/sh') 흐름을 반복한다.
-- 개념: [[_drafts/study-elements/security/system-hacking/address-leak|address leak]], [[_drafts/study-elements/cs/binary-formats/got|GOT]]
-- 노트: 실습 중 확인한 명령어, 주소, artifact를 짧게 기록
-
-### 수요일
-
-- 자료: pwntools docs
-- 실습: 월/화에 막힌 부분을 debugger, disassembler, packet viewer 중 해당 도구로 재확인
-- 노트: 왜 막혔는지와 다음 확인 지점을 적기
-
-### 목요일
-
-- 실습: leak → libc base 계산 → system('/bin/sh') 흐름을 반복한다.
-- 개념: [[_drafts/study-elements/cs/binary-formats/plt|PLT]]
-- 노트: 재현 절차를 lab 또는 wiki 초안으로 분리
-
-### 금요일
-
-- 산출물: ret2libc writeup과 계산 노트
-- 복습: 이번 주 개념 링크가 public wiki로 옮길 수준인지 표시
-- 정리: 다음 주에 이어갈 질문 3개 작성
-
-## 완료 기준
-
-- [ ] study log 2개 이상
-- [ ] wiki seed 2개 이상
-- [ ] 실습 또는 분석 산출물 1개
-- [ ] 막힌 지점과 해결 과정을 한 문단으로 정리
+- heap allocator 구조와 UAF/double-free 실습 노트
+- daily-study 문서 7개
+- 개념 노트 또는 실습 로그 3개 이상
+- 다음 주로 넘길 질문 5개

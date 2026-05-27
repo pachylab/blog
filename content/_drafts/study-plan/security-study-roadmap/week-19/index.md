@@ -1,67 +1,53 @@
 ---
-title: "19주차: Mitigation과 leak 사고방식"
+title: "Week 19: system hacking: stack overflow 입문"
 draft: true
 ---
 
-# 19주차: Mitigation과 leak 사고방식
+# Week 19: system hacking: stack overflow 입문
 
-## 기준
+## 주간 목표
 
-- 주 5일
-- 하루 2시간
-- 실습 70분, 개념 35분, 노트 15분을 기본 단위로 사용
+- CS 기초, 보안 분석, 도구 실습, 산출물을 매일 연결한다.
+- 매일 문서 하나만 보고도 읽을 자료, 정리할 개념, 실습, 복습 질문을 확인할 수 있게 기록한다.
+- 주말까지 stack overflow writeup와 exploit primitive 노트을 완성한다.
 
-## 참고 자료
+## 공부 자료
+- 보유 서적: 해킹: 공격의 예술, The Shellcoder's Handbook, 메타스플로잇 - stack overflow, shellcode, exploit validation
 
-- pwn.college: Program Security
-- Practical Binary Analysis
-- Dreamhack/HTB: ASLR, canary, PIE, NX practice
+- pwn.college Program Security: Memory Errors, Program Misuse, Shellcode, ROP 관련 모듈
+- ROP Emporium: ret2win, split, callme, write4, fluff, pivot 단계별 문제
+- CS:APP 3e: 3.10 Combining Control and Data 중 exploit 관련 부분
+- how2heap: tcache, fastbin, unsorted bin, use-after-free, double-free 예제
+- glibc malloc source/wiki: chunk layout, bins, tcache 동작 개요
+- CS:APP 3e: 2.1 Information Storage, 2.2 Integer Representations, 2.3 Integer Arithmetic
+- 해커의 기쁨(Hacker's Delight): 1장 Introduction, 2장 Basics 중 bit 연산과 정수 표현
+- C reference: stdint.h, limits.h, integer conversion, signed overflow의 undefined behavior
+- OSTEP: Address Spaces, Memory API, Paging Introduction, Page Tables, TLBs, Swapping
+- CS:APP 3e: 9.1 Physical and Virtual Addressing, 9.4 VM as a Tool for Memory Management, 9.7 Memory Mapping
+- Linux man pages: mmap, mprotect, proc_pid_maps, pmap, readelf, checksec
+- Windows Internals Part 1: Memory Management 개요와 virtual address space 파트
+- GDB manual: breakpoints, watchpoints, examining memory/registers, disassemble, backtrace
+- x64dbg documentation: breakpoints, memory map, modules, patching workflow
 
-## 연결 노트
+## 핵심 키워드
 
-### Security
+vulnerability, exploit, exploit primitive, crash, control primitive, read primitive, write primitive, stack overflow, buffer overflow, stack frame, local buffer, saved RBP, return address overwrite, crash analysis, cyclic pattern, offset, GDB, core dump, RIP control, segmentation fault, ret2win, calling convention, stack alignment, win function, payload layout, shellcode intro, NX, executable stack, syscall, bad character, payload encoding, pwntools, process, remote, sendline, recvuntil, ELF helper, exploit script
 
-- [[_drafts/study-elements/security/system-hacking/aslr|ASLR]]
-- [[_drafts/study-elements/security/system-hacking/pie|PIE]]
-- [[_drafts/study-elements/security/system-hacking/stack-canary|stack canary]]
-- [[_drafts/study-elements/security/system-hacking/relro|RELRO]]
-- [[_drafts/study-elements/security/system-hacking/address-leak|address leak]]
+## 일별 계획
 
-## 요일별 계획
+| Day | 주제 | 핵심 키워드 | 산출물 |
+|---|---|---|---|
+| Day 01 | vulnerability, exploit, exploit primitive | vulnerability, exploit, exploit primitive, crash, control primitive, read primitive, write primitive | bug/vulnerability/exploit/primitive 구분표 |
+| Day 02 | stack overflow와 buffer overflow | stack overflow, buffer overflow, stack frame, local buffer, saved RBP, return address overwrite | stack overflow 메모리 그림 |
+| Day 03 | crash 분석과 offset 계산 | crash analysis, cyclic pattern, offset, GDB, core dump, RIP control, segmentation fault | cyclic offset 계산 로그 |
+| Day 04 | ret2win 기초 | ret2win, return address overwrite, calling convention, stack alignment, win function, payload layout | ret2win payload 구조와 성공 조건 |
+| Day 05 | shellcode와 NX 관계 맛보기 | shellcode intro, NX, executable stack, syscall, bad character, payload encoding | NX on/off 전략 비교 노트 |
+| Day 06 | pwntools exploit skeleton | pwntools, process, remote, sendline, recvuntil, ELF helper, exploit script | 재사용 가능한 pwntools skeleton |
+| Day 07 | 주간 복습과 stack exploit report | exploit primitive, stack overflow, offset, ret2win, NX, pwntools, RIP control | Week 19 stack overflow writeup |
 
-### 월요일
+## 주간 산출물
 
-- 개념: [[_drafts/study-elements/security/system-hacking/aslr|ASLR]], [[_drafts/study-elements/security/system-hacking/pie|PIE]]
-- 자료: pwn.college: Program Security
-- 노트: 이번 주 목표와 모르는 용어를 `_drafts`에 정리
-
-### 화요일
-
-- 실습: checksec 결과별로 필요한 정보와 가능한 우회 전략을 먼저 적고 exploit을 시도한다.
-- 개념: [[_drafts/study-elements/security/system-hacking/stack-canary|stack canary]], [[_drafts/study-elements/security/system-hacking/relro|RELRO]]
-- 노트: 실습 중 확인한 명령어, 주소, artifact를 짧게 기록
-
-### 수요일
-
-- 자료: Practical Binary Analysis
-- 실습: 월/화에 막힌 부분을 debugger, disassembler, packet viewer 중 해당 도구로 재확인
-- 노트: 왜 막혔는지와 다음 확인 지점을 적기
-
-### 목요일
-
-- 실습: checksec 결과별로 필요한 정보와 가능한 우회 전략을 먼저 적고 exploit을 시도한다.
-- 개념: [[_drafts/study-elements/security/system-hacking/address-leak|address leak]]
-- 노트: 재현 절차를 lab 또는 wiki 초안으로 분리
-
-### 금요일
-
-- 산출물: mitigation matrix
-- 복습: 이번 주 개념 링크가 public wiki로 옮길 수준인지 표시
-- 정리: 다음 주에 이어갈 질문 3개 작성
-
-## 완료 기준
-
-- [ ] study log 2개 이상
-- [ ] wiki seed 2개 이상
-- [ ] 실습 또는 분석 산출물 1개
-- [ ] 막힌 지점과 해결 과정을 한 문단으로 정리
+- stack overflow writeup와 exploit primitive 노트
+- daily-study 문서 7개
+- 개념 노트 또는 실습 로그 3개 이상
+- 다음 주로 넘길 질문 5개

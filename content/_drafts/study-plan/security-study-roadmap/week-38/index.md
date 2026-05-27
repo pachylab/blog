@@ -1,67 +1,54 @@
 ---
-title: "38주차: 통합 사례 2: pwn-to-reversing"
+title: "Week 38: integrated exploit project, N-day, secure patching"
 draft: true
 ---
 
-# 38주차: 통합 사례 2: pwn-to-reversing
+# Week 38: integrated exploit project, N-day, secure patching
 
-## 기준
+## 주간 목표
 
-- 주 5일
-- 하루 2시간
-- 실습 70분, 개념 35분, 노트 15분을 기본 단위로 사용
+- CS 기초, 보안 분석, 도구 실습, 산출물을 매일 연결한다.
+- 매일 문서 하나만 보고도 읽을 자료, 정리할 개념, 실습, 복습 질문을 확인할 수 있게 기록한다.
+- 주말까지 취약점 분석, exploit, patch 영향 보고서을 완성한다.
 
-## 참고 자료
+## 공부 자료
+- 보유 서적: 실전 바이너리 분석, The Shellcoder's Handbook, 메타스플로잇 - N-day reproduction, patch diffing, PoC reliability
 
-- pwn.college: Program Security
-- Practical Binary Analysis
-- OST2 Vulns1001/1002
+- pwn.college Program Security: Memory Errors, Program Misuse, Shellcode, ROP 관련 모듈
+- ROP Emporium: ret2win, split, callme, write4, fluff, pivot 단계별 문제
+- CS:APP 3e: 3.10 Combining Control and Data 중 exploit 관련 부분
+- how2heap: tcache, fastbin, unsorted bin, use-after-free, double-free 예제
+- glibc malloc source/wiki: chunk layout, bins, tcache 동작 개요
+- AFL++ docs: instrumentation, corpus, crashes, afl-tmin/afl-cmin workflow
+- LLVM Sanitizers docs: AddressSanitizer, UndefinedBehaviorSanitizer, coverage instrumentation
+- angr docs: symbolic execution, state, solver, constraints, CFGFast 개요
+- Z3Py guide: bit-vectors, constraints, solver model 읽기
+- BinDiff 또는 Diaphora docs: patch diffing and function matching 개요
+- 공개 N-day advisory/vendor patch note: affected version, root cause, proof of concept, patch impact, exploit reliability 확인
+- The C Programming Language: 5장 Pointers and Arrays, 6장 Structures
+- Modern C: objects, pointers, arrays, structs, integer types, undefined behavior 관련 장
+- CS:APP 3e: 3.8 Array Allocation and Access, 3.9 Heterogeneous Data Structures, 3.10 buffer overflow 관련 부분
+- cppreference 또는 Microsoft Learn: function pointer, struct padding, object lifetime
 
-## 연결 노트
+## 핵심 키워드
 
-### Security
+target selection, threat model, attack surface, input parser, trust boundary, vulnerability hypothesis, crash discovery, fuzzing, sanitizer, crash triage, root cause, reproducer, minimized input, exploit primitive, out-of-bounds write, arbitrary read, arbitrary write, control-flow hijack, information leak, ROP, ret2libc, ASLR, NX, canary, PIE, RELRO, seccomp, N-day exploit, proof of concept, exploit reliability, environment porting, patch design, bounds check, integer validation, memory safety, regression test, negative test, secure coding, patch diffing, variant analysis, changed basic block, root cause pattern, code audit, similar bug
 
-- [[_drafts/study-elements/security/system-hacking/crash-analysis|crash analysis]]
-- [[_drafts/study-elements/security/reverse-engineering/patch-diffing|patch diffing]]
-- [[_drafts/study-elements/security/system-hacking/rop|ROP]]
-- [[_drafts/study-elements/security/system-hacking/heap-allocator|heap allocator]]
-- [[_drafts/study-elements/security/system-hacking/exploit-primitive|exploit primitive]]
+## 일별 계획
 
-## 요일별 계획
+| Day | 주제 | 핵심 키워드 | 산출물 |
+|---|---|---|---|
+| Day 01 | target selection과 threat model | target selection, threat model, attack surface, input parser, trust boundary, vulnerability hypothesis | 대상과 공격면 정의서 |
+| Day 02 | crash discovery와 root cause | crash discovery, fuzzing, sanitizer, crash triage, root cause, reproducer, minimized input | crash root cause 분석표 |
+| Day 03 | primitive development | exploit primitive, out-of-bounds write, arbitrary read, arbitrary write, control-flow hijack, information leak | primitive 확인 로그 |
+| Day 04 | exploit chain와 mitigation bypass | ROP, ret2libc, ASLR, NX, canary, PIE, RELRO, N-day exploit, exploit reliability | exploit chain과 mitigation matrix |
+| Day 05 | patch design와 regression test | patch design, bounds check, integer validation, memory safety, regression test, negative test, secure coding | 패치 설계와 테스트 케이스 |
+| Day 06 | patch diffing와 variant search | patch diffing, variant analysis, changed basic block, root cause pattern, code audit, similar bug | variant search 결과표 |
+| Day 07 | 주간 복습과 exploit report | threat model, crash triage, exploit primitive, ROP, patch design, patch diffing, variant analysis | Week 38 exploit and patch report |
 
-### 월요일
+## 주간 산출물
 
-- 개념: [[_drafts/study-elements/security/system-hacking/crash-analysis|crash analysis]], [[_drafts/study-elements/security/reverse-engineering/patch-diffing|patch diffing]]
-- 자료: pwn.college: Program Security
-- 노트: 이번 주 목표와 모르는 용어를 `_drafts`에 정리
-
-### 화요일
-
-- 실습: 취약 바이너리 하나를 RE로 원인 분석하고 pwn 관점 writeup으로 연결한다.
-- 개념: [[_drafts/study-elements/security/system-hacking/rop|ROP]], [[_drafts/study-elements/security/system-hacking/heap-allocator|heap allocator]]
-- 노트: 실습 중 확인한 명령어, 주소, artifact를 짧게 기록
-
-### 수요일
-
-- 자료: Practical Binary Analysis
-- 실습: 월/화에 막힌 부분을 debugger, disassembler, packet viewer 중 해당 도구로 재확인
-- 노트: 왜 막혔는지와 다음 확인 지점을 적기
-
-### 목요일
-
-- 실습: 취약 바이너리 하나를 RE로 원인 분석하고 pwn 관점 writeup으로 연결한다.
-- 개념: [[_drafts/study-elements/security/system-hacking/exploit-primitive|exploit primitive]]
-- 노트: 재현 절차를 lab 또는 wiki 초안으로 분리
-
-### 금요일
-
-- 산출물: binary vulnerability writeup
-- 복습: 이번 주 개념 링크가 public wiki로 옮길 수준인지 표시
-- 정리: 다음 주에 이어갈 질문 3개 작성
-
-## 완료 기준
-
-- [ ] study log 2개 이상
-- [ ] wiki seed 2개 이상
-- [ ] 실습 또는 분석 산출물 1개
-- [ ] 막힌 지점과 해결 과정을 한 문단으로 정리
+- 취약점 분석, exploit, patch 영향 보고서
+- daily-study 문서 7개
+- 개념 노트 또는 실습 로그 3개 이상
+- 다음 주로 넘길 질문 5개

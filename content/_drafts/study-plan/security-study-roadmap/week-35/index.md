@@ -1,68 +1,53 @@
 ---
-title: "35주차: 암호학 기초와 TLS"
+title: "Week 35: math foundations for security analysis"
 draft: true
 ---
 
-# 35주차: 암호학 기초와 TLS
+# Week 35: math foundations for security analysis
 
-## 기준
+## 주간 목표
 
-- 주 5일
-- 하루 2시간
-- 실습 70분, 개념 35분, 노트 15분을 기본 단위로 사용
+- CS 기초, 보안 분석, 도구 실습, 산출물을 매일 연결한다.
+- 매일 문서 하나만 보고도 읽을 자료, 정리할 개념, 실습, 복습 질문을 확인할 수 있게 기록한다.
+- 주말까지 수학 개념과 보안 적용 문제 풀이 노트을 완성한다.
 
-## 참고 자료
+## 공부 자료
+- 보유 서적: Concrete Mathematics, Cryptography & Network Security - probability, entropy, information theory, crypto security intuition
 
-- Serious Cryptography
-- Cryptography Engineering
-- Computer Networking: A Top-Down Approach
-- CryptoHack and TLS hands-on labs
+- The C Programming Language: 5장 Pointers and Arrays, 6장 Structures
+- Modern C: objects, pointers, arrays, structs, integer types, undefined behavior 관련 장
+- CS:APP 3e: 3.8 Array Allocation and Access, 3.9 Heterogeneous Data Structures, 3.10 buffer overflow 관련 부분
+- cppreference 또는 Microsoft Learn: function pointer, struct padding, object lifetime
+- CLRS: 2장 알고리즘 기초, 6장 Heapsort, 10장 Elementary Data Structures, 11장 Hash Tables, 22장 Elementary Graph Algorithms
+- MIT 6.042J Mathematics for Computer Science: sets, relations, functions, probability, graph theory 관련 강의
+- Algorithms 4th: sorting, searching, graph, string processing 관련 장
+- Z3Py guide: bit-vector, modular arithmetic, constraint solving 예제
+- YARA documentation: rule syntax, strings, conditions, modules, performance considerations
+- CS:APP 3e: 2.1 Information Storage, 2.2 Integer Representations, 2.3 Integer Arithmetic
+- 해커의 기쁨(Hacker's Delight): 1장 Introduction, 2장 Basics 중 bit 연산과 정수 표현
+- C reference: stdint.h, limits.h, integer conversion, signed overflow의 undefined behavior
+- Serious Cryptography: hash, MAC, authenticated encryption, public-key crypto 관련 장
+- Cryptopals Set 1: hex/Base64/XOR/repeating-key XOR, Set 2: block cipher modes and padding
 
-## 연결 노트
+## 핵심 키워드
 
-### CS
+string matching, regex, finite automaton, DFA, NFA, pattern matching, YARA condition, boolean algebra, set, relation, function, predicate, truth table, logic simplification, modular arithmetic, bit vector, two complement, wraparound, XOR, rotate, constraint, SMT, Z3, solver model, path condition, symbolic execution, satisfiability, probability, statistics, entropy, information theory, base rate, false positive, anomaly detection, graph theory, control-flow graph, call graph, dependency graph, centrality intro, reachability, connected component
 
-- [[_drafts/study-elements/cs/cryptography/hash-function|hash function]]
-- [[_drafts/study-elements/cs/cryptography/hmac|HMAC]]
-- [[_drafts/study-elements/cs/cryptography/aes|AES]]
-- [[_drafts/study-elements/cs/cryptography/public-key-cryptography|public-key cryptography]]
-- [[_drafts/study-elements/cs/cryptography/tls|TLS]]
+## 일별 계획
 
-## 요일별 계획
+| Day | 주제 | 핵심 키워드 | 산출물 |
+|---|---|---|---|
+| Day 01 | string matching, regex, finite automaton | string matching, regex, finite automaton, DFA, NFA, pattern matching, YARA condition | regex/automaton으로 탐지 조건 표현 |
+| Day 02 | boolean algebra, set, relation, function | boolean algebra, set, relation, function, predicate, truth table, logic simplification | 탐지 조건식을 boolean algebra로 단순화 |
+| Day 03 | modular arithmetic와 bit vector | modular arithmetic, bit vector, two complement, wraparound, XOR, rotate, constraint | bit-vector 연산과 integer bug 연결 |
+| Day 04 | constraint와 SMT | constraint, SMT, Z3, solver model, path condition, symbolic execution, satisfiability | 간단한 crackme 조건을 Z3로 모델링 |
+| Day 05 | probability, statistics, entropy | probability, statistics, entropy, information theory, base rate, false positive, anomaly detection | entropy와 FP를 이용한 탐지 판단 예시 |
+| Day 06 | graph theory와 분석 그래프 | graph theory, control-flow graph, call graph, dependency graph, centrality intro, reachability, connected component | CFG/call graph/dependency graph 비교 |
+| Day 07 | 주간 복습과 수학 적용 정리 | finite automaton, boolean algebra, modular arithmetic, SMT, probability, entropy, graph theory | Week 35 math-for-security cheat sheet |
 
-### 월요일
+## 주간 산출물
 
-- 개념: [[_drafts/study-elements/cs/cryptography/hash-function|hash function]], [[_drafts/study-elements/cs/cryptography/hmac|HMAC]]
-- 자료: Serious Cryptography
-- 노트: 이번 주 목표와 모르는 용어를 `_drafts`에 정리
-
-### 화요일
-
-- 실습: hash/HMAC/AES/TLS handshake를 분석 관점에서 요약한다.
-- 개념: [[_drafts/study-elements/cs/cryptography/aes|AES]], [[_drafts/study-elements/cs/cryptography/public-key-cryptography|public-key cryptography]]
-- 노트: 실습 중 확인한 명령어, 주소, artifact를 짧게 기록
-
-### 수요일
-
-- 자료: Cryptography Engineering
-- 실습: 월/화에 막힌 부분을 debugger, disassembler, packet viewer 중 해당 도구로 재확인
-- 노트: 왜 막혔는지와 다음 확인 지점을 적기
-
-### 목요일
-
-- 실습: hash/HMAC/AES/TLS handshake를 분석 관점에서 요약한다.
-- 개념: [[_drafts/study-elements/cs/cryptography/tls|TLS]]
-- 노트: 재현 절차를 lab 또는 wiki 초안으로 분리
-
-### 금요일
-
-- 산출물: 암호학 map seed
-- 복습: 이번 주 개념 링크가 public wiki로 옮길 수준인지 표시
-- 정리: 다음 주에 이어갈 질문 3개 작성
-
-## 완료 기준
-
-- [ ] study log 2개 이상
-- [ ] wiki seed 2개 이상
-- [ ] 실습 또는 분석 산출물 1개
-- [ ] 막힌 지점과 해결 과정을 한 문단으로 정리
+- 수학 개념과 보안 적용 문제 풀이 노트
+- daily-study 문서 7개
+- 개념 노트 또는 실습 로그 3개 이상
+- 다음 주로 넘길 질문 5개

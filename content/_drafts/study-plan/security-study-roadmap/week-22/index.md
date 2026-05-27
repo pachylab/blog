@@ -1,67 +1,53 @@
 ---
-title: "22주차: Heap allocator와 tcache"
+title: "Week 22: ROP, ret2libc, mitigation bypass"
 draft: true
 ---
 
-# 22주차: Heap allocator와 tcache
+# Week 22: ROP, ret2libc, mitigation bypass
 
-## 기준
+## 주간 목표
 
-- 주 5일
-- 하루 2시간
-- 실습 70분, 개념 35분, 노트 15분을 기본 단위로 사용
+- CS 기초, 보안 분석, 도구 실습, 산출물을 매일 연결한다.
+- 매일 문서 하나만 보고도 읽을 자료, 정리할 개념, 실습, 복습 질문을 확인할 수 있게 기록한다.
+- 주말까지 ROP chain writeup와 mitigation bypass 전략표을 완성한다.
 
-## 참고 자료
+## 공부 자료
+- 보유 서적: 해킹: 공격의 예술, The Shellcoder's Handbook - ROP, ret2libc, mitigation bypass
 
-- pwn.college: Dynamic Allocator Misuse
-- glibc malloc 관련 자료
-- Dreamhack/HTB: tcache and heap exploitation practice
+- pwn.college Program Security: Memory Errors, Program Misuse, Shellcode, ROP 관련 모듈
+- ROP Emporium: ret2win, split, callme, write4, fluff, pivot 단계별 문제
+- CS:APP 3e: 3.10 Combining Control and Data 중 exploit 관련 부분
+- how2heap: tcache, fastbin, unsorted bin, use-after-free, double-free 예제
+- glibc malloc source/wiki: chunk layout, bins, tcache 동작 개요
+- OSTEP: Address Spaces, Memory API, Paging Introduction, Page Tables, TLBs, Swapping
+- CS:APP 3e: 9.1 Physical and Virtual Addressing, 9.4 VM as a Tool for Memory Management, 9.7 Memory Mapping
+- Linux man pages: mmap, mprotect, proc_pid_maps, pmap, readelf, checksec
+- Windows Internals Part 1: Memory Management 개요와 virtual address space 파트
+- CS:APP 3e: 2.1 Information Storage, 2.2 Integer Representations, 2.3 Integer Arithmetic
+- 해커의 기쁨(Hacker's Delight): 1장 Introduction, 2장 Basics 중 bit 연산과 정수 표현
+- C reference: stdint.h, limits.h, integer conversion, signed overflow의 undefined behavior
+- CS:APP 3e: 7장 Linking, executable object files, shared libraries, relocation
+- Microsoft Learn: PE format, import table, export table, base relocation table
 
-## 연결 노트
+## 핵심 키워드
 
-### Security
+ret2libc, libc leak, ASLR bypass, GOT leak, system, bin/sh, calling convention, ROP, gadget, pop rdi, ret, stack alignment, chain, ROPgadget, one_gadget risk, JOP, SROP, stack pivot, fake stack, sigreturn frame, dispatcher gadget, control-flow, stack canary, PIE, RELRO, information leak, partial overwrite, GOT overwrite, format string, seccomp, sandbox, syscall filter, allowed syscall, ORW chain, read/open/write, exploit reliability, remote exploit, network latency, environment difference, libc version, Docker, pwntools, mitigation bypass
 
-- [[_drafts/study-elements/security/system-hacking/heap-allocator|heap allocator]]
-- [[_drafts/study-elements/security/system-hacking/heap-chunk|heap chunk]]
-- [[_drafts/study-elements/security/system-hacking/tcache|tcache]]
-- [[_drafts/study-elements/security/system-hacking/fastbin|fastbin]]
-- [[_drafts/study-elements/security/system-hacking/heap-feng-shui|heap feng shui]]
+## 일별 계획
 
-## 요일별 계획
+| Day | 주제 | 핵심 키워드 | 산출물 |
+|---|---|---|---|
+| Day 01 | ret2libc와 leak 기반 exploit | ret2libc, libc leak, ASLR bypass, GOT leak, system, bin/sh, calling convention | ret2libc 주소 계산과 payload 표 |
+| Day 02 | ROP gadget과 chain 구성 | ROP, gadget, pop rdi, ret, stack alignment, chain, ROPgadget | ROP chain register state 계획표 |
+| Day 03 | JOP, SROP, stack pivot | JOP, SROP, stack pivot, fake stack, sigreturn frame, dispatcher gadget, control-flow | ROP/JOP/SROP 차이와 필요 조건표 |
+| Day 04 | canary, PIE, RELRO 우회 사고 | stack canary, PIE, RELRO, information leak, partial overwrite, GOT overwrite, format string | mitigation별 필요한 primitive 표 |
+| Day 05 | seccomp와 sandbox 제약 | seccomp, sandbox, syscall filter, allowed syscall, ORW chain, read/open/write | seccomp profile 해석과 exploit 전략 |
+| Day 06 | exploit 안정화와 remote 환경 | exploit reliability, remote exploit, network latency, environment difference, libc version, Docker, pwntools | local/remote 차이 디버깅 체크리스트 |
+| Day 07 | 주간 복습과 mitigation matrix | ret2libc, ROP, JOP, SROP, stack pivot, seccomp, mitigation bypass | Week 22 mitigation bypass matrix |
 
-### 월요일
+## 주간 산출물
 
-- 개념: [[_drafts/study-elements/security/system-hacking/heap-allocator|heap allocator]], [[_drafts/study-elements/security/system-hacking/heap-chunk|heap chunk]]
-- 자료: pwn.college: Dynamic Allocator Misuse
-- 노트: 이번 주 목표와 모르는 용어를 `_drafts`에 정리
-
-### 화요일
-
-- 실습: malloc/free 순서와 chunk 재사용을 heap timeline으로 기록한다.
-- 개념: [[_drafts/study-elements/security/system-hacking/tcache|tcache]], [[_drafts/study-elements/security/system-hacking/fastbin|fastbin]]
-- 노트: 실습 중 확인한 명령어, 주소, artifact를 짧게 기록
-
-### 수요일
-
-- 자료: glibc malloc 관련 자료
-- 실습: 월/화에 막힌 부분을 debugger, disassembler, packet viewer 중 해당 도구로 재확인
-- 노트: 왜 막혔는지와 다음 확인 지점을 적기
-
-### 목요일
-
-- 실습: malloc/free 순서와 chunk 재사용을 heap timeline으로 기록한다.
-- 개념: [[_drafts/study-elements/security/system-hacking/heap-feng-shui|heap feng shui]]
-- 노트: 재현 절차를 lab 또는 wiki 초안으로 분리
-
-### 금요일
-
-- 산출물: heap allocation timeline lab
-- 복습: 이번 주 개념 링크가 public wiki로 옮길 수준인지 표시
-- 정리: 다음 주에 이어갈 질문 3개 작성
-
-## 완료 기준
-
-- [ ] study log 2개 이상
-- [ ] wiki seed 2개 이상
-- [ ] 실습 또는 분석 산출물 1개
-- [ ] 막힌 지점과 해결 과정을 한 문단으로 정리
+- ROP chain writeup와 mitigation bypass 전략표
+- daily-study 문서 7개
+- 개념 노트 또는 실습 로그 3개 이상
+- 다음 주로 넘길 질문 5개

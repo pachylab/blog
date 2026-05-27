@@ -1,70 +1,53 @@
 ---
-title: "9주차: ABI, calling convention, syscall"
+title: "Week 09: network fundamentals와 protocol reading"
 draft: true
 ---
 
-# 9주차: ABI, calling convention, syscall
+# Week 09: network fundamentals와 protocol reading
 
-## 기준
+## 주간 목표
 
-- 주 5일
-- 하루 2시간
-- 실습 70분, 개념 35분, 노트 15분을 기본 단위로 사용
+- CS 기초, 보안 분석, 도구 실습, 산출물을 매일 연결한다.
+- 매일 문서 하나만 보고도 읽을 자료, 정리할 개념, 실습, 복습 질문을 확인할 수 있게 기록한다.
+- 주말까지 계층별 packet 해석 노트와 기본 PCAP을 완성한다.
 
-## 참고 자료
+## 공부 자료
+- 보유 서적: Cryptography & Network Security - DNS/HTTP/TLS, certificate, key exchange, network security terminology
 
-- OST2: Architecture 1001
-- System V AMD64 ABI
-- pwn.college: Computing 101
+- Computer Networking: A Top-Down Approach: 1장 네트워크 개요, 2장 Application Layer, 3장 Transport Layer, 4장 Network Layer
+- RFC 791 IP, RFC 792 ICMP, RFC 768 UDP, RFC 9293 TCP 중 header와 state machine 개요
+- Wireshark User's Guide: packet list/details/bytes pane, display filter 기본
+- Linux man pages: ip, ss, tcpdump, dig, nc, curl
+- OSTEP: Address Spaces, Memory API, Paging Introduction, Page Tables, TLBs, Swapping
+- CS:APP 3e: 9.1 Physical and Virtual Addressing, 9.4 VM as a Tool for Memory Management, 9.7 Memory Mapping
+- Linux man pages: mmap, mprotect, proc_pid_maps, pmap, readelf, checksec
+- Windows Internals Part 1: Memory Management 개요와 virtual address space 파트
+- CS:APP 3e: 3.2 Program Encodings, 3.4 Accessing Information, 3.5 Arithmetic and Logical Operations
+- RFC 1034/1035 DNS, RFC 9110 HTTP Semantics, RFC 8446 TLS 1.3
+- Wireshark User's Guide: dns, http, tls, tcp.stream display filter
+- Zeek docs: conn.log, dns.log, http.log, ssl.log 필드 의미
+- Suricata docs: rule syntax, eve.json, alert metadata
+- Malware Traffic Analysis 교육용 PCAP: DNS/HTTP/TLS 추적 실습
 
-## 연결 노트
+## 핵심 키워드
 
-### CS
+OSI model, TCP/IP stack, encapsulation, frame, packet, segment, application layer, Ethernet, MAC address, IP, IPv4 header, ARP, routing table, TTL, TCP, UDP, ICMP, three-way handshake, sequence number, acknowledgment, connection state, port, socket, session, connection, routing, NAT, proxy, VPN, DNS, HTTP, HTTPS, TLS, certificate, key exchange, SNI, PCAP, Wireshark, tcpdump, display filter, capture filter, tcp.stream, follow stream, network IOC
 
-- [[_drafts/study-elements/cs/computer-architecture/calling-convention|calling convention]]
-- [[_drafts/study-elements/cs/computer-architecture/abi|ABI]]
-- [[_drafts/study-elements/cs/operating-systems/syscall|syscall]]
-- [[_drafts/study-elements/cs/computer-architecture/flags|flags]]
+## 일별 계획
 
-### Platforms
+| Day | 주제 | 핵심 키워드 | 산출물 |
+|---|---|---|---|
+| Day 01 | OSI model과 TCP/IP stack | OSI model, TCP/IP stack, encapsulation, frame, packet, segment, application layer | OSI/TCP-IP 계층 매핑표 |
+| Day 02 | Ethernet, IP, ARP | Ethernet, MAC address, IP, IPv4 header, ARP, routing table, TTL | ARP와 IP header 필드 해석표 |
+| Day 03 | TCP, UDP, ICMP | TCP, UDP, ICMP, three-way handshake, sequence number, acknowledgment, connection state | TCP handshake와 UDP/ICMP 비교 PCAP 노트 |
+| Day 04 | port, socket, session, routing, NAT | port, socket, session, connection, routing, NAT, proxy | 5-tuple과 NAT/proxy 경로 정리 |
+| Day 05 | DNS, HTTP, HTTPS, TLS | DNS, HTTP, HTTPS, TLS, certificate, key exchange, SNI | DNS->TCP->TLS->HTTP 흐름도 |
+| Day 06 | Wireshark/tcpdump 기본 필터 | PCAP, Wireshark, tcpdump, display filter, capture filter, tcp.stream, follow stream | 네트워크 필터 cheat sheet |
+| Day 07 | 주간 복습과 network IOC 연결 | OSI model, TCP, UDP, DNS, TLS, PCAP, network IOC | Week 09 계층별 IOC 후보 표 |
 
-- [[_drafts/study-elements/platforms/linux/linux-syscall-convention|Linux syscall convention]]
+## 주간 산출물
 
-## 요일별 계획
-
-### 월요일
-
-- 개념: [[_drafts/study-elements/cs/computer-architecture/calling-convention|calling convention]], [[_drafts/study-elements/cs/computer-architecture/abi|ABI]]
-- 자료: OST2: Architecture 1001
-- 노트: 이번 주 목표와 모르는 용어를 `_drafts`에 정리
-
-### 화요일
-
-- 실습: 함수 인자 전달, syscall number와 인자 register를 GDB로 추적한다.
-- 개념: [[_drafts/study-elements/cs/operating-systems/syscall|syscall]], [[_drafts/study-elements/platforms/linux/linux-syscall-convention|Linux syscall convention]]
-- 노트: 실습 중 확인한 명령어, 주소, artifact를 짧게 기록
-
-### 수요일
-
-- 자료: System V AMD64 ABI
-- 실습: 월/화에 막힌 부분을 debugger, disassembler, packet viewer 중 해당 도구로 재확인
-- 노트: 왜 막혔는지와 다음 확인 지점을 적기
-
-### 목요일
-
-- 실습: 함수 인자 전달, syscall number와 인자 register를 GDB로 추적한다.
-- 개념: [[_drafts/study-elements/cs/computer-architecture/flags|flags]]
-- 노트: 재현 절차를 lab 또는 wiki 초안으로 분리
-
-### 금요일
-
-- 산출물: calling convention 문서와 syscall table seed
-- 복습: 이번 주 개념 링크가 public wiki로 옮길 수준인지 표시
-- 정리: 다음 주에 이어갈 질문 3개 작성
-
-## 완료 기준
-
-- [ ] study log 2개 이상
-- [ ] wiki seed 2개 이상
-- [ ] 실습 또는 분석 산출물 1개
-- [ ] 막힌 지점과 해결 과정을 한 문단으로 정리
+- 계층별 packet 해석 노트와 기본 PCAP
+- daily-study 문서 7개
+- 개념 노트 또는 실습 로그 3개 이상
+- 다음 주로 넘길 질문 5개

@@ -1,72 +1,53 @@
 ---
-title: "34주차: Network, browser, mobile forensics"
+title: "Week 34: data structures and algorithms for analysis"
 draft: true
 ---
 
-# 34주차: Network, browser, mobile forensics
+# Week 34: data structures and algorithms for analysis
 
-## 기준
+## 주간 목표
 
-- 주 5일
-- 하루 2시간
-- 실습 70분, 개념 35분, 노트 15분을 기본 단위로 사용
+- CS 기초, 보안 분석, 도구 실습, 산출물을 매일 연결한다.
+- 매일 문서 하나만 보고도 읽을 자료, 정리할 개념, 실습, 복습 질문을 확인할 수 있게 기록한다.
+- 주말까지 자료구조/알고리즘 구현 노트와 분석 적용 예시을 완성한다.
 
-## 참고 자료
+## 공부 자료
+- 보유 서적: Concrete Mathematics, Structure and Interpretation of Computer Programs - graph, CFG, call graph, recursion, symbolic thinking
 
-- Wireshark docs
-- Android Security Internals
-- iOS Application Security
-- SANS FOR508 syllabus checklist
-- HTB/Dreamhack: network/browser/mobile forensics labs
+- The C Programming Language: 5장 Pointers and Arrays, 6장 Structures
+- Modern C: objects, pointers, arrays, structs, integer types, undefined behavior 관련 장
+- CS:APP 3e: 3.8 Array Allocation and Access, 3.9 Heterogeneous Data Structures, 3.10 buffer overflow 관련 부분
+- cppreference 또는 Microsoft Learn: function pointer, struct padding, object lifetime
+- CLRS: 2장 알고리즘 기초, 6장 Heapsort, 10장 Elementary Data Structures, 11장 Hash Tables, 22장 Elementary Graph Algorithms
+- MIT 6.042J Mathematics for Computer Science: sets, relations, functions, probability, graph theory 관련 강의
+- Algorithms 4th: sorting, searching, graph, string processing 관련 장
+- Z3Py guide: bit-vector, modular arithmetic, constraint solving 예제
+- OSTEP: Address Spaces, Memory API, Paging Introduction, Page Tables, TLBs, Swapping
+- Serious Cryptography: hash, MAC, authenticated encryption, public-key crypto 관련 장
+- Cryptopals Set 1: hex/Base64/XOR/repeating-key XOR, Set 2: block cipher modes and padding
+- RFC 4648 Base64, RFC 2104 HMAC, FIPS 180-4 SHA, NIST SP 800-38A block cipher modes, RFC 8446 TLS 1.3
+- OWASP Password Storage Cheat Sheet: salt, KDF, password hashing, work factor
+- Python docs: hashlib, hmac, secrets, base64, urllib.parse, cryptography tutorials
 
-## 연결 노트
+## 핵심 키워드
 
-### CS
+array, linked list, stack, queue, memory locality, push/pop, enqueue/dequeue, hash table, hash function, collision, load factor, amortized analysis, dictionary, set, tree, B-tree, trie, heap data structure, priority queue, filesystem index, database index, sorting, searching, Big-O, complexity, space complexity, stable sort, binary search, graph, BFS, DFS, shortest path, node, edge, visited set, dynamic array, allocator, workload, complexity attack, DoS intro
 
-- [[_drafts/study-elements/cs/networking/pcap|PCAP]]
-- [[_drafts/study-elements/cs/databases-and-storage/sqlite|SQLite]]
-- [[_drafts/study-elements/cs/databases-and-storage/json|JSON]]
+## 일별 계획
 
-### Platforms
+| Day | 주제 | 핵심 키워드 | 산출물 |
+|---|---|---|---|
+| Day 01 | array, linked list, stack, queue | array, linked list, stack, queue, memory locality, push/pop, enqueue/dequeue | 기본 자료구조 구현과 복잡도 표 |
+| Day 02 | hash table과 collision | hash table, hash function, collision, load factor, amortized analysis, dictionary, set | hash table 동작과 collision 실험 |
+| Day 03 | tree, B-tree, trie, heap data structure | tree, B-tree, trie, heap data structure, priority queue, filesystem index, database index | 트리 계열 구조 비교표 |
+| Day 04 | sorting, searching, Big-O | sorting, searching, Big-O, complexity, space complexity, stable sort, binary search | 정렬/탐색 알고리즘 복잡도 비교 |
+| Day 05 | graph, BFS, DFS, shortest path | graph, BFS, DFS, shortest path, node, edge, visited set | call graph 또는 dependency graph 탐색 예제 |
+| Day 06 | amortized analysis와 security workload | amortized analysis, dynamic array, allocator, hash table, workload, complexity attack, DoS intro | amortized 비용과 최악 사례 정리 |
+| Day 07 | 주간 복습과 reversing/forensics 적용 | array, hash table, tree, B-tree, graph, BFS, Big-O | Week 34 자료구조 적용 사례 지도 |
 
-- [[_drafts/study-elements/platforms/android/android-app-sandbox|Android app sandbox]]
-- [[_drafts/study-elements/platforms/ios/ios-sandbox|iOS sandbox]]
+## 주간 산출물
 
-## 요일별 계획
-
-### 월요일
-
-- 개념: [[_drafts/study-elements/cs/networking/pcap|PCAP]], [[_drafts/study-elements/cs/databases-and-storage/sqlite|SQLite]]
-- 자료: Wireshark docs
-- 노트: 이번 주 목표와 모르는 용어를 `_drafts`에 정리
-
-### 화요일
-
-- 실습: PCAP, browser history SQLite, Android/iOS artifact 구조를 비교한다.
-- 개념: [[_drafts/study-elements/cs/databases-and-storage/json|JSON]], [[_drafts/study-elements/platforms/android/android-app-sandbox|Android app sandbox]]
-- 노트: 실습 중 확인한 명령어, 주소, artifact를 짧게 기록
-
-### 수요일
-
-- 자료: Android Security Internals
-- 실습: 월/화에 막힌 부분을 debugger, disassembler, packet viewer 중 해당 도구로 재확인
-- 노트: 왜 막혔는지와 다음 확인 지점을 적기
-
-### 목요일
-
-- 실습: PCAP, browser history SQLite, Android/iOS artifact 구조를 비교한다.
-- 개념: [[_drafts/study-elements/platforms/ios/ios-sandbox|iOS sandbox]]
-- 노트: 재현 절차를 lab 또는 wiki 초안으로 분리
-
-### 금요일
-
-- 산출물: network/mobile artifact note
-- 복습: 이번 주 개념 링크가 public wiki로 옮길 수준인지 표시
-- 정리: 다음 주에 이어갈 질문 3개 작성
-
-## 완료 기준
-
-- [ ] study log 2개 이상
-- [ ] wiki seed 2개 이상
-- [ ] 실습 또는 분석 산출물 1개
-- [ ] 막힌 지점과 해결 과정을 한 문단으로 정리
+- 자료구조/알고리즘 구현 노트와 분석 적용 예시
+- daily-study 문서 7개
+- 개념 노트 또는 실습 로그 3개 이상
+- 다음 주로 넘길 질문 5개

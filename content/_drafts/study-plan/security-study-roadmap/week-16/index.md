@@ -1,71 +1,53 @@
 ---
-title: "16주차: pwn.college Program Security 입문"
+title: "Week 16: persistence, injection, config extraction"
 draft: true
 ---
 
-# 16주차: pwn.college Program Security 입문
+# Week 16: persistence, injection, config extraction
 
-## 기준
+## 주간 목표
 
-- 주 5일
-- 하루 2시간
-- 실습 70분, 개념 35분, 노트 15분을 기본 단위로 사용
+- CS 기초, 보안 분석, 도구 실습, 산출물을 매일 연결한다.
+- 매일 문서 하나만 보고도 읽을 자료, 정리할 개념, 실습, 복습 질문을 확인할 수 있게 기록한다.
+- 주말까지 persistence/injection artifact matrix와 config extractor 초안을 완성한다.
 
-## 참고 자료
+## 공부 자료
+- 보유 서적: Learning Malware Analysis, Malware Analysis and Detection Engineering, 실전 리눅스 악성코드 분석, 시스인터널스 도구로 윈도우 문제 해결하기, 윈도우 레지스트리 포렌식 - persistence, registry artifact, config extraction, detection mapping
 
-- pwn.college: Program Security
-- pwntools docs
-- Dreamhack: System Hacking beginner problems
-- HTB: pwn/reversing warm-up challenges
+- Practical Malware Analysis: persistence, Windows API, DLL injection, process replacement 관련 장
+- MITRE ATT&CK: T1547 Boot or Logon Autostart Execution, T1055 Process Injection, T1027 Obfuscated Files or Information
+- Microsoft Learn: Registry Run and RunOnce keys, Task Scheduler, WMI permanent event subscription
+- Sysinternals: Autoruns, Process Explorer, Procmon 사용 가이드
+- OSTEP: Processes, Process API, Limited Direct Execution, Scheduling, Threads, Locks, Condition Variables
+- CS:APP 3e: 8.2 Processes, 12장 Concurrent Programming 중 thread/process 개요
+- Windows Internals Part 1: Processes, Threads, and Jobs; Services 개요
+- Linux man pages: ps, top, kill, fork, execve, wait, pthreads, systemd.service
+- Windows Internals Part 1: Concepts and Tools, System Architecture, Processes/Threads/Jobs, Memory Management, Security
+- OSTEP: Address Spaces, Memory API, Paging Introduction, Page Tables, TLBs, Swapping
+- Serious Cryptography: hash, MAC, authenticated encryption, public-key crypto 관련 장
+- Cryptopals Set 1: hex/Base64/XOR/repeating-key XOR, Set 2: block cipher modes and padding
+- RFC 4648 Base64, RFC 2104 HMAC, FIPS 180-4 SHA, NIST SP 800-38A block cipher modes, RFC 8446 TLS 1.3
+- OWASP Password Storage Cheat Sheet: salt, KDF, password hashing, work factor
 
-## 연결 노트
+## 핵심 키워드
 
-### Security
+persistence, Run key, Windows service, scheduled task, startup folder, Autoruns, registry, WMI, permanent event subscription, service control manager, event consumer, persistence detection, process injection, DLL injection, thread injection, CreateRemoteThread, VirtualAllocEx, WriteProcessMemory, LoadLibrary, process hollowing, APC injection, suspended process, section mapping, entry point, memory permission, API hashing, string encryption, dynamic import resolution, hash algorithm, deobfuscation, YARA weakness, config extraction, malware config, C2 address, mutex, campaign id, decode function, parser automation, Sysmon
 
-- [[_drafts/study-elements/security/system-hacking/argv|argv]]
-- [[_drafts/study-elements/security/system-hacking/envp|envp]]
-- [[_drafts/study-elements/security/system-hacking/crash-analysis|crash analysis]]
-- [[_drafts/study-elements/security/system-hacking/offset|offset]]
+## 일별 계획
 
-### Platforms
+| Day | 주제 | 핵심 키워드 | 산출물 |
+|---|---|---|---|
+| Day 01 | Run key, service, scheduled task | persistence, Run key, Windows service, scheduled task, startup folder, Autoruns, registry | 지속성 기법별 artifact 표 |
+| Day 02 | WMI와 startup artifact | WMI, permanent event subscription, startup folder, service control manager, event consumer, persistence detection | WMI persistence 구성 요소와 탐지 포인트 |
+| Day 03 | DLL injection과 thread injection | process injection, DLL injection, thread injection, CreateRemoteThread, VirtualAllocEx, WriteProcessMemory, LoadLibrary | injection 단계와 API/event mapping |
+| Day 04 | process hollowing과 APC injection | process hollowing, APC injection, suspended process, section mapping, entry point, memory permission | injection 기법 비교표 |
+| Day 05 | API hashing과 string encryption | API hashing, string encryption, dynamic import resolution, hash algorithm, deobfuscation, YARA weakness | API hash/string decode 분석 절차 |
+| Day 06 | malware config extraction | config extraction, malware config, C2 address, mutex, campaign id, decode function, parser automation | config extractor Python 스크립트 초안 |
+| Day 07 | 주간 복습과 host detection 연결 | persistence, WMI, process injection, DLL injection, API hashing, config extraction, Sysmon | Week 16 host detection rule 후보 |
 
-- [[_drafts/study-elements/platforms/linux/procfs|procfs]]
+## 주간 산출물
 
-## 요일별 계획
-
-### 월요일
-
-- 개념: [[_drafts/study-elements/security/system-hacking/argv|argv]], [[_drafts/study-elements/security/system-hacking/envp|envp]]
-- 자료: pwn.college: Program Security
-- 노트: 이번 주 목표와 모르는 용어를 `_drafts`에 정리
-
-### 화요일
-
-- 실습: argv/envp/stdin/file descriptor 기반 문제를 풀고 /proc/self/maps를 관찰한다.
-- 개념: [[_drafts/study-elements/platforms/linux/procfs|procfs]], [[_drafts/study-elements/security/system-hacking/crash-analysis|crash analysis]]
-- 노트: 실습 중 확인한 명령어, 주소, artifact를 짧게 기록
-
-### 수요일
-
-- 자료: pwntools docs
-- 실습: 월/화에 막힌 부분을 debugger, disassembler, packet viewer 중 해당 도구로 재확인
-- 노트: 왜 막혔는지와 다음 확인 지점을 적기
-
-### 목요일
-
-- 실습: argv/envp/stdin/file descriptor 기반 문제를 풀고 /proc/self/maps를 관찰한다.
-- 개념: [[_drafts/study-elements/security/system-hacking/offset|offset]]
-- 노트: 재현 절차를 lab 또는 wiki 초안으로 분리
-
-### 금요일
-
-- 산출물: Program Security 풀이 노트 2개
-- 복습: 이번 주 개념 링크가 public wiki로 옮길 수준인지 표시
-- 정리: 다음 주에 이어갈 질문 3개 작성
-
-## 완료 기준
-
-- [ ] study log 2개 이상
-- [ ] wiki seed 2개 이상
-- [ ] 실습 또는 분석 산출물 1개
-- [ ] 막힌 지점과 해결 과정을 한 문단으로 정리
+- persistence/injection artifact matrix와 config extractor 초안
+- daily-study 문서 7개
+- 개념 노트 또는 실습 로그 3개 이상
+- 다음 주로 넘길 질문 5개

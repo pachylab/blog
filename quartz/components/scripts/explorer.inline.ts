@@ -94,12 +94,6 @@ function closeFolderTree(folderContainer: HTMLElement, folderOuter: HTMLElement)
   }
 }
 
-function closeAllFolders(parentList: Element) {
-  for (const item of directFolderItems(parentList)) {
-    closeFolderTree(item.folderContainer, item.folderOuter)
-  }
-}
-
 function closeSiblingFolders(folderContainer: HTMLElement) {
   const parentList = folderContainer.parentElement?.parentElement
   if (!parentList) return
@@ -340,9 +334,7 @@ async function setupExplorer(currentSlug: FullSlug) {
     }
     explorerUl.insertBefore(fragment, explorerUl.firstChild)
 
-    if (isHomeSlug(currentSlug)) {
-      closeAllFolders(explorerUl)
-    } else {
+    if (!isHomeSlug(currentSlug)) {
       enforceCurrentFolderPath(explorerUl, currentSlug)
     }
     persistExplorerState()

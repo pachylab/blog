@@ -1,67 +1,54 @@
 ---
-title: "23주차: Format string과 arbitrary read/write"
+title: "Week 23: fuzzing, symbolic execution, patch diffing, kernel exploit 입문"
 draft: true
 ---
 
-# 23주차: Format string과 arbitrary read/write
+# Week 23: fuzzing, symbolic execution, patch diffing, kernel exploit 입문
 
-## 기준
+## 주간 목표
 
-- 주 5일
-- 하루 2시간
-- 실습 70분, 개념 35분, 노트 15분을 기본 단위로 사용
+- CS 기초, 보안 분석, 도구 실습, 산출물을 매일 연결한다.
+- 매일 문서 하나만 보고도 읽을 자료, 정리할 개념, 실습, 복습 질문을 확인할 수 있게 기록한다.
+- 주말까지 fuzzing/crash triage report와 symbolic constraint 예제을 완성한다.
 
-## 참고 자료
+## 공부 자료
+- 보유 서적: 실전 바이너리 분석, The Shellcoder's Handbook - fuzz target 분석, crash triage, exploitability 판단
 
-- pwn.college: Format String Exploits
-- Practical Binary Analysis
-- Dreamhack/HTB: format string and arbitrary read/write practice
+- AFL++ docs: instrumentation, corpus, crashes, afl-tmin/afl-cmin workflow
+- LLVM libFuzzer documentation: in-process fuzzing, harness function, corpus, coverage, crash artifact
+- LLVM Sanitizers docs: AddressSanitizer, UndefinedBehaviorSanitizer, coverage instrumentation
+- angr docs: symbolic execution, state, solver, constraints, CFGFast 개요
+- Z3Py guide: bit-vectors, constraints, solver model 읽기
+- BinDiff 또는 Diaphora docs: patch diffing and function matching 개요
+- The C Programming Language: 5장 Pointers and Arrays, 6장 Structures
+- Modern C: objects, pointers, arrays, structs, integer types, undefined behavior 관련 장
+- CS:APP 3e: 3.8 Array Allocation and Access, 3.9 Heterogeneous Data Structures, 3.10 buffer overflow 관련 부분
+- cppreference 또는 Microsoft Learn: function pointer, struct padding, object lifetime
+- CS:APP 3e: 2.1 Information Storage, 2.2 Integer Representations, 2.3 Integer Arithmetic
+- 해커의 기쁨(Hacker's Delight): 1장 Introduction, 2장 Basics 중 bit 연산과 정수 표현
+- C reference: stdint.h, limits.h, integer conversion, signed overflow의 undefined behavior
+- The Linux Command Line 2판: 1장 What Is the Shell?, 2장 Navigation, 3장 Exploring the System, 5장 Working with Commands, 6장 Redirection
+- CS:APP 3e: 7장 Linking 전체
 
-## 연결 노트
+## 핵심 키워드
 
-### Security
+coverage-guided fuzzing, fuzzing, fuzzing harness, seed corpus, coverage, mutation, AFL++, libFuzzer, in-process harness, persistent mode, corpus minimization, input minimization, sanitizer, AddressSanitizer, UndefinedBehaviorSanitizer, crash triage, stack trace, reproducer, minimized input, symbolic execution, SMT, constraint, Z3, bit vector, path explosion, solver model, taint analysis, source, sink, data flow, sanitization, control dependency, false positive, patch diffing, variant analysis, BinDiff, Diaphora, function matching, changed basic block, root cause, kernel exploitation, LPE, sandbox escape intro, kernel memory, driver bug, IOCTL, privilege escalation
 
-- [[_drafts/study-elements/security/system-hacking/format-string-bug|format string bug]]
-- [[_drafts/study-elements/security/system-hacking/arbitrary-read|arbitrary read]]
-- [[_drafts/study-elements/security/system-hacking/arbitrary-write|arbitrary write]]
-- [[_drafts/study-elements/security/system-hacking/got-overwrite|GOT overwrite]]
-- [[_drafts/study-elements/security/system-hacking/write-primitive|write primitive]]
+## 일별 계획
 
-## 요일별 계획
+| Day | 주제 | 핵심 키워드 | 산출물 |
+|---|---|---|---|
+| Day 01 | AFL++/libFuzzer harness와 corpus | coverage-guided fuzzing, fuzzing harness, seed corpus, coverage, mutation, AFL++, libFuzzer, input minimization | toy parser fuzzing harness와 corpus 설계 |
+| Day 02 | sanitizer와 crash triage | sanitizer, AddressSanitizer, UndefinedBehaviorSanitizer, crash triage, stack trace, reproducer, minimized input | sanitizer crash report 해석 |
+| Day 03 | symbolic execution과 SMT | symbolic execution, SMT, constraint, Z3, bit vector, path explosion, solver model | 간단한 branch 조건을 Z3로 푼 노트 |
+| Day 04 | taint analysis와 source/sink | taint analysis, source, sink, data flow, sanitization, control dependency, false positive | source/sink 모델링 표 |
+| Day 05 | patch diffing과 variant analysis | patch diffing, variant analysis, BinDiff, Diaphora, function matching, changed basic block, root cause | patch 전후 변경 함수 분석표 |
+| Day 06 | kernel exploitation, LPE, sandbox escape intro | kernel exploitation, LPE, sandbox escape intro, kernel memory, driver bug, IOCTL, privilege escalation | kernel exploit 공격면과 안전 실습 원칙 |
+| Day 07 | 주간 복습과 취약점 연구 흐름 | fuzzing, sanitizer, symbolic execution, taint analysis, patch diffing, kernel exploitation, LPE | Week 23 vuln research workflow |
 
-### 월요일
+## 주간 산출물
 
-- 개념: [[_drafts/study-elements/security/system-hacking/format-string-bug|format string bug]], [[_drafts/study-elements/security/system-hacking/arbitrary-read|arbitrary read]]
-- 자료: pwn.college: Format String Exploits
-- 노트: 이번 주 목표와 모르는 용어를 `_drafts`에 정리
-
-### 화요일
-
-- 실습: %p/%s/%n 동작을 toy program에서 확인하고 read/write primitive로 정리한다.
-- 개념: [[_drafts/study-elements/security/system-hacking/arbitrary-write|arbitrary write]], [[_drafts/study-elements/security/system-hacking/got-overwrite|GOT overwrite]]
-- 노트: 실습 중 확인한 명령어, 주소, artifact를 짧게 기록
-
-### 수요일
-
-- 자료: Practical Binary Analysis
-- 실습: 월/화에 막힌 부분을 debugger, disassembler, packet viewer 중 해당 도구로 재확인
-- 노트: 왜 막혔는지와 다음 확인 지점을 적기
-
-### 목요일
-
-- 실습: %p/%s/%n 동작을 toy program에서 확인하고 read/write primitive로 정리한다.
-- 개념: [[_drafts/study-elements/security/system-hacking/write-primitive|write primitive]]
-- 노트: 재현 절차를 lab 또는 wiki 초안으로 분리
-
-### 금요일
-
-- 산출물: format string writeup
-- 복습: 이번 주 개념 링크가 public wiki로 옮길 수준인지 표시
-- 정리: 다음 주에 이어갈 질문 3개 작성
-
-## 완료 기준
-
-- [ ] study log 2개 이상
-- [ ] wiki seed 2개 이상
-- [ ] 실습 또는 분석 산출물 1개
-- [ ] 막힌 지점과 해결 과정을 한 문단으로 정리
+- coverage-guided fuzzing/crash triage report와 symbolic constraint 예제
+- daily-study 문서 7개
+- 개념 노트 또는 실습 로그 3개 이상
+- 다음 주로 넘길 질문 5개

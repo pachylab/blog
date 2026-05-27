@@ -1,69 +1,53 @@
 ---
-title: "2주차: 프로세스, 권한, shell 사용 습관"
+title: "Week 02: 정수 표현, endian, CPU 실행 모델"
 draft: true
 ---
 
-# 2주차: 프로세스, 권한, shell 사용 습관
+# Week 02: 정수 표현, endian, CPU 실행 모델
 
-## 기준
+## 주간 목표
 
-- 주 5일
-- 하루 2시간
-- 실습 70분, 개념 35분, 노트 15분을 기본 단위로 사용
+- CS 기초, 보안 분석, 도구 실습, 산출물을 매일 연결한다.
+- 매일 문서 하나만 보고도 읽을 자료, 정리할 개념, 실습, 복습 질문을 확인할 수 있게 기록한다.
+- 주말까지 정수 표현 실습 코드, endian/alignment 표, instruction 해석 노트을 완성한다.
 
-## 참고 자료
+## 공부 자료
+- 보유 서적: Computer Systems: A Programmer's Perspective, 컴퓨터시스템 딥다이브 - bit/byte, 정수 표현, memory hierarchy, machine-level view
 
-- pwn.college: Linux Luminarium
-- OST2: Dbg1012 준비 자료
+- CS:APP 3e: 2.1 Information Storage, 2.2 Integer Representations, 2.3 Integer Arithmetic
+- 해커의 기쁨(Hacker's Delight): 1장 Introduction, 2장 Basics 중 bit 연산과 정수 표현
+- C reference: stdint.h, limits.h, integer conversion, signed overflow의 undefined behavior
+- Compiler Explorer 또는 로컬 gcc/clang: 동일 C 코드를 -O0/-O2에서 비교
+- The C Programming Language: 5장 Pointers and Arrays, 6장 Structures
+- Modern C: objects, pointers, arrays, structs, integer types, undefined behavior 관련 장
+- CS:APP 3e: 3.8 Array Allocation and Access, 3.9 Heterogeneous Data Structures, 3.10 buffer overflow 관련 부분
+- cppreference 또는 Microsoft Learn: function pointer, struct padding, object lifetime
+- Serious Cryptography: hash, MAC, authenticated encryption, public-key crypto 관련 장
+- Cryptopals Set 1: hex/Base64/XOR/repeating-key XOR, Set 2: block cipher modes and padding
+- CS:APP 3e: 3.2 Program Encodings, 3.4 Accessing Information, 3.5 Arithmetic and Logical Operations
+- OpenSecurityTraining2 Architecture 1001: x86-64 registers, instruction format, addressing mode, stack 파트
+- Intel SDM Vol.1: Basic Execution Environment, Registers, Instruction Format
+- ARM Learn the Architecture: AArch64 registers, instruction set basics, load/store addressing
 
-## 연결 노트
+## 핵심 키워드
 
-### CS
+integer type, signed, unsigned, stdint.h, limits.h, integer promotion, type conversion, two complement, overflow, underflow, signed overflow, undefined behavior, wraparound, integer bug, endianness, little-endian, big-endian, word size, alignment, struct padding, memory layout, CPU, ISA, instruction, opcode, operand, addressing mode, fetch/decode/execute, cache, TLB, pipeline, branch prediction, locality, cache miss, side-channel intro, bit vector, register, objdump, GDB, signedness bug, integer overflow
 
-- [[_drafts/study-elements/cs/operating-systems/process|process]]
-- [[_drafts/study-elements/cs/operating-systems/thread|thread]]
+## 일별 계획
 
-### Platforms
+| Day | 주제 | 핵심 키워드 | 산출물 |
+|---|---|---|---|
+| Day 01 | signed/unsigned와 integer type | integer type, signed, unsigned, stdint.h, limits.h, integer promotion, type conversion | C integer type 크기와 범위 표 |
+| Day 02 | two complement와 overflow | two complement, overflow, underflow, signed overflow, undefined behavior, wraparound, integer bug | overflow/underflow 예제와 취약점 연결 메모 |
+| Day 03 | endianness, word size, alignment | endianness, little-endian, big-endian, word size, alignment, struct padding, memory layout | endianness와 struct padding hex dump 비교 |
+| Day 04 | CPU, ISA, instruction 구조 | CPU, ISA, instruction, opcode, operand, addressing mode, fetch/decode/execute | disassembly 10줄을 opcode/operand/addressing으로 분해한 표 |
+| Day 05 | cache, TLB, pipeline, branch prediction | cache, TLB, pipeline, branch prediction, locality, cache miss, side-channel intro | 배열 접근 패턴 시간 비교와 해석 |
+| Day 06 | 정수와 instruction 통합 실습 | bit vector, integer type, endianness, instruction, register, objdump, GDB | C 코드, assembly, 실행 결과를 연결한 분석 노트 |
+| Day 07 | 주간 복습과 취약점 연결 | signedness bug, integer overflow, alignment, addressing mode, cache, TLB | Week 02 개념별 보안 영향 정리표 |
 
-- [[_drafts/study-elements/platforms/linux/permission|permission]]
-- [[_drafts/study-elements/platforms/linux/environment-variable|environment variable]]
-- [[_drafts/study-elements/platforms/linux/tmux|tmux]]
+## 주간 산출물
 
-## 요일별 계획
-
-### 월요일
-
-- 개념: [[_drafts/study-elements/cs/operating-systems/process|process]], [[_drafts/study-elements/cs/operating-systems/thread|thread]]
-- 자료: pwn.college: Linux Luminarium
-- 노트: 이번 주 목표와 모르는 용어를 `_drafts`에 정리
-
-### 화요일
-
-- 실습: ps, kill, chmod, env, exit code, tmux session을 실습하고 명령 조합을 기록한다.
-- 개념: [[_drafts/study-elements/platforms/linux/permission|permission]], [[_drafts/study-elements/platforms/linux/environment-variable|environment variable]]
-- 노트: 실습 중 확인한 명령어, 주소, artifact를 짧게 기록
-
-### 수요일
-
-- 자료: OST2: Dbg1012 준비 자료
-- 실습: 월/화에 막힌 부분을 debugger, disassembler, packet viewer 중 해당 도구로 재확인
-- 노트: 왜 막혔는지와 다음 확인 지점을 적기
-
-### 목요일
-
-- 실습: ps, kill, chmod, env, exit code, tmux session을 실습하고 명령 조합을 기록한다.
-- 개념: [[_drafts/study-elements/platforms/linux/tmux|tmux]]
-- 노트: 재현 절차를 lab 또는 wiki 초안으로 분리
-
-### 금요일
-
-- 산출물: process/permission 개념 초안과 명령어 노트
-- 복습: 이번 주 개념 링크가 public wiki로 옮길 수준인지 표시
-- 정리: 다음 주에 이어갈 질문 3개 작성
-
-## 완료 기준
-
-- [ ] study log 2개 이상
-- [ ] wiki seed 2개 이상
-- [ ] 실습 또는 분석 산출물 1개
-- [ ] 막힌 지점과 해결 과정을 한 문단으로 정리
+- 정수 표현 실습 코드, endian/alignment 표, instruction 해석 노트
+- daily-study 문서 7개
+- 개념 노트 또는 실습 로그 3개 이상
+- 다음 주로 넘길 질문 5개

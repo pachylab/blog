@@ -1,68 +1,53 @@
 ---
-title: "6주차: 컴퓨터 구조 기초"
+title: "Week 06: C, object layout, memory safety"
 draft: true
 ---
 
-# 6주차: 컴퓨터 구조 기초
+# Week 06: C, object layout, memory safety
 
-## 기준
+## 주간 목표
 
-- 주 5일
-- 하루 2시간
-- 실습 70분, 개념 35분, 노트 15분을 기본 단위로 사용
+- CS 기초, 보안 분석, 도구 실습, 산출물을 매일 연결한다.
+- 매일 문서 하나만 보고도 읽을 자료, 정리할 개념, 실습, 복습 질문을 확인할 수 있게 기록한다.
+- 주말까지 C memory layout 실습 모음과 memory safety 체크리스트을 완성한다.
 
-## 참고 자료
+## 공부 자료
+- 보유 서적: 해킹: 공격의 예술, Kernighan C 언어 프로그래밍, 전문가를 위한 C, 모던 C, 컴퓨터시스템 딥다이브 - pointer, array, string, struct, integer UB, ABI 연결
 
-- Computer Organization and Design
-- Computer Systems: A Programmer's Perspective
-- pwn.college: Computing 101
-- OST2: Architecture 1001 x86-64
+- The C Programming Language: 5장 Pointers and Arrays, 6장 Structures
+- Modern C: objects, pointers, arrays, structs, integer types, undefined behavior 관련 장
+- CS:APP 3e: 3.8 Array Allocation and Access, 3.9 Heterogeneous Data Structures, 3.10 buffer overflow 관련 부분
+- cppreference 또는 Microsoft Learn: function pointer, struct padding, object lifetime
+- CLRS: 2장 알고리즘 기초, 6장 Heapsort, 10장 Elementary Data Structures, 11장 Hash Tables, 22장 Elementary Graph Algorithms
+- MIT 6.042J Mathematics for Computer Science: sets, relations, functions, probability, graph theory 관련 강의
+- Algorithms 4th: sorting, searching, graph, string processing 관련 장
+- Z3Py guide: bit-vector, modular arithmetic, constraint solving 예제
+- 컴파일 옵션 -Wall -Wextra -fsanitize=address,undefined 사용
+- Serious Cryptography: hash, MAC, authenticated encryption, public-key crypto 관련 장
+- Cryptopals Set 1: hex/Base64/XOR/repeating-key XOR, Set 2: block cipher modes and padding
+- RFC 4648 Base64, RFC 2104 HMAC, FIPS 180-4 SHA, NIST SP 800-38A block cipher modes, RFC 8446 TLS 1.3
+- OWASP Password Storage Cheat Sheet: salt, KDF, password hashing, work factor
+- Python docs: hashlib, hmac, secrets, base64, urllib.parse, cryptography tutorials
 
-## 연결 노트
+## 핵심 키워드
 
-### CS
+C pointer, pointer, array, array decay, string, null terminator, pointer arithmetic, struct, union, enum, struct padding, alignment, offsetof, object layout, integer type, signedness, integer overflow, integer underflow, undefined behavior, implicit conversion, function pointer, callback, indirect call, vtable, control-flow hijack, memory safety, ownership, lifetime, use after free intro, double free intro, garbage collection, AddressSanitizer, UndefinedBehaviorSanitizer, out-of-bounds, heap-use-after-free, stack-use-after-return
 
-- [[_drafts/study-elements/cs/computer-architecture/bit-byte|bit/byte]]
-- [[_drafts/study-elements/cs/computer-architecture/isa|ISA]]
-- [[_drafts/study-elements/cs/computer-architecture/register|register]]
-- [[_drafts/study-elements/cs/computer-architecture/endianness|endianness]]
-- [[_drafts/study-elements/cs/computer-architecture/word-size|word size]]
+## 일별 계획
 
-## 요일별 계획
+| Day | 주제 | 핵심 키워드 | 산출물 |
+|---|---|---|---|
+| Day 01 | C pointer, array, string | C pointer, pointer, array, array decay, string, null terminator, pointer arithmetic | pointer/array/string 메모리 그림 |
+| Day 02 | struct, union, enum과 padding | struct, union, enum, struct padding, alignment, offsetof, object layout | struct layout과 padding 계산표 |
+| Day 03 | integer type, signedness, UB 재확인 | integer type, signedness, integer overflow, integer underflow, undefined behavior, implicit conversion | C integer bug 패턴 5개 정리 |
+| Day 04 | function pointer, callback, vtable | function pointer, callback, indirect call, vtable, object layout, control-flow hijack | indirect call 대상 저장 위치와 위험 정리 |
+| Day 05 | memory safety와 ownership/lifetime | memory safety, ownership, lifetime, use after free intro, double free intro, garbage collection | memory bug를 lifetime 관점으로 분류한 표 |
+| Day 06 | sanitizer 기반 C 버그 실습 | AddressSanitizer, UndefinedBehaviorSanitizer, out-of-bounds, heap-use-after-free, stack-use-after-return | sanitizer report 해석 로그 |
+| Day 07 | 주간 복습과 pwn/reversing 연결 | pointer, struct, signedness, function pointer, memory safety, ownership | Week 06 C 취약점 seed 목록 |
 
-### 월요일
+## 주간 산출물
 
-- 개념: [[_drafts/study-elements/cs/computer-architecture/bit-byte|bit/byte]], [[_drafts/study-elements/cs/computer-architecture/isa|ISA]]
-- 자료: Computer Organization and Design
-- 노트: 이번 주 목표와 모르는 용어를 `_drafts`에 정리
-
-### 화요일
-
-- 실습: 진수 변환, little endian 메모리 표현, register 이름을 손으로 표로 만든다.
-- 개념: [[_drafts/study-elements/cs/computer-architecture/register|register]], [[_drafts/study-elements/cs/computer-architecture/endianness|endianness]]
-- 노트: 실습 중 확인한 명령어, 주소, artifact를 짧게 기록
-
-### 수요일
-
-- 자료: Computer Systems: A Programmer's Perspective
-- 실습: 월/화에 막힌 부분을 debugger, disassembler, packet viewer 중 해당 도구로 재확인
-- 노트: 왜 막혔는지와 다음 확인 지점을 적기
-
-### 목요일
-
-- 실습: 진수 변환, little endian 메모리 표현, register 이름을 손으로 표로 만든다.
-- 개념: [[_drafts/study-elements/cs/computer-architecture/word-size|word size]]
-- 노트: 재현 절차를 lab 또는 wiki 초안으로 분리
-
-### 금요일
-
-- 산출물: 컴퓨터 구조 기초 map seed
-- 복습: 이번 주 개념 링크가 public wiki로 옮길 수준인지 표시
-- 정리: 다음 주에 이어갈 질문 3개 작성
-
-## 완료 기준
-
-- [ ] study log 2개 이상
-- [ ] wiki seed 2개 이상
-- [ ] 실습 또는 분석 산출물 1개
-- [ ] 막힌 지점과 해결 과정을 한 문단으로 정리
+- C memory layout 실습 모음과 memory safety 체크리스트
+- daily-study 문서 7개
+- 개념 노트 또는 실습 로그 3개 이상
+- 다음 주로 넘길 질문 5개

@@ -1,68 +1,49 @@
 ---
-title: "25주차: Windows Internals 1: process와 object"
+title: "Week 25: Linux kernel, system security, observability"
 draft: true
 ---
 
-# 25주차: Windows Internals 1: process와 object
+# Week 25: Linux kernel, system security, observability
 
-## 기준
+## 주간 목표
 
-- 주 5일
-- 하루 2시간
-- 실습 70분, 개념 35분, 노트 15분을 기본 단위로 사용
+- CS 기초, 보안 분석, 도구 실습, 산출물을 매일 연결한다.
+- 매일 문서 하나만 보고도 읽을 자료, 정리할 개념, 실습, 복습 질문을 확인할 수 있게 기록한다.
+- 주말까지 Linux kernel 관찰 지점과 시스템 보안 모델 정리을 완성한다.
 
-## 참고 자료
+## 공부 자료
+- 보유 서적: 리눅스 커널 심층 구조, BPF Performance Tools, 실전 리눅스 악성코드 분석, 운영체제 - Stallings, 운영체제 - Silberschatz - syscall, VFS, scheduler, memory management, tracing, Linux malware artifact
 
-- Windows Internals Part 1
-- Practical Malware Analysis
-- Microsoft Sysinternals and WinDbg docs
-- HTB/Dreamhack: Windows artifact and reversing labs
+- Linux Kernel Development: process management, system calls, virtual file system, modules, memory management 관련 장
+- Linux kernel documentation: filesystems/proc, driver-api, bpf, admin-guide/LSM, userspace-api/seccomp_filter
+- man pages: proc, capabilities, namespaces, cgroups, seccomp, auditctl, bpf, systemd.service
+- kernel docs 또는 LWN: eBPF verifier, LSM hooks, namespace/cgroup 개요
+- CS:APP 3e: 8.1 Exceptions, 8.2 Processes, 8.4 Process Control
+- OSTEP: Limited Direct Execution, System Calls, Context Switches 관련 장
+- Linux man pages: syscall, strace, ptrace, signal
+- Linux man pages: systemd.exec, systemd-analyze security, capabilities, namespaces, cgroups, seccomp, auditctl, aa-status, sestatus
+- Docker docs: rootless mode, default capabilities, seccomp security profiles, AppArmor/SELinux integration
+- Linux kernel documentation: lockdown, module signing, IMA/EVM, audit, BPF LSM 개요
 
-## 연결 노트
+## 핵심 키워드
 
-### Platforms
+Linux Kernel, kernel, kernel module, syscall table, system call, kernel space, user space, task_struct, scheduler, procfs, /proc/<pid>, process state, context switching, load average, VFS, inode, file operations, dentry, mount namespace, filesystem driver, permission check, driver, IOCTL, device file, major/minor number, udev, capability requirement, DAC, MAC, capabilities, namespace, cgroup, seccomp, seccomp profile, rootless container, container isolation, privilege boundary, sandbox, AppArmor, SELinux, LSM, auditd, audit rule, policy, denial log, eBPF, BPF verifier, tracepoint, kprobe, systemd, systemd sandboxing, journalctl, observability, kernel lockdown, module signing, IMA/EVM
 
-- [[_drafts/study-elements/platforms/windows/process|Process]]
-- [[_drafts/study-elements/platforms/windows/thread|Thread]]
-- [[_drafts/study-elements/platforms/windows/object-manager|Object Manager]]
-- [[_drafts/study-elements/platforms/windows/handle|Handle]]
-- [[_drafts/study-elements/platforms/windows/dll|DLL]]
+## 일별 계획
 
-## 요일별 계획
+| Day | 주제 | 핵심 키워드 | 산출물 |
+|---|---|---|---|
+| Day 01 | kernel, module, syscall table | Linux Kernel, kernel, kernel module, syscall table, system call, kernel space, user space | Linux syscall과 kernel module 개념도 |
+| Day 02 | process/task scheduler와 procfs | task_struct, scheduler, procfs, /proc/<pid>, process state, context switching, load average | /proc 기반 process 관찰표 |
+| Day 03 | VFS, inode, file operations | VFS, inode, file operations, dentry, mount namespace, filesystem driver, permission check | VFS 경로 해석 흐름도 |
+| Day 04 | driver, module, IOCTL | driver, kernel module, IOCTL, device file, major/minor number, udev, capability requirement | device file과 IOCTL 공격면 정리 |
+| Day 05 | capabilities, namespace, cgroup, seccomp | DAC, MAC, capabilities, namespace, cgroup, seccomp, seccomp profile, rootless container, container isolation | container 격리 요소별 보안 역할 표 |
+| Day 06 | AppArmor, SELinux, LSM, auditd | AppArmor, SELinux, LSM, auditd, audit rule, policy, denial log, MAC, privilege boundary | LSM/audit 로그 읽기 체크리스트 |
+| Day 07 | eBPF, systemd hardening, kernel lockdown | eBPF, BPF verifier, tracepoint, kprobe, systemd, systemd sandboxing, journalctl, kernel lockdown, module signing, IMA/EVM | Linux 관찰 도구와 hardening 연결표 |
 
-### 월요일
+## 주간 산출물
 
-- 개념: [[_drafts/study-elements/platforms/windows/process|Process]], [[_drafts/study-elements/platforms/windows/thread|Thread]]
-- 자료: Windows Internals Part 1
-- 노트: 이번 주 목표와 모르는 용어를 `_drafts`에 정리
-
-### 화요일
-
-- 실습: Process Explorer/Procmon으로 process, thread, handle, DLL을 관찰한다.
-- 개념: [[_drafts/study-elements/platforms/windows/object-manager|Object Manager]], [[_drafts/study-elements/platforms/windows/handle|Handle]]
-- 노트: 실습 중 확인한 명령어, 주소, artifact를 짧게 기록
-
-### 수요일
-
-- 자료: Practical Malware Analysis
-- 실습: 월/화에 막힌 부분을 debugger, disassembler, packet viewer 중 해당 도구로 재확인
-- 노트: 왜 막혔는지와 다음 확인 지점을 적기
-
-### 목요일
-
-- 실습: Process Explorer/Procmon으로 process, thread, handle, DLL을 관찰한다.
-- 개념: [[_drafts/study-elements/platforms/windows/dll|DLL]]
-- 노트: 재현 절차를 lab 또는 wiki 초안으로 분리
-
-### 금요일
-
-- 산출물: Windows process/object map
-- 복습: 이번 주 개념 링크가 public wiki로 옮길 수준인지 표시
-- 정리: 다음 주에 이어갈 질문 3개 작성
-
-## 완료 기준
-
-- [ ] study log 2개 이상
-- [ ] wiki seed 2개 이상
-- [ ] 실습 또는 분석 산출물 1개
-- [ ] 막힌 지점과 해결 과정을 한 문단으로 정리
+- Linux kernel 관찰 지점과 시스템 보안 모델 정리
+- daily-study 문서 7개
+- 개념 노트 또는 실습 로그 3개 이상
+- 다음 주로 넘길 질문 5개

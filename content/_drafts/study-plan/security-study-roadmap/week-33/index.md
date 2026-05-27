@@ -1,68 +1,55 @@
 ---
-title: "33주차: Memory Forensics"
+title: "Week 33: crypto misuse, randomness, malware config"
 draft: true
 ---
 
-# 33주차: Memory Forensics
+# Week 33: crypto misuse, randomness, malware config
 
-## 기준
+## 주간 목표
 
-- 주 5일
-- 하루 2시간
-- 실습 70분, 개념 35분, 노트 15분을 기본 단위로 사용
+- CS 기초, 보안 분석, 도구 실습, 산출물을 매일 연결한다.
+- 매일 문서 하나만 보고도 읽을 자료, 정리할 개념, 실습, 복습 질문을 확인할 수 있게 기록한다.
+- 주말까지 crypto misuse 분석표, entropy 노트, config decryptor 초안을 완성한다.
 
-## 참고 자료
+## 공부 자료
+- 보유 서적: Cryptography & Network Security, Malware Analysis and Detection Engineering - PRNG/CSPRNG, entropy, malware config decryption
 
-- The Art of Memory Forensics
-- Volatility docs
-- SANS FOR508 syllabus checklist
-- HTB/Dreamhack: memory forensics labs
+- Khan Academy Probability and statistics: sample space, independence, conditional probability, expected value 기초
+- OpenStax Introductory Statistics: probability, distribution, descriptive statistics, sampling bias
+- MIT 6.042J Mathematics for Computer Science: probability, random variables, expectation, concentration intuition
+- Serious Cryptography: hash, MAC, authenticated encryption, public-key crypto 관련 장
+- Cryptopals Set 1: hex/Base64/XOR/repeating-key XOR, Set 2: block cipher modes and padding
+- RFC 4648 Base64, RFC 2104 HMAC, FIPS 180-4 SHA, NIST SP 800-38A block cipher modes, RFC 8446 TLS 1.3
+- OWASP Password Storage Cheat Sheet: salt, KDF, password hashing, work factor
+- Python docs: hashlib, hmac, secrets, base64, urllib.parse, cryptography tutorials
+- Practical Malware Analysis: 1장 Basic Static Techniques, 2장 Basic Dynamic Analysis, 3장 Advanced Static Techniques
+- MITRE ATT&CK: Enterprise tactics, techniques, procedure examples, data sources
+- Malware Unicorn: malware analysis methodology and lab safety sections
+- REMnux docs: analysis VM 구성, INetSim, FakeDNS, safe sample handling
+- Practical Malware Analysis: persistence, Windows API, DLL injection, process replacement 관련 장
+- MITRE ATT&CK: T1547 Boot or Logon Autostart Execution, T1055 Process Injection, T1027 Obfuscated Files or Information
+- Microsoft Learn: Registry Run and RunOnce keys, Task Scheduler, WMI permanent event subscription
+- Sysinternals: Autoruns, Process Explorer, Procmon 사용 가이드
 
-## 연결 노트
+## 핵심 키워드
 
-### Security
+KDF, salt, password hashing, PBKDF2, bcrypt, scrypt, Argon2, work factor, probability, distribution, entropy, min-entropy, information content, PRNG, CSPRNG, random seed, predictability, nonce generation, key generation, secrets module, malware config decryption, config extraction, XOR, AES, hardcoded key, decode loop, schema, ransomware encryption, file key, master key, hybrid encryption, RSA/ECC wrapping, key management, recovery limit, hash-based IOC, HMAC, file hash, certificate fingerprint, public key hash, YARA string, false positive, nonce reuse, ECB mode, padding oracle, weak KDF, insecure PRNG, side-channel intro, config decryption
 
-- [[_drafts/study-elements/security/dfir/memory-dump|memory dump]]
-- [[_drafts/study-elements/security/dfir/process-reconstruction|process reconstruction]]
-- [[_drafts/study-elements/security/dfir/dll-list|DLL list]]
-- [[_drafts/study-elements/security/dfir/vad|VAD]]
-- [[_drafts/study-elements/security/dfir/malfind|malfind]]
+## 일별 계획
 
-## 요일별 계획
+| Day | 주제 | 핵심 키워드 | 산출물 |
+|---|---|---|---|
+| Day 01 | KDF, salt, password hashing | KDF, salt, password hashing, PBKDF2, bcrypt, scrypt, Argon2 | password storage 실수와 올바른 설계 비교 |
+| Day 02 | PRNG, CSPRNG, entropy | probability, distribution, entropy, min-entropy, PRNG, CSPRNG, random seed, predictability | 난수 생성과 entropy 실수 사례 정리 |
+| Day 03 | malware config decryption | malware config decryption, config extraction, XOR, AES, hardcoded key, decode loop, schema | toy config decryptor 스크립트 |
+| Day 04 | ransomware encryption model | ransomware encryption, file key, master key, hybrid encryption, RSA/ECC wrapping, key management, recovery limit | ransomware crypto 구조 흐름도 |
+| Day 05 | hash-based IOC와 crypto artifact | hash-based IOC, HMAC, file hash, certificate fingerprint, public key hash, YARA string, false positive | crypto artifact 기반 IOC 표 |
+| Day 06 | crypto implementation pitfalls | nonce reuse, ECB mode, padding oracle, weak KDF, hardcoded key, insecure PRNG, side-channel intro | crypto misuse 탐지 체크리스트 |
+| Day 07 | 주간 복습과 malware crypto report | KDF, salt, CSPRNG, config decryption, ransomware encryption, hash-based IOC, nonce reuse | Week 33 malware crypto mini report |
 
-### 월요일
+## 주간 산출물
 
-- 개념: [[_drafts/study-elements/security/dfir/memory-dump|memory dump]], [[_drafts/study-elements/security/dfir/process-reconstruction|process reconstruction]]
-- 자료: The Art of Memory Forensics
-- 노트: 이번 주 목표와 모르는 용어를 `_drafts`에 정리
-
-### 화요일
-
-- 실습: Volatility 기본 plugin 출력의 의미를 process, dll, handle, VAD 중심으로 정리한다.
-- 개념: [[_drafts/study-elements/security/dfir/dll-list|DLL list]], [[_drafts/study-elements/security/dfir/vad|VAD]]
-- 노트: 실습 중 확인한 명령어, 주소, artifact를 짧게 기록
-
-### 수요일
-
-- 자료: Volatility docs
-- 실습: 월/화에 막힌 부분을 debugger, disassembler, packet viewer 중 해당 도구로 재확인
-- 노트: 왜 막혔는지와 다음 확인 지점을 적기
-
-### 목요일
-
-- 실습: Volatility 기본 plugin 출력의 의미를 process, dll, handle, VAD 중심으로 정리한다.
-- 개념: [[_drafts/study-elements/security/dfir/malfind|malfind]]
-- 노트: 재현 절차를 lab 또는 wiki 초안으로 분리
-
-### 금요일
-
-- 산출물: memory forensics lab
-- 복습: 이번 주 개념 링크가 public wiki로 옮길 수준인지 표시
-- 정리: 다음 주에 이어갈 질문 3개 작성
-
-## 완료 기준
-
-- [ ] study log 2개 이상
-- [ ] wiki seed 2개 이상
-- [ ] 실습 또는 분석 산출물 1개
-- [ ] 막힌 지점과 해결 과정을 한 문단으로 정리
+- crypto misuse 분석표, entropy 노트, config decryptor 초안
+- daily-study 문서 7개
+- 개념 노트 또는 실습 로그 3개 이상
+- 다음 주로 넘길 질문 5개

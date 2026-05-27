@@ -1,71 +1,56 @@
 ---
-title: "31주차: 디스크 포렌식 기초"
+title: "Week 31: crypto math primer, encodings, hashing"
 draft: true
 ---
 
-# 31주차: 디스크 포렌식 기초
+# Week 31: crypto math primer, encodings, hashing
 
-## 기준
+## 주간 목표
 
-- 주 5일
-- 하루 2시간
-- 실습 70분, 개념 35분, 노트 15분을 기본 단위로 사용
+- CS 기초, 보안 분석, 도구 실습, 산출물을 매일 연결한다.
+- 매일 문서 하나만 보고도 읽을 자료, 정리할 개념, 실습, 복습 질문을 확인할 수 있게 기록한다.
+- 주말까지 중등/고등 수학 점검표와 encoding/hash/HMAC 실습 코드를 완성한다.
 
-## 참고 자료
+## 공부 자료
+- 보유 서적: Concrete Mathematics, Cryptography & Network Security - set/function/modular arithmetic, encoding/hash 기초
 
-- File System Forensic Analysis
-- The Art of Memory Forensics
-- SANS FOR500 syllabus checklist
-- Autopsy/Sleuth Kit docs
+- Khan Academy: Pre-algebra, Algebra basics, Algebra 1, Algebra 2, Probability and statistics에서 정수, 분수, 비례, 함수, 지수/로그, 확률 기초
+- OpenStax Prealgebra/Algebra and Trigonometry/Introductory Statistics: 소인수분해, 지수법칙, 함수, 확률/통계 보충
+- MIT 6.042J Mathematics for Computer Science: sets, functions, counting, probability intro
+- Serious Cryptography: hash, MAC, authenticated encryption, public-key crypto 관련 장
+- Cryptopals Set 1: hex/Base64/XOR/repeating-key XOR, Set 2: block cipher modes and padding
+- RFC 4648 Base64, RFC 2104 HMAC, FIPS 180-4 SHA, NIST SP 800-38A block cipher modes, RFC 8446 TLS 1.3
+- OWASP Password Storage Cheat Sheet: salt, KDF, password hashing, work factor
+- Python docs: hashlib, hmac, secrets, base64, urllib.parse, cryptography tutorials
+- Windows Internals Part 1: Concepts and Tools, System Architecture, Processes/Threads/Jobs, Memory Management, Security
+- Windows Internals Part 2: I/O System, Storage Management, Registry, Services, WMI 관련 장
+- Microsoft Learn: Registry hives, Event Log, Prefetch, Task Scheduler, Services, ETW 개요
+- 13Cubed Windows Forensics: Registry, Prefetch, ShimCache, AmCache, SRUM, LNK/JumpList 강의 범위
+- CS:APP 3e: 2.1 Information Storage, 2.2 Integer Representations, 2.3 Integer Arithmetic
+- 해커의 기쁨(Hacker's Delight): 1장 Introduction, 2장 Basics 중 bit 연산과 정수 표현
+- C reference: stdint.h, limits.h, integer conversion, signed overflow의 undefined behavior
+- The C Programming Language: 5장 Pointers and Arrays, 6장 Structures
+- CLRS: 2장 알고리즘 기초, 6장 Heapsort, 10장 Elementary Data Structures, 11장 Hash Tables, 22장 Elementary Graph Algorithms
 
-## 연결 노트
+## 핵심 키워드
 
-### Security
+integer, fraction, ratio, prime factorization, gcd, exponent rule, logarithm, function, inverse function, probability, sample space, counting, encoding vs encryption vs hashing, reversibility, key, integrity, confidentiality, Base64, hex, URL encoding, Unicode, UTF-8, code point, normalization, XOR encoding, single-byte XOR, repeating-key XOR, known plaintext, crib dragging, malware string hiding, hash function, MD5, SHA-1, SHA-256, collision, preimage, pigeonhole principle, birthday bound, hash-based IOC, HMAC, keyed hash, message authentication, length extension risk, secret key, fuzzy hash intro, sample identity, collision risk, file metadata, YARA complement, encoding, XOR
 
-- [[_drafts/study-elements/security/dfir/forensic-image|forensic image]]
-- [[_drafts/study-elements/security/dfir/chain-of-custody|chain of custody]]
+## 일별 계획
 
-### CS
+| Day | 주제 | 핵심 키워드 | 산출물 |
+|---|---|---|---|
+| Day 01 | 암호학 수학 gate와 encoding 구분 | integer, prime factorization, gcd, exponent rule, function, probability, encoding vs encryption vs hashing | 중등/고등 수학 점검표와 encoding 비교표 |
+| Day 02 | Base64, hex, URL encoding, Unicode | Base64, hex, URL encoding, Unicode, UTF-8, code point, normalization | 문자열 인코딩 변환 예제 모음 |
+| Day 03 | XOR encoding과 반복키 | XOR encoding, single-byte XOR, repeating-key XOR, known plaintext, crib dragging, malware string hiding | XOR decode 스크립트와 한계 |
+| Day 04 | hash function: MD5, SHA-1, SHA-256 | hash function, MD5, SHA-1, SHA-256, collision, preimage, pigeonhole principle, birthday bound, hash-based IOC | hash 알고리즘별 사용/위험 정리 |
+| Day 05 | HMAC과 keyed integrity | HMAC, keyed hash, message authentication, integrity, length extension risk, secret key | HMAC 입력/출력/검증 코드 |
+| Day 06 | hash-based IOC와 malware triage | hash-based IOC, fuzzy hash intro, sample identity, collision risk, file metadata, YARA complement | hash IOC의 장단점 표 |
+| Day 07 | 주간 복습과 encoding script 정리 | encoding, Base64, Unicode, XOR, MD5, SHA-256, HMAC | Week 31 crypto basics notebook |
 
-- [[_drafts/study-elements/cs/operating-systems/filesystem|filesystem]]
-- [[_drafts/study-elements/cs/operating-systems/inode|inode]]
-- [[_drafts/study-elements/cs/operating-systems/mft|MFT]]
+## 주간 산출물
 
-## 요일별 계획
-
-### 월요일
-
-- 개념: [[_drafts/study-elements/security/dfir/forensic-image|forensic image]], [[_drafts/study-elements/security/dfir/chain-of-custody|chain of custody]]
-- 자료: File System Forensic Analysis
-- 노트: 이번 주 목표와 모르는 용어를 `_drafts`에 정리
-
-### 화요일
-
-- 실습: toy image 기준으로 partition, filesystem, deleted file, carving 흐름을 정리한다.
-- 개념: [[_drafts/study-elements/cs/operating-systems/filesystem|filesystem]], [[_drafts/study-elements/cs/operating-systems/inode|inode]]
-- 노트: 실습 중 확인한 명령어, 주소, artifact를 짧게 기록
-
-### 수요일
-
-- 자료: The Art of Memory Forensics
-- 실습: 월/화에 막힌 부분을 debugger, disassembler, packet viewer 중 해당 도구로 재확인
-- 노트: 왜 막혔는지와 다음 확인 지점을 적기
-
-### 목요일
-
-- 실습: toy image 기준으로 partition, filesystem, deleted file, carving 흐름을 정리한다.
-- 개념: [[_drafts/study-elements/cs/operating-systems/mft|MFT]]
-- 노트: 재현 절차를 lab 또는 wiki 초안으로 분리
-
-### 금요일
-
-- 산출물: disk forensics lab template
-- 복습: 이번 주 개념 링크가 public wiki로 옮길 수준인지 표시
-- 정리: 다음 주에 이어갈 질문 3개 작성
-
-## 완료 기준
-
-- [ ] study log 2개 이상
-- [ ] wiki seed 2개 이상
-- [ ] 실습 또는 분석 산출물 1개
-- [ ] 막힌 지점과 해결 과정을 한 문단으로 정리
+- 중등/고등 수학 점검표와 encoding/hash/HMAC 실습 코드
+- daily-study 문서 7개
+- 개념 노트 또는 실습 로그 3개 이상
+- 다음 주로 넘길 질문 5개

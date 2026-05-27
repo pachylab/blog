@@ -1,69 +1,53 @@
 ---
-title: "36주차: 악성코드와 암호 오용"
+title: "Week 36: advanced reversing: languages and runtimes"
 draft: true
 ---
 
-# 36주차: 악성코드와 암호 오용
+# Week 36: advanced reversing: languages and runtimes
 
-## 기준
+## 주간 목표
 
-- 주 5일
-- 하루 2시간
-- 실습 70분, 개념 35분, 노트 15분을 기본 단위로 사용
+- CS 기초, 보안 분석, 도구 실습, 산출물을 매일 연결한다.
+- 매일 문서 하나만 보고도 읽을 자료, 정리할 개념, 실습, 복습 질문을 확인할 수 있게 기록한다.
+- 주말까지 언어/runtime별 reversing 관찰표와 automation script을 완성한다.
 
-## 참고 자료
+## 공부 자료
+- 보유 서적: Structure and Interpretation of Computer Programs, 리버싱 핵심 원리 - interpreter, VM loop, bytecode, decompiler reasoning
 
-- Practical Malware Analysis
-- Serious Cryptography
+- Practical Reverse Engineering: C++ reversing, virtual dispatch, RTTI, Windows internals 관련 장
+- .NET docs: assemblies, metadata, IL, CLR 개요; Java Virtual Machine Spec: class file and bytecode 개요
+- Android docs: DEX format and app fundamentals; Go/Rust/Swift 공식 docs: runtime, symbol, calling convention 개요
+- Ghidra docs: data types, class/type recovery, decompiler output 정리
+- The C Programming Language: 5장 Pointers and Arrays, 6장 Structures
+- Modern C: objects, pointers, arrays, structs, integer types, undefined behavior 관련 장
+- CS:APP 3e: 3.8 Array Allocation and Access, 3.9 Heterogeneous Data Structures, 3.10 buffer overflow 관련 부분
+- cppreference 또는 Microsoft Learn: function pointer, struct padding, object lifetime
+- CS:APP 3e: 7장 Linking 전체
+- CS:APP 7장 Linking, LLD docs: ELF/COFF/Wasm linkers, Ian Lance Taylor Linkers series: object files, symbols, relocation, dynamic linking 관련 부분
+- Crafting Interpreters: scanning/parsing, bytecode VM, compiler, garbage collection 관련 장
+- LLVM docs: IR, basic block, control-flow graph, SSA form 개요
+- Python docs: struct, subprocess, pathlib; pwntools docs: tubes, ELF helper
+- The Art of Memory Forensics: acquisition, processes, DLLs, handles, VAD, malfind 관련 장
 
-## 연결 노트
+## 핵심 키워드
 
-### CS
+C++, object layout, vtable, vptr, RTTI, name mangling, virtual dispatch, .NET, Java, bytecode, VM, JIT, metadata, managed runtime, garbage collection, Android, DEX, Dalvik, ART, smali, manifest, permission, app sandbox, Go, Rust, Swift, runtime, symbol, panic handler, ownership, lifetime, memory safety, borrow checker, reference counting, use after free prevention, Python scripting, parser automation, batch analysis, Ghidra script, symbol extraction, string extraction, report generation
 
-- [[_drafts/study-elements/cs/cryptography/xor-encoding|XOR encoding]]
-- [[_drafts/study-elements/cs/cryptography/kdf|KDF]]
-- [[_drafts/study-elements/cs/cryptography/prng|PRNG]]
+## 일별 계획
 
-### Security
+| Day | 주제 | 핵심 키워드 | 산출물 |
+|---|---|---|---|
+| Day 01 | C++ object layout, vtable, RTTI | C++, object layout, vtable, vptr, RTTI, name mangling, virtual dispatch | C++ class layout과 virtual call 분석 |
+| Day 02 | .NET, Java, bytecode, VM, JIT | .NET, Java, bytecode, VM, JIT, metadata, managed runtime | .NET/Java metadata와 bytecode 비교표 |
+| Day 03 | Android DEX와 Dalvik/ART | Android, DEX, Dalvik, ART, smali, manifest, permission | DEX 구조와 Android 앱 분석 포인트 |
+| Day 04 | Go, Rust, Swift binary 특징 | Go, Rust, Swift, runtime, symbol, panic handler, ownership | Go/Rust/Swift reversing 특징 비교 |
+| Day 05 | memory safety, ownership, garbage collection | memory safety, ownership, lifetime, garbage collection, borrow checker, reference counting, use after free prevention | 언어별 memory safety 모델 비교 |
+| Day 06 | parser automation과 batch reversing | Python scripting, parser automation, batch analysis, Ghidra script, symbol extraction, string extraction, report generation | 반복 reversing 자동화 스크립트 |
+| Day 07 | 주간 복습과 runtime fingerprint | C++, .NET, Java, DEX, Go, Rust, Python scripting | Week 36 runtime fingerprint checklist |
 
-- [[_drafts/study-elements/security/malware-analysis/config-extraction|config extraction]]
-- [[_drafts/study-elements/security/malware-analysis/ransomware|ransomware]]
+## 주간 산출물
 
-## 요일별 계획
-
-### 월요일
-
-- 개념: [[_drafts/study-elements/cs/cryptography/xor-encoding|XOR encoding]], [[_drafts/study-elements/cs/cryptography/kdf|KDF]]
-- 자료: Practical Malware Analysis
-- 노트: 이번 주 목표와 모르는 용어를 `_drafts`에 정리
-
-### 화요일
-
-- 실습: toy config decryption, XOR/rolling key, ransomware-style encryption flow를 구현해 본다.
-- 개념: [[_drafts/study-elements/cs/cryptography/prng|PRNG]], [[_drafts/study-elements/security/malware-analysis/config-extraction|config extraction]]
-- 노트: 실습 중 확인한 명령어, 주소, artifact를 짧게 기록
-
-### 수요일
-
-- 자료: Serious Cryptography
-- 실습: 월/화에 막힌 부분을 debugger, disassembler, packet viewer 중 해당 도구로 재확인
-- 노트: 왜 막혔는지와 다음 확인 지점을 적기
-
-### 목요일
-
-- 실습: toy config decryption, XOR/rolling key, ransomware-style encryption flow를 구현해 본다.
-- 개념: [[_drafts/study-elements/security/malware-analysis/ransomware|ransomware]]
-- 노트: 재현 절차를 lab 또는 wiki 초안으로 분리
-
-### 금요일
-
-- 산출물: malware crypto misuse note
-- 복습: 이번 주 개념 링크가 public wiki로 옮길 수준인지 표시
-- 정리: 다음 주에 이어갈 질문 3개 작성
-
-## 완료 기준
-
-- [ ] study log 2개 이상
-- [ ] wiki seed 2개 이상
-- [ ] 실습 또는 분석 산출물 1개
-- [ ] 막힌 지점과 해결 과정을 한 문단으로 정리
+- 언어/runtime별 reversing 관찰표와 automation script
+- daily-study 문서 7개
+- 개념 노트 또는 실습 로그 3개 이상
+- 다음 주로 넘길 질문 5개

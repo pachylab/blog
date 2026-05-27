@@ -1,66 +1,47 @@
 ---
-title: "8주차: x86-64 Assembly 2: stack과 control flow"
+title: "Week 08: filesystem, metadata, evidence handling"
 draft: true
 ---
 
-# 8주차: x86-64 Assembly 2: stack과 control flow
+# Week 08: filesystem, metadata, evidence handling
 
-## 기준
+## 주간 목표
 
-- 주 5일
-- 하루 2시간
-- 실습 70분, 개념 35분, 노트 15분을 기본 단위로 사용
+- CS 기초, 보안 분석, 도구 실습, 산출물을 매일 연결한다.
+- 매일 문서 하나만 보고도 읽을 자료, 정리할 개념, 실습, 복습 질문을 확인할 수 있게 기록한다.
+- 주말까지 파일시스템 artifact 비교표와 timeline 초안을 완성한다.
 
-## 참고 자료
+## 공부 자료
+- 보유 서적: 디지털 포렌식과 사고 대응 2/e, 운영체제 - Stallings, 운영체제 - Silberschatz, Cryptography & Network Security - filesystem metadata, evidence handling, OS protection, authentication 기본 배경
 
-- OST2: Architecture 1001
-- Practical Binary Analysis
+- File System Forensic Analysis: file systems, metadata, timeline, deleted file recovery 관련 장
+- Linux man pages: stat, inode, ln, mount, debugfs, fsck, find
+- Microsoft Learn: NTFS overview, alternate data streams, file times, USN journal 개요
+- ext4 documentation: extents, journal, inode; Apple File System Guide: APFS snapshot/clone 개요
+- Sleuth Kit/Autopsy docs: disk image ingest, timeline, file carving workflow
+- The Linux Command Line 2판: 1장 What Is the Shell?, 2장 Navigation, 3장 Exploring the System, 5장 Working with Commands, 6장 Redirection
+- pwn.college Start Here: Using the Terminal, SSH, file navigation 관련 챌린지
+- man pages: bash 또는 sh, pwd, cd, ls, file, stat, find, grep, xxd
 
-## 연결 노트
+## 핵심 키워드
 
-### CS
+file, directory, metadata, timestamp, MACB, timezone, file permission, inode, MFT, journal, USN journal, ext4 journal, APFS snapshot, filesystem metadata, NTFS, ext4, APFS, FAT, exFAT, ADS, case sensitivity, metadata structure, symbolic link, hard link, alternate data stream, link count, path confusion, file metadata, evidence, chain of custody, forensic image, write blocker, hash verification, acquisition log, disk image, partition, file carving, deleted recovery, timeline analysis, Sleuth Kit, timeline
 
-- [[_drafts/study-elements/cs/computer-architecture/stack-pointer|stack pointer]]
-- [[_drafts/study-elements/cs/computer-architecture/base-pointer|base pointer]]
-- [[_drafts/study-elements/cs/computer-architecture/call|call]]
-- [[_drafts/study-elements/cs/computer-architecture/ret|ret]]
-- [[_drafts/study-elements/cs/computer-architecture/conditional-jump|conditional jump]]
+## 일별 계획
 
-## 요일별 계획
+| Day | 주제 | 핵심 키워드 | 산출물 |
+|---|---|---|---|
+| Day 01 | file, directory, metadata, timestamp | file, directory, metadata, timestamp, MACB, timezone, file permission | timestamp 의미와 timezone 주의점 정리 |
+| Day 02 | inode, MFT, journal | inode, MFT, journal, USN journal, ext4 journal, APFS snapshot, filesystem metadata | inode/MFT/journal 역할 비교표 |
+| Day 03 | NTFS, ext4, APFS, FAT/exFAT | NTFS, ext4, APFS, FAT, exFAT, ADS, case sensitivity | 파일시스템별 분석 포인트 표 |
+| Day 04 | symbolic link, hard link, ADS | symbolic link, hard link, alternate data stream, ADS, link count, path confusion, file metadata | link/ADS가 분석을 헷갈리게 하는 사례 정리 |
+| Day 05 | evidence, forensic image, write blocker | evidence, chain of custody, forensic image, write blocker, hash verification, acquisition log | 증거 수집 로그 템플릿 |
+| Day 06 | file carving, deleted recovery, timeline | disk image, partition, file carving, deleted recovery, timeline analysis, MACB, Sleuth Kit | 삭제 파일 복구와 timeline 실습 계획 |
+| Day 07 | 주간 복습과 DFIR 연결 | metadata, timestamp, MFT, journal, forensic image, file carving, timeline | Week 08 파일시스템 포렌식 질문 목록 |
 
-### 월요일
+## 주간 산출물
 
-- 개념: [[_drafts/study-elements/cs/computer-architecture/stack-pointer|stack pointer]], [[_drafts/study-elements/cs/computer-architecture/base-pointer|base pointer]]
-- 자료: OST2: Architecture 1001
-- 노트: 이번 주 목표와 모르는 용어를 `_drafts`에 정리
-
-### 화요일
-
-- 실습: push/pop/call/ret 전후 RSP/RBP 변화를 손으로 그리고 GDB로 검증한다.
-- 개념: [[_drafts/study-elements/cs/computer-architecture/call|call]], [[_drafts/study-elements/cs/computer-architecture/ret|ret]]
-- 노트: 실습 중 확인한 명령어, 주소, artifact를 짧게 기록
-
-### 수요일
-
-- 자료: Practical Binary Analysis
-- 실습: 월/화에 막힌 부분을 debugger, disassembler, packet viewer 중 해당 도구로 재확인
-- 노트: 왜 막혔는지와 다음 확인 지점을 적기
-
-### 목요일
-
-- 실습: push/pop/call/ret 전후 RSP/RBP 변화를 손으로 그리고 GDB로 검증한다.
-- 개념: [[_drafts/study-elements/cs/computer-architecture/conditional-jump|conditional jump]]
-- 노트: 재현 절차를 lab 또는 wiki 초안으로 분리
-
-### 금요일
-
-- 산출물: stack frame 문서와 call/ret trace
-- 복습: 이번 주 개념 링크가 public wiki로 옮길 수준인지 표시
-- 정리: 다음 주에 이어갈 질문 3개 작성
-
-## 완료 기준
-
-- [ ] study log 2개 이상
-- [ ] wiki seed 2개 이상
-- [ ] 실습 또는 분석 산출물 1개
-- [ ] 막힌 지점과 해결 과정을 한 문단으로 정리
+- 파일시스템 artifact 비교표와 timeline 초안
+- daily-study 문서 7개
+- 개념 노트 또는 실습 로그 3개 이상
+- 다음 주로 넘길 질문 5개

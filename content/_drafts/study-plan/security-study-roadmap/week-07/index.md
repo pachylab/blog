@@ -1,66 +1,53 @@
 ---
-title: "7주차: x86-64 Assembly 1"
+title: "Week 07: compiler, linker, loader, intermediate representation"
 draft: true
 ---
 
-# 7주차: x86-64 Assembly 1
+# Week 07: compiler, linker, loader, intermediate representation
 
-## 기준
+## 주간 목표
 
-- 주 5일
-- 하루 2시간
-- 실습 70분, 개념 35분, 노트 15분을 기본 단위로 사용
+- CS 기초, 보안 분석, 도구 실습, 산출물을 매일 연결한다.
+- 매일 문서 하나만 보고도 읽을 자료, 정리할 개념, 실습, 복습 질문을 확인할 수 있게 기록한다.
+- 주말까지 빌드 파이프라인 artifact와 symbol/relocation 분석 노트을 완성한다.
 
-## 참고 자료
+## 공부 자료
+- 보유 서적: Structure and Interpretation of Computer Programs, 셸 스크립트 프로그래밍 입문, 컴퓨터시스템 딥다이브 - abstraction, interpreter, runtime, automation
 
-- OST2: Architecture 1001 x86-64 Assembly
-- pwn.college: Computing 101
+- CS:APP 3e: 7장 Linking 전체
+- CS:APP 7장 Linking, LLD docs: ELF/COFF/Wasm linkers, Ian Lance Taylor Linkers series: object files, symbols, relocation, dynamic linking 관련 부분
+- Crafting Interpreters: scanning/parsing, bytecode VM, compiler, garbage collection 관련 장
+- LLVM docs: IR, basic block, control-flow graph, SSA form 개요
+- Python docs: struct, subprocess, pathlib; pwntools docs: tubes, ELF helper
+- Practical Malware Analysis: 1장 Basic Static Techniques, 2장 Basic Dynamic Analysis, 3장 Advanced Static Techniques
+- MITRE ATT&CK: Enterprise tactics, techniques, procedure examples, data sources
+- Malware Unicorn: malware analysis methodology and lab safety sections
+- REMnux docs: analysis VM 구성, INetSim, FakeDNS, safe sample handling
+- CLRS: 2장 알고리즘 기초, 6장 Heapsort, 10장 Elementary Data Structures, 11장 Hash Tables, 22장 Elementary Graph Algorithms
+- MIT 6.042J Mathematics for Computer Science: sets, relations, functions, probability, graph theory 관련 강의
+- Algorithms 4th: sorting, searching, graph, string processing 관련 장
+- Z3Py guide: bit-vector, modular arithmetic, constraint solving 예제
+- The C Programming Language: 5장 Pointers and Arrays, 6장 Structures
 
-## 연결 노트
+## 핵심 키워드
 
-### CS
+compiler, assembler, linker, loader, preprocessor, object file, runtime library, symbol, symbol table, relocation, debug information, PDB, DWARF, line table, AST, IR, CFG, data flow, SSA, basic block, control-flow graph, optimization, inlining, dead code elimination, constant folding, loop optimization, decompiler output, bytecode, VM, JIT, interpreter loop, garbage collection, managed runtime, Python scripting, pwntools, parser automation, binary parsing, struct module, subprocess, automation
 
-- [[_drafts/study-elements/cs/computer-architecture/x86-64-assembly|x86-64 assembly]]
-- [[_drafts/study-elements/cs/computer-architecture/instruction|instruction]]
-- [[_drafts/study-elements/cs/computer-architecture/addressing-mode|addressing mode]]
-- [[_drafts/study-elements/cs/computer-architecture/rax|rax]]
-- [[_drafts/study-elements/cs/computer-architecture/rip|rip]]
+## 일별 계획
 
-## 요일별 계획
+| Day | 주제 | 핵심 키워드 | 산출물 |
+|---|---|---|---|
+| Day 01 | compiler, assembler, linker, loader | compiler, assembler, linker, loader, preprocessor, object file, runtime library | source-to-execution 파이프라인 그림 |
+| Day 02 | symbol, relocation, debug information | symbol, symbol table, relocation, debug information, PDB, DWARF, line table | nm/readelf/objdump로 본 symbol과 relocation 표 |
+| Day 03 | AST, IR, CFG, data flow, SSA | AST, IR, CFG, data flow, SSA, basic block, control-flow graph | 간단한 함수의 CFG와 data-flow 노트 |
+| Day 04 | optimization과 decompiler 차이 | optimization, inlining, dead code elimination, constant folding, loop optimization, decompiler output | -O0/-O2 비교와 decompiler 차이 메모 |
+| Day 05 | bytecode, VM, JIT, interpreter loop | bytecode, VM, JIT, interpreter loop, runtime library, garbage collection, managed runtime | native code와 bytecode 실행 모델 비교표 |
+| Day 06 | Python scripting, pwntools, parser automation | Python scripting, pwntools, parser automation, binary parsing, struct module, subprocess, automation | 반복 분석을 자동화하는 Python 스크립트 초안 |
+| Day 07 | 주간 복습과 자동 분석 연결 | compiler, linker, symbol, relocation, CFG, bytecode, Python scripting | Week 07 빌드/분석 자동화 체크리스트 |
 
-### 월요일
+## 주간 산출물
 
-- 개념: [[_drafts/study-elements/cs/computer-architecture/x86-64-assembly|x86-64 assembly]], [[_drafts/study-elements/cs/computer-architecture/instruction|instruction]]
-- 자료: OST2: Architecture 1001 x86-64 Assembly
-- 노트: 이번 주 목표와 모르는 용어를 `_drafts`에 정리
-
-### 화요일
-
-- 실습: 간단한 C 코드를 objdump와 GDB disassemble로 보고 instruction을 주석 처리한다.
-- 개념: [[_drafts/study-elements/cs/computer-architecture/addressing-mode|addressing mode]], [[_drafts/study-elements/cs/computer-architecture/rax|rax]]
-- 노트: 실습 중 확인한 명령어, 주소, artifact를 짧게 기록
-
-### 수요일
-
-- 자료: pwn.college: Computing 101
-- 실습: 월/화에 막힌 부분을 debugger, disassembler, packet viewer 중 해당 도구로 재확인
-- 노트: 왜 막혔는지와 다음 확인 지점을 적기
-
-### 목요일
-
-- 실습: 간단한 C 코드를 objdump와 GDB disassemble로 보고 instruction을 주석 처리한다.
-- 개념: [[_drafts/study-elements/cs/computer-architecture/rip|rip]]
-- 노트: 재현 절차를 lab 또는 wiki 초안으로 분리
-
-### 금요일
-
-- 산출물: x86-64 register 노트와 assembly reading seed
-- 복습: 이번 주 개념 링크가 public wiki로 옮길 수준인지 표시
-- 정리: 다음 주에 이어갈 질문 3개 작성
-
-## 완료 기준
-
-- [ ] study log 2개 이상
-- [ ] wiki seed 2개 이상
-- [ ] 실습 또는 분석 산출물 1개
-- [ ] 막힌 지점과 해결 과정을 한 문단으로 정리
+- 빌드 파이프라인 artifact와 symbol/relocation 분석 노트
+- daily-study 문서 7개
+- 개념 노트 또는 실습 로그 3개 이상
+- 다음 주로 넘길 질문 5개

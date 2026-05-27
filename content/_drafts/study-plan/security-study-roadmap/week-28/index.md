@@ -1,68 +1,53 @@
 ---
-title: "28주차: Unpacking과 anti-analysis"
+title: "Week 28: memory forensics"
 draft: true
 ---
 
-# 28주차: Unpacking과 anti-analysis
+# Week 28: memory forensics
 
-## 기준
+## 주간 목표
 
-- 주 5일
-- 하루 2시간
-- 실습 70분, 개념 35분, 노트 15분을 기본 단위로 사용
+- CS 기초, 보안 분석, 도구 실습, 산출물을 매일 연결한다.
+- 매일 문서 하나만 보고도 읽을 자료, 정리할 개념, 실습, 복습 질문을 확인할 수 있게 기록한다.
+- 주말까지 Volatility 기반 memory triage report을 완성한다.
 
-## 참고 자료
+## 공부 자료
+- 보유 서적: Windows Internals 7/e Vol.1/Vol.2, 사이버 사고 대응 실무, 디지털 포렌식과 사고 대응 2/e, 메모리 포렌식 - memory dump, process reconstruction, handle, VAD, malfind, injected code
 
-- Practical Malware Analysis
-- Malware Analysis and Reverse Engineering
-- SANS FOR610 syllabus checklist
-- HTB/Dreamhack: unpacking and anti-analysis practice
+- The Art of Memory Forensics: acquisition, processes, DLLs, handles, VAD, malfind 관련 장
+- Volatility 3 docs: windows.pslist, pstree, dlllist, handles, vadinfo, malfind, netscan 플러그인
+- Android Developers: app sandbox, data/file storage, SQLite; Apple docs: property list and app container 개요
+- AWS CloudTrail docs, Microsoft Entra audit/sign-in logs docs, Kubernetes audit logging docs, container runtime logs docs
+- SANS IR methodology: preparation, identification, containment, eradication, recovery, lessons learned와 report 구조
+- CS:APP 3e: 7장 Linking 전체
+- CS:APP 7장 Linking, LLD docs: ELF/COFF/Wasm linkers, Ian Lance Taylor Linkers series: object files, symbols, relocation, dynamic linking 관련 부분
+- Crafting Interpreters: scanning/parsing, bytecode VM, compiler, garbage collection 관련 장
+- LLVM docs: IR, basic block, control-flow graph, SSA form 개요
+- OSTEP: Processes, Process API, Limited Direct Execution, Scheduling, Threads, Locks, Condition Variables
+- CS:APP 3e: 8.2 Processes, 12장 Concurrent Programming 중 thread/process 개요
+- Windows Internals Part 1: Processes, Threads, and Jobs; Services 개요
+- Linux man pages: ps, top, kill, fork, execve, wait, pthreads, systemd.service
+- Windows Internals Part 1: Concepts and Tools, System Architecture, Processes/Threads/Jobs, Memory Management, Security
 
-## 연결 노트
+## 핵심 키워드
 
-### Security
+memory dump, memory acquisition, Volatility, symbol table, profile, kernel address space, acquisition integrity, process reconstruction, pslist, pstree, psscan, hidden process, EPROCESS, process timeline, DLL list, dlllist, handle, object manager, module list, loaded library, handle leak, VAD, vadinfo, malfind, memory permission, injected code, private memory, PAGE_EXECUTE_READWRITE, netscan, socket, connection, local address, remote address, PID correlation, C2 connection, memory IOC, hook detection, SSDT hook, inline hook, DKOM intro, rootkit indicator, anomaly
 
-- [[_drafts/study-elements/security/reverse-engineering/packing|packing]]
-- [[_drafts/study-elements/security/reverse-engineering/unpacking|unpacking]]
-- [[_drafts/study-elements/security/reverse-engineering/oep|OEP]]
-- [[_drafts/study-elements/security/reverse-engineering/anti-debugging|anti-debugging]]
-- [[_drafts/study-elements/security/reverse-engineering/anti-vm|anti-VM]]
+## 일별 계획
 
-## 요일별 계획
+| Day | 주제 | 핵심 키워드 | 산출물 |
+|---|---|---|---|
+| Day 01 | memory acquisition와 profile/symbol | memory dump, memory acquisition, Volatility, symbol table, profile, kernel address space, acquisition integrity | memory acquisition와 도구 입력 체크리스트 |
+| Day 02 | process reconstruction | process reconstruction, pslist, pstree, psscan, hidden process, EPROCESS, process timeline | process list와 의심 기준 표 |
+| Day 03 | DLL list, handle, object | DLL list, dlllist, handle, object manager, module list, loaded library, handle leak | 프로세스별 module/handle 분석표 |
+| Day 04 | VAD와 malfind | VAD, vadinfo, malfind, memory permission, injected code, private memory, PAGE_EXECUTE_READWRITE | 의심 VAD와 injected code 판단표 |
+| Day 05 | network socket과 process correlation | netscan, socket, connection, local address, remote address, PID correlation, C2 connection | memory 내 network connection timeline |
+| Day 06 | memory IOC와 rootkit indicator | memory IOC, hook detection, SSDT hook, inline hook, DKOM intro, rootkit indicator, anomaly | memory-based IOC 후보 표 |
+| Day 07 | 주간 복습과 memory report | memory dump, Volatility, process reconstruction, DLL list, handle, VAD, malfind | Week 28 memory triage report |
 
-### 월요일
+## 주간 산출물
 
-- 개념: [[_drafts/study-elements/security/reverse-engineering/packing|packing]], [[_drafts/study-elements/security/reverse-engineering/unpacking|unpacking]]
-- 자료: Practical Malware Analysis
-- 노트: 이번 주 목표와 모르는 용어를 `_drafts`에 정리
-
-### 화요일
-
-- 실습: packed toy binary 또는 UPX 샘플에서 OEP, dump, import reconstruction 흐름을 정리한다.
-- 개념: [[_drafts/study-elements/security/reverse-engineering/oep|OEP]], [[_drafts/study-elements/security/reverse-engineering/anti-debugging|anti-debugging]]
-- 노트: 실습 중 확인한 명령어, 주소, artifact를 짧게 기록
-
-### 수요일
-
-- 자료: Malware Analysis and Reverse Engineering
-- 실습: 월/화에 막힌 부분을 debugger, disassembler, packet viewer 중 해당 도구로 재확인
-- 노트: 왜 막혔는지와 다음 확인 지점을 적기
-
-### 목요일
-
-- 실습: packed toy binary 또는 UPX 샘플에서 OEP, dump, import reconstruction 흐름을 정리한다.
-- 개념: [[_drafts/study-elements/security/reverse-engineering/anti-vm|anti-VM]]
-- 노트: 재현 절차를 lab 또는 wiki 초안으로 분리
-
-### 금요일
-
-- 산출물: unpacking checklist
-- 복습: 이번 주 개념 링크가 public wiki로 옮길 수준인지 표시
-- 정리: 다음 주에 이어갈 질문 3개 작성
-
-## 완료 기준
-
-- [ ] study log 2개 이상
-- [ ] wiki seed 2개 이상
-- [ ] 실습 또는 분석 산출물 1개
-- [ ] 막힌 지점과 해결 과정을 한 문단으로 정리
+- Volatility 기반 memory triage report
+- daily-study 문서 7개
+- 개념 노트 또는 실습 로그 3개 이상
+- 다음 주로 넘길 질문 5개

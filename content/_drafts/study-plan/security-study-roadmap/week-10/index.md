@@ -1,66 +1,53 @@
 ---
-title: "10주차: GDB 기본기"
+title: "Week 10: network forensics, IDS, C2 traffic"
 draft: true
 ---
 
-# 10주차: GDB 기본기
+# Week 10: network forensics, IDS, C2 traffic
 
-## 기준
+## 주간 목표
 
-- 주 5일
-- 하루 2시간
-- 실습 70분, 개념 35분, 노트 15분을 기본 단위로 사용
+- CS 기초, 보안 분석, 도구 실습, 산출물을 매일 연결한다.
+- 매일 문서 하나만 보고도 읽을 자료, 정리할 개념, 실습, 복습 질문을 확인할 수 있게 기록한다.
+- 주말까지 PCAP timeline, network IOC, IDS rule 초안을 완성한다.
 
-## 참고 자료
+## 공부 자료
+- 보유 서적: Cryptography & Network Security - TLS, VPN/proxy/firewall/IDS 개념과 packet analysis 배경
 
-- OST2: Debuggers 1012 Introductory GDB
-- pwn.college: Debugging Refresher
+- Computer Networking: A Top-Down Approach: 1장 네트워크 개요, 2장 Application Layer, 3장 Transport Layer, 4장 Network Layer
+- RFC 791 IP, RFC 792 ICMP, RFC 768 UDP, RFC 9293 TCP 중 header와 state machine 개요
+- Wireshark User's Guide: packet list/details/bytes pane, display filter 기본
+- Linux man pages: ip, ss, tcpdump, dig, nc, curl
+- Malware Traffic Analysis의 교육용 PCAP 또는 직접 만든 benign traffic만 사용
+- RFC 1034/1035 DNS, RFC 9110 HTTP Semantics, RFC 8446 TLS 1.3
+- Wireshark User's Guide: dns, http, tls, tcp.stream display filter
+- Zeek docs: conn.log, dns.log, http.log, ssl.log 필드 의미
+- Suricata docs: rule syntax, eve.json, alert metadata
+- Malware Traffic Analysis 교육용 PCAP: DNS/HTTP/TLS 추적 실습
+- Practical Malware Analysis: 1장 Basic Static Techniques, 2장 Basic Dynamic Analysis, 3장 Advanced Static Techniques
+- MITRE ATT&CK: Enterprise tactics, techniques, procedure examples, data sources
+- Malware Unicorn: malware analysis methodology and lab safety sections
+- REMnux docs: analysis VM 구성, INetSim, FakeDNS, safe sample handling
 
-## 연결 노트
+## 핵심 키워드
 
-### Security
+packet, frame, stream, PCAP, session reconstruction, tcp.stream, packet bytes, ARP, DHCP, routing table, firewall, NAT, default gateway, network segmentation, IDS, IPS, Zeek, Suricata, alert, eve.json, conn.log, dns.log, network IOC, JA3, JA4, TLS fingerprint, SNI, certificate, user-agent, C2, beaconing, DGA, domain fronting, payload staging, callback interval, jitter, network forensics, traffic timeline, exfiltration pattern, large upload, DNS tunneling intro, exfiltration
 
-- [[_drafts/study-elements/security/reverse-engineering/gdb|GDB]]
-- [[_drafts/study-elements/security/reverse-engineering/breakpoint|breakpoint]]
-- [[_drafts/study-elements/security/reverse-engineering/single-step|single-step]]
-- [[_drafts/study-elements/security/reverse-engineering/memory-examine|memory examine]]
-- [[_drafts/study-elements/security/reverse-engineering/info-registers|info registers]]
+## 일별 계획
 
-## 요일별 계획
+| Day | 주제 | 핵심 키워드 | 산출물 |
+|---|---|---|---|
+| Day 01 | packet, frame, stream, PCAP 심화 | packet, frame, stream, PCAP, session reconstruction, tcp.stream, packet bytes | stream reconstruction 절차 노트 |
+| Day 02 | ARP, DHCP, routing table, firewall | ARP, DHCP, routing table, firewall, NAT, default gateway, network segmentation | 네트워크 환경 artifact 정리표 |
+| Day 03 | IDS/IPS와 Zeek/Suricata | IDS, IPS, Zeek, Suricata, alert, eve.json, conn.log | Zeek/Suricata 로그 필드 비교표 |
+| Day 04 | network IOC, JA3/JA4, TLS fingerprint | network IOC, JA3, JA4, TLS fingerprint, SNI, certificate, user-agent | network IOC 유형과 한계 정리 |
+| Day 05 | C2, beaconing, DGA, domain fronting | C2, beaconing, DGA, domain fronting, payload staging, callback interval, jitter | beaconing 시간 패턴 분석표 |
+| Day 06 | network forensics와 exfiltration pattern | network forensics, traffic timeline, exfiltration pattern, large upload, DNS tunneling intro, session reconstruction | PCAP 기반 traffic timeline |
+| Day 07 | 주간 복습과 탐지 룰 연결 | PCAP, IDS, network IOC, JA3, C2, beaconing, exfiltration | Week 10 network detection backlog |
 
-### 월요일
+## 주간 산출물
 
-- 개념: [[_drafts/study-elements/security/reverse-engineering/gdb|GDB]], [[_drafts/study-elements/security/reverse-engineering/breakpoint|breakpoint]]
-- 자료: OST2: Debuggers 1012 Introductory GDB
-- 노트: 이번 주 목표와 모르는 용어를 `_drafts`에 정리
-
-### 화요일
-
-- 실습: break/run/si/ni/x/20gx/info reg/disassemble를 같은 바이너리에 반복 적용한다.
-- 개념: [[_drafts/study-elements/security/reverse-engineering/single-step|single-step]], [[_drafts/study-elements/security/reverse-engineering/memory-examine|memory examine]]
-- 노트: 실습 중 확인한 명령어, 주소, artifact를 짧게 기록
-
-### 수요일
-
-- 자료: pwn.college: Debugging Refresher
-- 실습: 월/화에 막힌 부분을 debugger, disassembler, packet viewer 중 해당 도구로 재확인
-- 노트: 왜 막혔는지와 다음 확인 지점을 적기
-
-### 목요일
-
-- 실습: break/run/si/ni/x/20gx/info reg/disassemble를 같은 바이너리에 반복 적용한다.
-- 개념: [[_drafts/study-elements/security/reverse-engineering/info-registers|info registers]]
-- 노트: 재현 절차를 lab 또는 wiki 초안으로 분리
-
-### 금요일
-
-- 산출물: GDB cheat sheet와 첫 debug writeup
-- 복습: 이번 주 개념 링크가 public wiki로 옮길 수준인지 표시
-- 정리: 다음 주에 이어갈 질문 3개 작성
-
-## 완료 기준
-
-- [ ] study log 2개 이상
-- [ ] wiki seed 2개 이상
-- [ ] 실습 또는 분석 산출물 1개
-- [ ] 막힌 지점과 해결 과정을 한 문단으로 정리
+- PCAP timeline, network IOC, IDS rule 초안
+- daily-study 문서 7개
+- 개념 노트 또는 실습 로그 3개 이상
+- 다음 주로 넘길 질문 5개

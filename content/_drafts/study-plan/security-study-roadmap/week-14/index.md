@@ -1,67 +1,53 @@
 ---
-title: "14주차: 취약점 유형 1: stack/OOB/integer"
+title: "Week 14: malware taxonomy와 안전한 triage"
 draft: true
 ---
 
-# 14주차: 취약점 유형 1: stack/OOB/integer
+# Week 14: malware taxonomy와 안전한 triage
 
-## 기준
+## 주간 목표
 
-- 주 5일
-- 하루 2시간
-- 실습 70분, 개념 35분, 노트 15분을 기본 단위로 사용
+- CS 기초, 보안 분석, 도구 실습, 산출물을 매일 연결한다.
+- 매일 문서 하나만 보고도 읽을 자료, 정리할 개념, 실습, 복습 질문을 확인할 수 있게 기록한다.
+- 주말까지 교육용 샘플 triage report와 IOC/TTP 표을 완성한다.
 
-## 참고 자료
+## 공부 자료
+- 보유 서적: Learning Malware Analysis, 실전 리눅스 악성코드 분석, 시스인터널스 도구로 윈도우 문제 해결하기 - triage, sandbox, Linux/Windows malware 관찰
 
-- OST2: Vulnerabilities 1001
-- pwn.college: Program Security preview
-- Dreamhack/HTB: basic memory corruption practice
+- Practical Malware Analysis: 1장 Basic Static Techniques, 2장 Basic Dynamic Analysis, 3장 Advanced Static Techniques
+- MITRE ATT&CK: Enterprise tactics, techniques, procedure examples, data sources
+- Malware Unicorn: malware analysis methodology and lab safety sections
+- REMnux docs: analysis VM 구성, INetSim, FakeDNS, safe sample handling
+- CS:APP 3e: 7장 Linking 전체
+- CS:APP 7장 Linking, LLD docs: ELF/COFF/Wasm linkers, Ian Lance Taylor Linkers series: object files, symbols, relocation, dynamic linking 관련 부분
+- Crafting Interpreters: scanning/parsing, bytecode VM, compiler, garbage collection 관련 장
+- LLVM docs: IR, basic block, control-flow graph, SSA form 개요
+- Python docs: struct, subprocess, pathlib; pwntools docs: tubes, ELF helper
+- Practical Malware Analysis: 1장 Basic Static Techniques, 2장 Basic Dynamic Analysis, 5장 IDA Pro
+- Ghidra Student Guide: CodeBrowser, Listing, Decompiler, Symbol Tree, References, Function Graph
+- OpenSecurityTraining2 Intro x86/x64: disassembly 읽기와 control flow 추적 파트
+- Malware Unicorn reversing workshops: strings, xrefs, functions, API flow 실습
+- CLRS: 2장 알고리즘 기초, 6장 Heapsort, 10장 Elementary Data Structures, 11장 Hash Tables, 22장 Elementary Graph Algorithms
 
-## 연결 노트
+## 핵심 키워드
 
-### Security
+malware taxonomy, loader, dropper, downloader, RAT, ransomware, botnet, safe lab, sample handling, VM isolation, snapshot, network isolation, hashing, evidence log, static triage, hash, strings, imports, sections, entropy, packer suspicion, dynamic triage, Procmon, Process Explorer, Autoruns, FakeDNS, INetSim, network capture, IOC, TTP, MITRE ATT&CK, data source, technique, procedure, confidence, report structure, executive summary, technical findings, evidence, assumption, limitation, appendix
 
-- [[_drafts/study-elements/security/system-hacking/stack-buffer-overflow|stack buffer overflow]]
-- [[_drafts/study-elements/security/system-hacking/out-of-bounds-write|out-of-bounds write]]
-- [[_drafts/study-elements/security/system-hacking/integer-overflow|integer overflow]]
-- [[_drafts/study-elements/security/system-hacking/integer-underflow|integer underflow]]
-- [[_drafts/study-elements/security/system-hacking/exploit-primitive|exploit primitive]]
+## 일별 계획
 
-## 요일별 계획
+| Day | 주제 | 핵심 키워드 | 산출물 |
+|---|---|---|---|
+| Day 01 | malware taxonomy 개요 | malware taxonomy, loader, dropper, downloader, RAT, ransomware, botnet | malware 유형별 기능/흔적 비교표 |
+| Day 02 | safe lab와 sample handling | safe lab, sample handling, VM isolation, snapshot, network isolation, hashing, evidence log | 악성코드 분석 전 안전 절차 체크리스트 |
+| Day 03 | static triage: hash, strings, imports | static triage, hash, strings, imports, sections, entropy, packer suspicion | static triage 표 |
+| Day 04 | dynamic triage: process, file, registry, network | dynamic triage, Procmon, Process Explorer, Autoruns, FakeDNS, INetSim, network capture | 동적 관찰 항목별 evidence 표 |
+| Day 05 | IOC, TTP, ATT&CK-style thinking | IOC, TTP, MITRE ATT&CK, data source, technique, procedure, confidence | IOC와 TTP 분리표 |
+| Day 06 | report structure와 근거 분리 | report structure, executive summary, technical findings, evidence, assumption, limitation, appendix | malware triage report 목차 초안 |
+| Day 07 | 주간 복습과 안전 원칙 재점검 | malware taxonomy, safe lab, static triage, dynamic triage, IOC, TTP, report structure | Week 14 triage report 1차본 |
 
-### 월요일
+## 주간 산출물
 
-- 개념: [[_drafts/study-elements/security/system-hacking/stack-buffer-overflow|stack buffer overflow]], [[_drafts/study-elements/security/system-hacking/out-of-bounds-write|out-of-bounds write]]
-- 자료: OST2: Vulnerabilities 1001
-- 노트: 이번 주 목표와 모르는 용어를 `_drafts`에 정리
-
-### 화요일
-
-- 실습: BOF/OOB/integer toy program을 만들고 crash와 primitive를 분리해서 기록한다.
-- 개념: [[_drafts/study-elements/security/system-hacking/integer-overflow|integer overflow]], [[_drafts/study-elements/security/system-hacking/integer-underflow|integer underflow]]
-- 노트: 실습 중 확인한 명령어, 주소, artifact를 짧게 기록
-
-### 수요일
-
-- 자료: pwn.college: Program Security preview
-- 실습: 월/화에 막힌 부분을 debugger, disassembler, packet viewer 중 해당 도구로 재확인
-- 노트: 왜 막혔는지와 다음 확인 지점을 적기
-
-### 목요일
-
-- 실습: BOF/OOB/integer toy program을 만들고 crash와 primitive를 분리해서 기록한다.
-- 개념: [[_drafts/study-elements/security/system-hacking/exploit-primitive|exploit primitive]]
-- 노트: 재현 절차를 lab 또는 wiki 초안으로 분리
-
-### 금요일
-
-- 산출물: 취약점 유형 표와 toy lab 1개
-- 복습: 이번 주 개념 링크가 public wiki로 옮길 수준인지 표시
-- 정리: 다음 주에 이어갈 질문 3개 작성
-
-## 완료 기준
-
-- [ ] study log 2개 이상
-- [ ] wiki seed 2개 이상
-- [ ] 실습 또는 분석 산출물 1개
-- [ ] 막힌 지점과 해결 과정을 한 문단으로 정리
+- 교육용 샘플 triage report와 IOC/TTP 표
+- daily-study 문서 7개
+- 개념 노트 또는 실습 로그 3개 이상
+- 다음 주로 넘길 질문 5개

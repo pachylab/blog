@@ -1,3 +1,339 @@
 @use "./base.scss";
+@use "./variables.scss" as *;
 
 // put your custom CSS here!
+
+:root {
+  --sidebarBackground: color-mix(in srgb, var(--light) 96%, var(--lightgray));
+  --subtleBorder: color-mix(in srgb, var(--lightgray) 86%, transparent);
+  --mutedText: color-mix(in srgb, var(--darkgray) 74%, var(--gray));
+}
+
+body {
+  font-size: 16px;
+}
+
+.page {
+  max-width: 1440px;
+}
+
+.page > #quartz-body {
+  column-gap: 0;
+
+  & .sidebar {
+    gap: 0.8rem;
+    background: var(--sidebarBackground);
+  }
+
+  & .sidebar.left {
+    border-right: 1px solid var(--subtleBorder);
+    padding: 1.25rem 1.05rem 1.5rem;
+  }
+
+  & .sidebar.right {
+    border-left: 1px solid var(--subtleBorder);
+    padding: 1.25rem 1.1rem 1.5rem;
+  }
+
+  & .center,
+  & footer {
+    box-sizing: border-box;
+    min-width: 0;
+    max-width: min(100%, 780px);
+    width: 100%;
+    padding: 0 2.25rem;
+  }
+
+  & .center > article {
+    padding-bottom: 3rem;
+  }
+}
+
+.page-title {
+  font-size: 1.05rem;
+  line-height: 1.25;
+  font-weight: $boldWeight;
+
+  & a {
+    color: var(--dark);
+  }
+}
+
+.sidebar.left > .flex-component {
+  align-items: center;
+  gap: 0.45rem;
+  padding-bottom: 0.7rem;
+  border-bottom: 1px solid var(--subtleBorder);
+}
+
+.search {
+  min-width: 0;
+  max-width: none;
+}
+
+.search > .search-button {
+  height: 2.15rem;
+  border-radius: 6px;
+  border-color: var(--subtleBorder);
+  background: var(--light);
+  color: var(--mutedText);
+  padding-right: 0.7rem;
+
+  & > p {
+    color: var(--mutedText);
+    font-size: 0.88rem;
+  }
+}
+
+.darkmode,
+.readermode {
+  display: grid;
+  place-items: center;
+  width: 2.15rem;
+  height: 2.15rem;
+  border: 1px solid var(--subtleBorder);
+  border-radius: 6px;
+  background: var(--light);
+
+  &:hover {
+    background: var(--highlight);
+  }
+
+  & svg {
+    position: static;
+    width: 17px;
+    height: 17px;
+  }
+}
+
+.explorer {
+  min-height: 0;
+}
+
+.explorer-content {
+  margin-top: 0.15rem;
+  padding-right: 0.15rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--gray) transparent;
+
+  & ul li > a {
+    border-left: 0;
+    border-radius: 6px;
+    color: var(--mutedText);
+    font-size: 0.86rem;
+    line-height: 1.28;
+    opacity: 1;
+    padding: 0.24rem 0.45rem 0.24rem 1.22rem;
+
+    &.active {
+      color: var(--secondary);
+      background: var(--highlight);
+      font-weight: $semiBoldWeight;
+    }
+
+    &:hover {
+      color: var(--secondary);
+      background: var(--highlight);
+    }
+  }
+
+  .folder-outer > ul {
+    margin-left: 0.45rem;
+    padding-left: 0.55rem;
+    border-left: 1px solid var(--subtleBorder);
+  }
+}
+
+.folder-container {
+  grid-template-columns: 0.9rem minmax(0, 1fr);
+  gap: 0.15rem;
+  margin: 0.02rem 0;
+  padding: 0.2rem 0.35rem;
+  border-left: 0;
+  border-radius: 6px;
+
+  &:hover,
+  &.active {
+    background: var(--highlight);
+  }
+
+  & div > a,
+  & div > button span {
+    color: var(--darkgray);
+    font-family: var(--bodyFont);
+    font-size: 0.9rem;
+    font-weight: $semiBoldWeight;
+    line-height: 1.28;
+  }
+
+  & div > a:hover {
+    color: var(--secondary);
+  }
+}
+
+.explorer-content .folder-outer .folder-container div > a,
+.explorer-content .folder-outer .folder-container div > button span,
+.explorer-content .folder-outer .folder-outer .folder-container div > a,
+.explorer-content .folder-outer .folder-outer .folder-container div > button span,
+.explorer-content .folder-outer .folder-outer .folder-outer .folder-container div > a,
+.explorer-content .folder-outer .folder-outer .folder-outer .folder-container div > button span {
+  font-size: 0.86rem;
+  line-height: 1.28;
+}
+
+.folder-icon {
+  width: 0.78rem;
+  height: 0.78rem;
+  margin-top: 0.12rem;
+  color: var(--gray);
+}
+
+.toc,
+.backlinks {
+  padding-left: 0.2rem;
+
+  & h3,
+  & > h3,
+  & button h3 {
+    color: var(--dark);
+    font-size: 0.8rem;
+    font-weight: $boldWeight;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+}
+
+ul.toc-content.overflow,
+.backlinks > ul.overflow {
+  padding-left: 0.2rem;
+
+  & > li {
+    line-height: 1.35rem;
+  }
+
+  & > li > a {
+    color: var(--mutedText);
+    font-size: 0.84rem;
+    opacity: 1;
+
+    &:hover,
+    &.in-view {
+      color: var(--secondary);
+    }
+  }
+}
+
+article {
+  font-size: 1rem;
+
+  & > h1:first-child {
+    margin-top: 0;
+  }
+}
+
+h1 {
+  font-size: 1.9rem;
+}
+
+h2 {
+  font-size: 1.34rem;
+}
+
+h3 {
+  font-size: 1.08rem;
+}
+
+p,
+tbody,
+li {
+  line-height: 1.7rem;
+}
+
+pre,
+code,
+a.internal {
+  border-radius: 6px;
+}
+
+blockquote {
+  border-left-color: var(--tertiary);
+  color: var(--mutedText);
+}
+
+@media all and not ($desktop) {
+  .page > #quartz-body {
+    & .center,
+    & footer {
+      padding: 0 1.25rem;
+    }
+
+    & .sidebar.left {
+      border-right: 1px solid var(--subtleBorder);
+    }
+  }
+}
+
+@media all and ($mobile) {
+  .page > #quartz-body {
+    padding: 0;
+
+    & .sidebar {
+      background: var(--light);
+    }
+
+    & .sidebar.left {
+      border-right: 0;
+      border-bottom: 1px solid var(--subtleBorder);
+      padding: 0.8rem 1rem;
+    }
+
+    & .sidebar.right {
+      border-left: 0;
+      padding: 0 1rem;
+    }
+
+    & .center,
+    & footer {
+      padding: 0 1rem;
+    }
+  }
+
+  .sidebar.left > .flex-component {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .page-title {
+    font-size: 1rem;
+  }
+
+  .search {
+    flex-grow: 0;
+    flex-shrink: 0;
+    max-width: 2.15rem;
+  }
+
+  .search > .search-button {
+    justify-content: center;
+    width: 2.15rem;
+    padding: 0;
+
+    & > p {
+      display: none;
+    }
+
+    & svg {
+      margin: 0;
+    }
+  }
+
+  .readermode.desktop-only {
+    display: none;
+  }
+
+  .explorer .explorer-content {
+    background: var(--light);
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}

@@ -1,71 +1,53 @@
 ---
-title: "29주차: Process Injection과 persistence"
+title: "Week 29: network forensics and session reconstruction"
 draft: true
 ---
 
-# 29주차: Process Injection과 persistence
+# Week 29: network forensics and session reconstruction
 
-## 기준
+## 주간 목표
 
-- 주 5일
-- 하루 2시간
-- 실습 70분, 개념 35분, 노트 15분을 기본 단위로 사용
+- CS 기초, 보안 분석, 도구 실습, 산출물을 매일 연결한다.
+- 매일 문서 하나만 보고도 읽을 자료, 정리할 개념, 실습, 복습 질문을 확인할 수 있게 기록한다.
+- 주말까지 PCAP 기반 침해 흐름 timeline과 탐지 제안을 완성한다.
 
-## 참고 자료
+## 공부 자료
+- 보유 서적: 사이버 사고 대응 실무, 디지털 포렌식과 사고 대응 2/e, Cryptography & Network Security - PCAP timeline, DNS/HTTP/TLS, certificate, exfiltration pattern
 
-- Practical Malware Analysis
-- Windows Internals Part 1
-- MITRE ATT&CK: persistence, privilege escalation, defense evasion
-- Sysinternals Autoruns/Procmon
+- Computer Networking: A Top-Down Approach: 1장 네트워크 개요, 2장 Application Layer, 3장 Transport Layer, 4장 Network Layer
+- RFC 791 IP, RFC 792 ICMP, RFC 768 UDP, RFC 9293 TCP 중 header와 state machine 개요
+- Wireshark User's Guide: packet list/details/bytes pane, display filter 기본
+- Linux man pages: ip, ss, tcpdump, dig, nc, curl
+- RFC 1034/1035 DNS, RFC 9110 HTTP Semantics, RFC 8446 TLS 1.3
+- Wireshark User's Guide: dns, http, tls, tcp.stream display filter
+- Zeek docs: conn.log, dns.log, http.log, ssl.log 필드 의미
+- Suricata docs: rule syntax, eve.json, alert metadata
+- Malware Traffic Analysis 교육용 PCAP: DNS/HTTP/TLS 추적 실습
+- File System Forensic Analysis: file systems, metadata, timeline, deleted file recovery 관련 장
+- Linux man pages: stat, inode, ln, mount, debugfs, fsck, find
+- Microsoft Learn: NTFS overview, alternate data streams, file times, USN journal 개요
+- ext4 documentation: extents, journal, inode; Apple File System Guide: APFS snapshot/clone 개요
+- OSTEP: Processes, Process API, Limited Direct Execution, Scheduling, Threads, Locks, Condition Variables
 
-## 연결 노트
+## 핵심 키워드
 
-### Security
+PCAP, protocol inventory, conversation, endpoint, bytes in/out, packet count, time range, DNS, HTTP, TLS, session reconstruction, SNI, Host header, URI, certificate, Zeek, conn.log, dns.log, http.log, ssl.log, files.log, uid correlation, Suricata, eve.json, alert, signature id, flow id, rule metadata, false positive, exfiltration pattern, lateral movement intro, SMB, RDP, large transfer, beaconing, data staging, network forensics, host artifact, timeline correlation, process-to-connection, DNS cache, firewall log, exfiltration, host correlation, timeline
 
-- [[_drafts/study-elements/security/malware-analysis/process-injection|process injection]]
-- [[_drafts/study-elements/security/malware-analysis/persistence|persistence]]
+## 일별 계획
 
-### Platforms
+| Day | 주제 | 핵심 키워드 | 산출물 |
+|---|---|---|---|
+| Day 01 | PCAP triage와 protocol inventory | PCAP, protocol inventory, conversation, endpoint, bytes in/out, packet count, time range | PCAP 요약과 주요 endpoint 표 |
+| Day 02 | DNS/HTTP/TLS session reconstruction | DNS, HTTP, TLS, session reconstruction, SNI, Host header, URI | DNS->HTTP/TLS session 연결표 |
+| Day 03 | Zeek log timeline | Zeek, conn.log, dns.log, http.log, ssl.log, files.log, uid correlation | Zeek UID 기반 timeline |
+| Day 04 | Suricata alert triage | Suricata, eve.json, alert, signature id, flow id, rule metadata, false positive | alert 근거와 FP 판단표 |
+| Day 05 | exfiltration과 lateral movement 패턴 | exfiltration pattern, lateral movement intro, SMB, RDP, large transfer, beaconing, data staging | 네트워크 행위별 의심 근거표 |
+| Day 06 | host-network correlation | network forensics, host artifact, timeline correlation, process-to-connection, DNS cache, firewall log | host와 network evidence 연결표 |
+| Day 07 | 주간 복습과 network report | PCAP, session reconstruction, Zeek, Suricata, exfiltration, host correlation, timeline | Week 29 network forensics report |
 
-- [[_drafts/study-elements/platforms/windows/writeprocessmemory|WriteProcessMemory]]
-- [[_drafts/study-elements/platforms/windows/createremotethread|CreateRemoteThread]]
-- [[_drafts/study-elements/platforms/windows/wmi|WMI]]
+## 주간 산출물
 
-## 요일별 계획
-
-### 월요일
-
-- 개념: [[_drafts/study-elements/security/malware-analysis/process-injection|process injection]], [[_drafts/study-elements/platforms/windows/writeprocessmemory|WriteProcessMemory]]
-- 자료: Practical Malware Analysis
-- 노트: 이번 주 목표와 모르는 용어를 `_drafts`에 정리
-
-### 화요일
-
-- 실습: DLL injection, process hollowing, APC injection의 차이를 표로 정리한다.
-- 개념: [[_drafts/study-elements/platforms/windows/createremotethread|CreateRemoteThread]], [[_drafts/study-elements/platforms/windows/wmi|WMI]]
-- 노트: 실습 중 확인한 명령어, 주소, artifact를 짧게 기록
-
-### 수요일
-
-- 자료: Windows Internals Part 1
-- 실습: 월/화에 막힌 부분을 debugger, disassembler, packet viewer 중 해당 도구로 재확인
-- 노트: 왜 막혔는지와 다음 확인 지점을 적기
-
-### 목요일
-
-- 실습: DLL injection, process hollowing, APC injection의 차이를 표로 정리한다.
-- 개념: [[_drafts/study-elements/security/malware-analysis/persistence|persistence]]
-- 노트: 재현 절차를 lab 또는 wiki 초안으로 분리
-
-### 금요일
-
-- 산출물: process injection 비교표
-- 복습: 이번 주 개념 링크가 public wiki로 옮길 수준인지 표시
-- 정리: 다음 주에 이어갈 질문 3개 작성
-
-## 완료 기준
-
-- [ ] study log 2개 이상
-- [ ] wiki seed 2개 이상
-- [ ] 실습 또는 분석 산출물 1개
-- [ ] 막힌 지점과 해결 과정을 한 문단으로 정리
+- PCAP 기반 침해 흐름 timeline과 탐지 제안
+- daily-study 문서 7개
+- 개념 노트 또는 실습 로그 3개 이상
+- 다음 주로 넘길 질문 5개

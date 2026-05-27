@@ -1,71 +1,56 @@
 ---
-title: "12주차: PE와 Windows 실행 모델"
+title: "Week 12: static reversing workflow, IDA/Ghidra, AI-assisted analysis"
 draft: true
 ---
 
-# 12주차: PE와 Windows 실행 모델
+# Week 12: static reversing workflow, IDA/Ghidra, AI-assisted analysis
 
-## 기준
+## 주간 목표
 
-- 주 5일
-- 하루 2시간
-- 실습 70분, 개념 35분, 노트 15분을 기본 단위로 사용
+- CS 기초, 보안 분석, 도구 실습, 산출물을 매일 연결한다.
+- 매일 문서 하나만 보고도 읽을 자료, 정리할 개념, 실습, 복습 질문을 확인할 수 있게 기록한다.
+- 주말까지 IDA/Ghidra project와 static/AI triage report 초안을 완성한다.
 
-## 참고 자료
+## 공부 자료
+- 보유 서적: 리버싱 핵심 원리, 실전 바이너리 분석 - debugger, breakpoint, watchpoint, xref, function boundary
 
-- Practical Malware Analysis
-- Practical Binary Analysis
-- Windows Internals Part 1
-- Dreamhack/HTB: PE, Windows reversing, beginner malware labs
+- Practical Malware Analysis: 1장 Basic Static Techniques, 2장 Basic Dynamic Analysis, 5장 IDA Pro
+- Hex-Rays/IDA documentation: IDA View, graph view, xrefs, functions, names, comments, debugger 개요
+- Ghidra Student Guide: CodeBrowser, Listing, Decompiler, Symbol Tree, References, Function Graph
+- IDA/Ghidra MCP 사용 문서 또는 로컬 MCP 노트: 함수 목록, xref, decompiler output 조회, rename/comment 자동화
+- LLM-assisted reversing 체크리스트: decompiler output 요약, 근거 주소, cross-check, hallucination 기록
+- OpenSecurityTraining2 Intro x86/x64: disassembly 읽기와 control flow 추적 파트
+- Malware Unicorn reversing workshops: strings, xrefs, functions, API flow 실습
+- Practical Malware Analysis: 1장 Basic Static Techniques, 2장 Basic Dynamic Analysis, 3장 Advanced Static Techniques
+- MITRE ATT&CK: Enterprise tactics, techniques, procedure examples, data sources
+- Malware Unicorn: malware analysis methodology and lab safety sections
+- REMnux docs: analysis VM 구성, INetSim, FakeDNS, safe sample handling
+- 직접 만든 benign binary와 공개 교육용 crackme만 사용
+- CS:APP 3e: 3.2 Program Encodings, 3.4 Accessing Information, 3.5 Arithmetic and Logical Operations
+- OpenSecurityTraining2 Architecture 1001: x86-64 registers, instruction format, addressing mode, stack 파트
+- Intel SDM Vol.1: Basic Execution Environment, Registers, Instruction Format
+- ARM Learn the Architecture: AArch64 registers, instruction set basics, load/store addressing
+- CS:APP 3e: 7장 Linking 전체
 
-## 연결 노트
+## 핵심 키워드
 
-### CS
+static analysis, dynamic analysis, triage workflow, risk, artifact, safe lab, baseline, disassembly, decompilation, instruction, pseudo-C, compiler artifact, optimization, xref, function boundary, call instruction, jump table, function prologue, thunk, library wrapper, CFG, control-flow graph, call graph, basic block, branch, loop, recursion, string reference, library identification, FLIRT intro, constant, imported function, API usage, IDA, IDA View, Hex-Rays, Ghidra, CodeBrowser, Decompiler, Symbol Tree, function rename, data type, comment, IDA MCP, Ghidra MCP, LLM-assisted decompilation, prompt log, hallucination check, vulnerability pattern
 
-- [[_drafts/study-elements/cs/binary-formats/pe-file-format|PE File Format]]
-- [[_drafts/study-elements/cs/binary-formats/iat|IAT]]
-- [[_drafts/study-elements/cs/binary-formats/eat|EAT]]
+## 일별 계획
 
-### Platforms
+| Day | 주제 | 핵심 키워드 | 산출물 |
+|---|---|---|---|
+| Day 01 | static analysis와 dynamic analysis 비교 | static analysis, dynamic analysis, triage workflow, risk, artifact, safe lab, baseline | static/dynamic triage 장단점 표 |
+| Day 02 | disassembly와 decompilation 읽기 | disassembly, decompilation, instruction, pseudo-C, compiler artifact, optimization | assembly와 decompiler output 차이 메모 |
+| Day 03 | xref와 function boundary | xref, function boundary, call instruction, jump table, function prologue, thunk, library wrapper | 함수 경계 검증 체크리스트 |
+| Day 04 | CFG와 call graph | CFG, control-flow graph, call graph, basic block, branch, loop, recursion | 대상 함수 CFG와 call graph 스케치 |
+| Day 05 | string reference와 library identification | string reference, library identification, FLIRT intro, constant, imported function, API usage | strings/xrefs/imports로 기능 추정 표 |
+| Day 06 | IDA/Ghidra 프로젝트 정리 | IDA, IDA View, Hex-Rays, Ghidra, CodeBrowser, Decompiler, Symbol Tree, function rename, data type, comment | 분석 프로젝트 내 함수명/주석 정리 |
+| Day 07 | AI-assisted binary analysis와 triage report | LLM-assisted decompilation, IDA MCP, Ghidra MCP, xref, function boundary, CFG, hallucination check, vulnerability pattern | AI 보조 분석 검증표와 Week 12 static triage report |
 
-- [[_drafts/study-elements/platforms/windows/windows-api|Windows API]]
-- [[_drafts/study-elements/platforms/windows/pe-loader|PE loader]]
+## 주간 산출물
 
-## 요일별 계획
-
-### 월요일
-
-- 개념: [[_drafts/study-elements/cs/binary-formats/pe-file-format|PE File Format]], [[_drafts/study-elements/cs/binary-formats/iat|IAT]]
-- 자료: Practical Malware Analysis
-- 노트: 이번 주 목표와 모르는 용어를 `_drafts`에 정리
-
-### 화요일
-
-- 실습: PE header, section, import table을 pestudio/PE-bear 또는 readpe 계열 도구로 확인한다.
-- 개념: [[_drafts/study-elements/cs/binary-formats/eat|EAT]], [[_drafts/study-elements/platforms/windows/windows-api|Windows API]]
-- 노트: 실습 중 확인한 명령어, 주소, artifact를 짧게 기록
-
-### 수요일
-
-- 자료: Practical Binary Analysis
-- 실습: 월/화에 막힌 부분을 debugger, disassembler, packet viewer 중 해당 도구로 재확인
-- 노트: 왜 막혔는지와 다음 확인 지점을 적기
-
-### 목요일
-
-- 실습: PE header, section, import table을 pestudio/PE-bear 또는 readpe 계열 도구로 확인한다.
-- 개념: [[_drafts/study-elements/platforms/windows/pe-loader|PE loader]]
-- 노트: 재현 절차를 lab 또는 wiki 초안으로 분리
-
-### 금요일
-
-- 산출물: PE File Format 보강과 IAT 노트
-- 복습: 이번 주 개념 링크가 public wiki로 옮길 수준인지 표시
-- 정리: 다음 주에 이어갈 질문 3개 작성
-
-## 완료 기준
-
-- [ ] study log 2개 이상
-- [ ] wiki seed 2개 이상
-- [ ] 실습 또는 분석 산출물 1개
-- [ ] 막힌 지점과 해결 과정을 한 문단으로 정리
+- IDA/Ghidra project와 static/AI triage report 초안
+- daily-study 문서 7개
+- 개념 노트 또는 실습 로그 3개 이상
+- 다음 주로 넘길 질문 5개

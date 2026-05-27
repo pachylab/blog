@@ -1,70 +1,57 @@
 ---
-title: "39주차: 논문 읽기와 구현 계획"
+title: "Week 39: CVE/N-day reproduction and reporting workflow"
 draft: true
 ---
 
-# 39주차: 논문 읽기와 구현 계획
+# Week 39: CVE/N-day reproduction and reporting workflow
 
-## 기준
+## 주간 목표
 
-- 주 5일
-- 하루 2시간
-- 실습 70분, 개념 35분, 노트 15분을 기본 단위로 사용
+- CS 기초, 보안 분석, 도구 실습, 산출물을 매일 연결한다.
+- 매일 문서 하나만 보고도 읽을 자료, 정리할 개념, 실습, 복습 질문을 확인할 수 있게 기록한다.
+- 주말까지 논문/CVE 재현 노트와 CVSS/CVE/KVE reporting 초안을 완성한다.
 
-## 참고 자료
+## 공부 자료
+- 보유 서적: 실전 버그바운티, 메타스플로잇 - reproducible report, impact, responsible disclosure, validation lab
 
-- USENIX Security papers
-- IEEE S&P papers
-- ACM CCS papers
+- pwn.college Program Security: Memory Errors, Program Misuse, Shellcode, ROP 관련 모듈
+- ROP Emporium: ret2win, split, callme, write4, fluff, pivot 단계별 문제
+- CS:APP 3e: 3.10 Combining Control and Data 중 exploit 관련 부분
+- how2heap: tcache, fastbin, unsorted bin, use-after-free, double-free 예제
+- glibc malloc source/wiki: chunk layout, bins, tcache 동작 개요
+- 선택한 논문, CVE advisory, vendor patch note: threat model, root cause, affected version, patch diff 중심으로 읽기
+- NVD/CWE/CAPEC: 취약점 분류, 약점 패턴, 영향 범위 확인
+- FIRST CVSS v4.0 specification/calculator: attack vector, complexity, privileges, user interaction, impact 산정
+- MITRE CVE Program/CNA rules: CVE request, affected product/version, public reference, duplicate check
+- KISA/KVE 안내 자료: 국내 취약점 신고, 보안권고문, 조치 권고, 공개 범위 확인
+- Vendor security advisory 예시: remediation, workaround, timeline, credit, disclosure policy 비교
+- 재현 대상 프로젝트 README/build docs: version pinning, dependency, test input 확인
+- CS:APP 3e: 7장 Linking 전체
+- CS:APP 7장 Linking, LLD docs: ELF/COFF/Wasm linkers, Ian Lance Taylor Linkers series: object files, symbols, relocation, dynamic linking 관련 부분
+- Crafting Interpreters: scanning/parsing, bytecode VM, compiler, garbage collection 관련 장
+- LLVM docs: IR, basic block, control-flow graph, SSA form 개요
+- Python docs: struct, subprocess, pathlib; pwntools docs: tubes, ELF helper
+- AFL++ docs: instrumentation, corpus, crashes, afl-tmin/afl-cmin workflow
 
-## 연결 노트
+## 핵심 키워드
 
-### Security
+research paper, CVE advisory, N-day, vulnerability class, CWE, CPE, affected version, threat model, assumption, evaluation metric, reproduction plan, lab environment, version pinning, dependency, Docker, VM snapshot, dataset, reproducibility, proof of concept, minimal reproduction, control variable, expected result, observed result, failure analysis, variant analysis, root cause pattern, detection mapping, YARA, Sigma, network IOC, host artifact, limitation, ethics, responsible disclosure, CVSS, attack vector, impact, CNA, MITRE CVE, KISA KVE, vendor reporting, advisory timeline, dual-use risk, safe sharing, redaction, scope control, technical writing, evidence, diagram, code snippet, appendix, reader context, claim support, CVE
 
-- [[_drafts/study-elements/security/reverse-engineering/symbolic-execution|symbolic execution]]
-- [[_drafts/study-elements/security/reverse-engineering/taint-analysis|taint analysis]]
-- [[_drafts/study-elements/security/malware-analysis/family-clustering|family clustering]]
-- [[_drafts/study-elements/security/dfir/evidence|evidence]]
+## 일별 계획
 
-### CS
+| Day | 주제 | 핵심 키워드 | 산출물 |
+|---|---|---|---|
+| Day 01 | CVE/N-day reading protocol | research paper, CVE advisory, N-day, vulnerability class, CWE, CPE, affected version, reproduction plan | 논문/CVE/N-day 읽기 템플릿 작성본 |
+| Day 02 | environment reconstruction | lab environment, version pinning, dependency, Docker, VM snapshot, dataset, reproducibility | 재현 환경 구성 로그 |
+| Day 03 | core idea reproduction | proof of concept, minimal reproduction, control variable, expected result, observed result, failure analysis | 핵심 아이디어 최소 재현 결과 |
+| Day 04 | variant analysis와 detection mapping | variant analysis, root cause pattern, detection mapping, YARA, Sigma, network IOC, host artifact | variant/detection 후보 표 |
+| Day 05 | CVSS, responsible disclosure, CVE/KVE reporting | CVSS, responsible disclosure, CNA, MITRE CVE, KISA KVE, vendor reporting, advisory timeline, redaction | CVSS 산정표와 CVE/KVE report checklist |
+| Day 06 | advisory와 portfolio article | technical writing, evidence, diagram, code snippet, appendix, reader context, claim support, remediation | advisory/포트폴리오 글 초안 |
+| Day 07 | 주간 복습과 연구 축적 | research paper, CVE, reproducibility, variant analysis, detection mapping, ethics, technical writing | Week 39 research reproduction report |
 
-- [[_drafts/study-elements/cs/mathematics/statistics|statistics]]
+## 주간 산출물
 
-## 요일별 계획
-
-### 월요일
-
-- 개념: [[_drafts/study-elements/security/reverse-engineering/symbolic-execution|symbolic execution]], [[_drafts/study-elements/security/reverse-engineering/taint-analysis|taint analysis]]
-- 자료: USENIX Security papers
-- 노트: 이번 주 목표와 모르는 용어를 `_drafts`에 정리
-
-### 화요일
-
-- 실습: 논문 1편을 읽고 문제/아이디어/평가/재현할 것 템플릿으로 정리한다.
-- 개념: [[_drafts/study-elements/security/malware-analysis/family-clustering|family clustering]], [[_drafts/study-elements/security/dfir/evidence|evidence]]
-- 노트: 실습 중 확인한 명령어, 주소, artifact를 짧게 기록
-
-### 수요일
-
-- 자료: IEEE S&P papers
-- 실습: 월/화에 막힌 부분을 debugger, disassembler, packet viewer 중 해당 도구로 재확인
-- 노트: 왜 막혔는지와 다음 확인 지점을 적기
-
-### 목요일
-
-- 실습: 논문 1편을 읽고 문제/아이디어/평가/재현할 것 템플릿으로 정리한다.
-- 개념: [[_drafts/study-elements/cs/mathematics/statistics|statistics]]
-- 노트: 재현 절차를 lab 또는 wiki 초안으로 분리
-
-### 금요일
-
-- 산출물: 첫 paper review draft
-- 복습: 이번 주 개념 링크가 public wiki로 옮길 수준인지 표시
-- 정리: 다음 주에 이어갈 질문 3개 작성
-
-## 완료 기준
-
-- [ ] study log 2개 이상
-- [ ] wiki seed 2개 이상
-- [ ] 실습 또는 분석 산출물 1개
-- [ ] 막힌 지점과 해결 과정을 한 문단으로 정리
+- 논문/CVE 재현 노트와 CVSS/CVE/KVE reporting 초안
+- daily-study 문서 7개
+- 개념 노트 또는 실습 로그 3개 이상
+- 다음 주로 넘길 질문 5개

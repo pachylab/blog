@@ -1,73 +1,53 @@
 ---
-title: "37주차: 통합 사례 1: malware-to-forensics"
+title: "Week 37: integrated malware analysis project"
 draft: true
 ---
 
-# 37주차: 통합 사례 1: malware-to-forensics
+# Week 37: integrated malware analysis project
 
-## 기준
+## 주간 목표
 
-- 주 5일
-- 하루 2시간
-- 실습 70분, 개념 35분, 노트 15분을 기본 단위로 사용
+- CS 기초, 보안 분석, 도구 실습, 산출물을 매일 연결한다.
+- 매일 문서 하나만 보고도 읽을 자료, 정리할 개념, 실습, 복습 질문을 확인할 수 있게 기록한다.
+- 주말까지 malware-style 교육용 샘플 분석 보고서을 완성한다.
 
-## 참고 자료
+## 공부 자료
+- 보유 서적: Learning Malware Analysis, Malware Analysis and Detection Engineering, 실전 리눅스 악성코드 분석, 사이버 사고 대응 실무, 디지털 포렌식과 사고 대응 2/e, 메모리 포렌식 - malware report, memory/process evidence, detection rule, incident narrative
 
-- Practical Malware Analysis
-- The Art of Memory Forensics
-- Windows Internals Part 1
+- Practical Malware Analysis: 1장 Basic Static Techniques, 2장 Basic Dynamic Analysis, 3장 Advanced Static Techniques
+- MITRE ATT&CK: Enterprise tactics, techniques, procedure examples, data sources
+- Malware Unicorn: malware analysis methodology and lab safety sections
+- REMnux docs: analysis VM 구성, INetSim, FakeDNS, safe sample handling
+- CS:APP 3e: 7장 Linking 전체
+- CS:APP 7장 Linking, LLD docs: ELF/COFF/Wasm linkers, Ian Lance Taylor Linkers series: object files, symbols, relocation, dynamic linking 관련 부분
+- Crafting Interpreters: scanning/parsing, bytecode VM, compiler, garbage collection 관련 장
+- LLVM docs: IR, basic block, control-flow graph, SSA form 개요
+- Python docs: struct, subprocess, pathlib; pwntools docs: tubes, ELF helper
+- Practical Malware Analysis: 1장 Basic Static Techniques, 2장 Basic Dynamic Analysis, 5장 IDA Pro
+- Ghidra Student Guide: CodeBrowser, Listing, Decompiler, Symbol Tree, References, Function Graph
+- OpenSecurityTraining2 Intro x86/x64: disassembly 읽기와 control flow 추적 파트
+- Malware Unicorn reversing workshops: strings, xrefs, functions, API flow 실습
+- CS:APP 3e: 7장 Linking, executable object files, shared libraries, relocation
 
-## 연결 노트
+## 핵심 키워드
 
-### Security
+project scope, safe lab, sample handling, VM snapshot, network isolation, analysis question, evidence plan, static triage, PE, ELF, strings, imports, sections, entropy, packer suspicion, dynamic analysis, process tree, file write, registry, service, scheduled task, Sysmon, config extraction, C2 address, beaconing, DNS, HTTP, TLS, network IOC, YARA, Sigma, Zeek, Suricata, false positive, test corpus, ATT&CK mapping, report structure, evidence, inference, assumption, limitation, IOC, TTP, malware analysis, static analysis, detection rule
 
-- [[_drafts/study-elements/security/malware-analysis/ioc|IOC]]
-- [[_drafts/study-elements/security/dfir/timeline-analysis|timeline analysis]]
-- [[_drafts/study-elements/security/malware-analysis/persistence|persistence]]
+## 일별 계획
 
-### Platforms
+| Day | 주제 | 핵심 키워드 | 산출물 |
+|---|---|---|---|
+| Day 01 | project scope와 safe lab 재확인 | project scope, safe lab, sample handling, VM snapshot, network isolation, analysis question, evidence plan | 프로젝트 분석 계획서 |
+| Day 02 | static triage와 executable 구조 | static triage, PE, ELF, strings, imports, sections, entropy | static triage report |
+| Day 03 | dynamic behavior와 host artifact | dynamic analysis, process tree, file write, registry, service, scheduled task, Sysmon | host behavior evidence table |
+| Day 04 | config extraction과 C2 timeline | config extraction, C2 address, beaconing, DNS, HTTP, TLS, network IOC | config와 network timeline 연결표 |
+| Day 05 | detection rules와 false positive test | YARA, Sigma, Zeek, Suricata, false positive, test corpus, ATT&CK mapping | detection rule bundle 초안 |
+| Day 06 | report writing: fact, inference, limit | report structure, evidence, inference, assumption, limitation, IOC, TTP | 분석 보고서 1차본 |
+| Day 07 | 주간 복습과 peer-review checklist | malware analysis, static analysis, dynamic analysis, config extraction, detection rule, report structure | Week 37 최종 보고서와 검토 체크리스트 |
 
-- [[_drafts/study-elements/platforms/windows/event-log|Event Log]]
+## 주간 산출물
 
-### CS
-
-- [[_drafts/study-elements/cs/networking/pcap|PCAP]]
-
-## 요일별 계획
-
-### 월요일
-
-- 개념: [[_drafts/study-elements/security/malware-analysis/ioc|IOC]], [[_drafts/study-elements/security/dfir/timeline-analysis|timeline analysis]]
-- 자료: Practical Malware Analysis
-- 노트: 이번 주 목표와 모르는 용어를 `_drafts`에 정리
-
-### 화요일
-
-- 실습: toy malware 행위 → host artifact → network IOC → timeline 순서로 보고서를 쓴다.
-- 개념: [[_drafts/study-elements/platforms/windows/event-log|Event Log]], [[_drafts/study-elements/cs/networking/pcap|PCAP]]
-- 노트: 실습 중 확인한 명령어, 주소, artifact를 짧게 기록
-
-### 수요일
-
-- 자료: The Art of Memory Forensics
-- 실습: 월/화에 막힌 부분을 debugger, disassembler, packet viewer 중 해당 도구로 재확인
-- 노트: 왜 막혔는지와 다음 확인 지점을 적기
-
-### 목요일
-
-- 실습: toy malware 행위 → host artifact → network IOC → timeline 순서로 보고서를 쓴다.
-- 개념: [[_drafts/study-elements/security/malware-analysis/persistence|persistence]]
-- 노트: 재현 절차를 lab 또는 wiki 초안으로 분리
-
-### 금요일
-
-- 산출물: IR mini report 초안
-- 복습: 이번 주 개념 링크가 public wiki로 옮길 수준인지 표시
-- 정리: 다음 주에 이어갈 질문 3개 작성
-
-## 완료 기준
-
-- [ ] study log 2개 이상
-- [ ] wiki seed 2개 이상
-- [ ] 실습 또는 분석 산출물 1개
-- [ ] 막힌 지점과 해결 과정을 한 문단으로 정리
+- malware-style 교육용 샘플 분석 보고서
+- daily-study 문서 7개
+- 개념 노트 또는 실습 로그 3개 이상
+- 다음 주로 넘길 질문 5개

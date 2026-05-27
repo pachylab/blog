@@ -1,67 +1,53 @@
 ---
-title: "15주차: 취약점 유형 2: heap/UAF/race/info leak"
+title: "Week 15: detection engineering: YARA, Sigma, logs"
 draft: true
 ---
 
-# 15주차: 취약점 유형 2: heap/UAF/race/info leak
+# Week 15: detection engineering: YARA, Sigma, logs
 
-## 기준
+## 주간 목표
 
-- 주 5일
-- 하루 2시간
-- 실습 70분, 개념 35분, 노트 15분을 기본 단위로 사용
+- CS 기초, 보안 분석, 도구 실습, 산출물을 매일 연결한다.
+- 매일 문서 하나만 보고도 읽을 자료, 정리할 개념, 실습, 복습 질문을 확인할 수 있게 기록한다.
+- 주말까지 YARA/Sigma rule 초안과 false positive 관리표을 완성한다.
 
-## 참고 자료
+## 공부 자료
+- 보유 서적: Malware Analysis and Detection Engineering, 실전 리눅스 악성코드 분석, 시스인터널스 도구로 윈도우 문제 해결하기 - YARA, Sigma, Linux/Windows detection, false positive 관리
 
-- OST2: Vulnerabilities 1002
-- pwn.college: Dynamic Allocator Misuse preview
-- Dreamhack/HTB: heap, UAF, race practice
+- YARA documentation: rule syntax, strings, conditions, modules, performance considerations
+- Sigma specification: logsource, detection, condition, fields, false positives
+- Sysinternals Sysmon docs: Event ID 1, 3, 7, 11, 12-14, 22 중심
+- MITRE ATT&CK: detection and data sources mapping
+- Windows Internals Part 1: Concepts and Tools, System Architecture, Processes/Threads/Jobs, Memory Management, Security
+- Windows Internals Part 2: I/O System, Storage Management, Registry, Services, WMI 관련 장
+- Microsoft Learn: Registry hives, Event Log, Prefetch, Task Scheduler, Services, ETW 개요
+- 13Cubed Windows Forensics: Registry, Prefetch, ShimCache, AmCache, SRUM, LNK/JumpList 강의 범위
+- RFC 1034/1035 DNS, RFC 9110 HTTP Semantics, RFC 8446 TLS 1.3
+- Wireshark User's Guide: dns, http, tls, tcp.stream display filter
+- Zeek docs: conn.log, dns.log, http.log, ssl.log 필드 의미
+- Suricata docs: rule syntax, eve.json, alert metadata
+- Malware Traffic Analysis 교육용 PCAP: DNS/HTTP/TLS 추적 실습
+- Practical Malware Analysis: 1장 Basic Static Techniques, 2장 Basic Dynamic Analysis, 3장 Advanced Static Techniques
 
-## 연결 노트
+## 핵심 키워드
 
-### Security
+YARA, rule syntax, strings, condition, modules, wide/ascii, performance, Sigma, logsource, detection rule, fields, false positive, backend conversion, Sysmon, Windows Event, Event ID 1, Event ID 3, Event ID 7, Event ID 11, Event ID 22, Zeek, Suricata, conn.log, dns.log, http.log, ssl.log, eve.json, alert, test corpus, precision, recall, allowlist risk, rule tuning, confidence, MITRE ATT&CK, data source, technique mapping, coverage gap, detection logic, alert triage, ATT&CK
 
-- [[_drafts/study-elements/security/system-hacking/heap-overflow|heap overflow]]
-- [[_drafts/study-elements/security/system-hacking/use-after-free|Use After Free]]
-- [[_drafts/study-elements/security/system-hacking/double-free|double free]]
-- [[_drafts/study-elements/security/system-hacking/race-condition|race condition]]
-- [[_drafts/study-elements/security/system-hacking/information-disclosure|information disclosure]]
+## 일별 계획
 
-## 요일별 계획
+| Day | 주제 | 핵심 키워드 | 산출물 |
+|---|---|---|---|
+| Day 01 | YARA syntax와 file/content detection | YARA, rule syntax, strings, condition, modules, wide/ascii, performance | YARA rule 2개와 match 근거 |
+| Day 02 | Sigma와 log detection | Sigma, logsource, detection rule, condition, fields, false positive, backend conversion | Sigma rule 1개와 logsource 설명 |
+| Day 03 | Sysmon과 Windows Event | Sysmon, Windows Event, Event ID 1, Event ID 3, Event ID 7, Event ID 11, Event ID 22 | Sysmon event별 탐지 질문 표 |
+| Day 04 | Zeek/Suricata network detection | Zeek, Suricata, conn.log, dns.log, http.log, ssl.log, eve.json | 네트워크 로그 기반 탐지 rule 초안 |
+| Day 05 | false positive management | false positive, test corpus, precision, recall, allowlist risk, rule tuning, confidence | FP 원인과 tuning 기록표 |
+| Day 06 | ATT&CK coverage mapping | MITRE ATT&CK, data source, technique mapping, coverage gap, detection logic, alert triage | ATT&CK technique별 탐지 커버리지 표 |
+| Day 07 | 주간 복습과 detection backlog | YARA, Sigma, Sysmon, Zeek, Suricata, false positive, ATT&CK | Week 15 detection backlog와 우선순위 |
 
-### 월요일
+## 주간 산출물
 
-- 개념: [[_drafts/study-elements/security/system-hacking/heap-overflow|heap overflow]], [[_drafts/study-elements/security/system-hacking/use-after-free|Use After Free]]
-- 자료: OST2: Vulnerabilities 1002
-- 노트: 이번 주 목표와 모르는 용어를 `_drafts`에 정리
-
-### 화요일
-
-- 실습: UAF와 TOCTOU toy example을 만들고 발생 조건과 primitive를 쓴다.
-- 개념: [[_drafts/study-elements/security/system-hacking/double-free|double free]], [[_drafts/study-elements/security/system-hacking/race-condition|race condition]]
-- 노트: 실습 중 확인한 명령어, 주소, artifact를 짧게 기록
-
-### 수요일
-
-- 자료: pwn.college: Dynamic Allocator Misuse preview
-- 실습: 월/화에 막힌 부분을 debugger, disassembler, packet viewer 중 해당 도구로 재확인
-- 노트: 왜 막혔는지와 다음 확인 지점을 적기
-
-### 목요일
-
-- 실습: UAF와 TOCTOU toy example을 만들고 발생 조건과 primitive를 쓴다.
-- 개념: [[_drafts/study-elements/security/system-hacking/information-disclosure|information disclosure]]
-- 노트: 재현 절차를 lab 또는 wiki 초안으로 분리
-
-### 금요일
-
-- 산출물: UAF/race/info leak seed와 toy lab
-- 복습: 이번 주 개념 링크가 public wiki로 옮길 수준인지 표시
-- 정리: 다음 주에 이어갈 질문 3개 작성
-
-## 완료 기준
-
-- [ ] study log 2개 이상
-- [ ] wiki seed 2개 이상
-- [ ] 실습 또는 분석 산출물 1개
-- [ ] 막힌 지점과 해결 과정을 한 문단으로 정리
+- YARA/Sigma rule 초안과 false positive 관리표
+- daily-study 문서 7개
+- 개념 노트 또는 실습 로그 3개 이상
+- 다음 주로 넘길 질문 5개

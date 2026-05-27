@@ -1,72 +1,53 @@
 ---
-title: "30주차: C2, 네트워크, 탐지 룰"
+title: "Week 30: mobile, cloud, container, identity forensics"
 draft: true
 ---
 
-# 30주차: C2, 네트워크, 탐지 룰
+# Week 30: mobile, cloud, container, identity forensics
 
-## 기준
+## 주간 목표
 
-- 주 5일
-- 하루 2시간
-- 실습 70분, 개념 35분, 노트 15분을 기본 단위로 사용
+- CS 기초, 보안 분석, 도구 실습, 산출물을 매일 연결한다.
+- 매일 문서 하나만 보고도 읽을 자료, 정리할 개념, 실습, 복습 질문을 확인할 수 있게 기록한다.
+- 주말까지 identity/workload 중심 incident scope 문서을 완성한다.
 
-## 참고 자료
+## 공부 자료
+- 보유 서적: 사이버 사고 대응 실무, 디지털 포렌식과 사고 대응 2/e - mobile app sandbox, SQLite/plist, cloud/container scope, IR final report
 
-- Practical Malware Analysis
-- Wireshark docs
-- Sigma/YARA examples
-- MITRE ATT&CK: command and control
-- HTB/Dreamhack: PCAP and malware-network challenges
+- The Art of Memory Forensics: acquisition, processes, DLLs, handles, VAD, malfind 관련 장
+- Volatility 3 docs: windows.pslist, pstree, dlllist, handles, vadinfo, malfind, netscan 플러그인
+- Android Developers: app sandbox, data/file storage, SQLite; Apple docs: property list and app container 개요
+- AWS CloudTrail docs, Microsoft Entra audit/sign-in logs docs, Kubernetes audit logging docs, container runtime logs docs
+- SANS IR methodology: preparation, identification, containment, eradication, recovery, lessons learned와 report 구조
+- File System Forensic Analysis: file systems, metadata, timeline, deleted file recovery 관련 장
+- Linux man pages: stat, inode, ln, mount, debugfs, fsck, find
+- Microsoft Learn: NTFS overview, alternate data streams, file times, USN journal 개요
+- ext4 documentation: extents, journal, inode; Apple File System Guide: APFS snapshot/clone 개요
+- CS:APP 3e: 6.1 Storage Technologies, 6.2 Locality, 6.4 Cache Memories
+- OSTEP: Paging: Faster Translations (TLBs), Paging: Smaller Tables
+- Computer Organization and Design: pipelining, branch prediction, cache organization 개요
+- Computer Networking: A Top-Down Approach: 1장 네트워크 개요, 2장 Application Layer, 3장 Transport Layer, 4장 Network Layer
+- RFC 791 IP, RFC 792 ICMP, RFC 768 UDP, RFC 9293 TCP 중 header와 state machine 개요
 
-## 연결 노트
+## 핵심 키워드
 
-### CS
+mobile forensics, Android app sandbox, iOS app sandbox, app data directory, permissions, keychain intro, backup artifact, SQLite, plist, mobile artifact, browser cache, app database, timestamp format, deleted row, CloudTrail, IAM, access key, AssumeRole, API call, source IP, user agent, Entra, sign-in log, audit log, conditional access, MFA, service principal, OAuth consent, GCP audit log, Kubernetes audit log, service account, pod, namespace, RBAC, kubectl exec, container, container runtime logs, image, registry, volume mount, cgroup, incident response, triage, scoping, IOC extraction, containment, final report, lessons learned
 
-- [[_drafts/study-elements/cs/networking/dns|DNS]]
-- [[_drafts/study-elements/cs/networking/http|HTTP]]
-- [[_drafts/study-elements/cs/networking/tls|TLS]]
+## 일별 계획
 
-### Security
+| Day | 주제 | 핵심 키워드 | 산출물 |
+|---|---|---|---|
+| Day 01 | Android/iOS app sandbox | mobile forensics, Android app sandbox, iOS app sandbox, app data directory, permissions, keychain intro, backup artifact | mobile app sandbox artifact 표 |
+| Day 02 | SQLite와 plist artifact | SQLite, plist, mobile artifact, browser cache, app database, timestamp format, deleted row | SQLite/plist 분석 질문표 |
+| Day 03 | AWS CloudTrail과 cloud identity | CloudTrail, IAM, access key, AssumeRole, API call, source IP, user agent | CloudTrail event 해석표 |
+| Day 04 | Microsoft Entra와 sign-in/audit logs | Entra, sign-in log, audit log, conditional access, MFA, service principal, OAuth consent | identity incident timeline 초안 |
+| Day 05 | GCP audit log와 Kubernetes audit | GCP audit log, Kubernetes audit log, service account, pod, namespace, RBAC, kubectl exec | Kubernetes audit 이벤트 매핑표 |
+| Day 06 | container runtime logs와 workload scope | container, container runtime logs, image, registry, volume mount, namespace, cgroup | container compromise scoping checklist |
+| Day 07 | incident response scoping과 final report | incident response, triage, scoping, IOC extraction, containment, final report, lessons learned | Week 30 incident scope report |
 
-- [[_drafts/study-elements/security/malware-analysis/c2|C2]]
-- [[_drafts/study-elements/security/malware-analysis/beaconing|beaconing]]
+## 주간 산출물
 
-## 요일별 계획
-
-### 월요일
-
-- 개념: [[_drafts/study-elements/cs/networking/dns|DNS]], [[_drafts/study-elements/cs/networking/http|HTTP]]
-- 자료: Practical Malware Analysis
-- 노트: 이번 주 목표와 모르는 용어를 `_drafts`에 정리
-
-### 화요일
-
-- 실습: PCAP에서 DNS/HTTP/TLS 흐름을 보고 IOC와 YARA/Sigma 초안을 작성한다.
-- 개념: [[_drafts/study-elements/cs/networking/tls|TLS]], [[_drafts/study-elements/security/malware-analysis/c2|C2]]
-- 노트: 실습 중 확인한 명령어, 주소, artifact를 짧게 기록
-
-### 수요일
-
-- 자료: Wireshark docs
-- 실습: 월/화에 막힌 부분을 debugger, disassembler, packet viewer 중 해당 도구로 재확인
-- 노트: 왜 막혔는지와 다음 확인 지점을 적기
-
-### 목요일
-
-- 실습: PCAP에서 DNS/HTTP/TLS 흐름을 보고 IOC와 YARA/Sigma 초안을 작성한다.
-- 개념: [[_drafts/study-elements/security/malware-analysis/beaconing|beaconing]]
-- 노트: 재현 절차를 lab 또는 wiki 초안으로 분리
-
-### 금요일
-
-- 산출물: C2 traffic triage note
-- 복습: 이번 주 개념 링크가 public wiki로 옮길 수준인지 표시
-- 정리: 다음 주에 이어갈 질문 3개 작성
-
-## 완료 기준
-
-- [ ] study log 2개 이상
-- [ ] wiki seed 2개 이상
-- [ ] 실습 또는 분석 산출물 1개
-- [ ] 막힌 지점과 해결 과정을 한 문단으로 정리
+- identity/workload 중심 incident scope 문서
+- daily-study 문서 7개
+- 개념 노트 또는 실습 로그 3개 이상
+- 다음 주로 넘길 질문 5개
