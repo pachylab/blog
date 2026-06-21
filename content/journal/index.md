@@ -1,5 +1,5 @@
 ---
-title: "Study Log"
+title: "Journal"
 description: "하루 공부 기록을 날짜 기준으로 보관합니다."
 ---
 
